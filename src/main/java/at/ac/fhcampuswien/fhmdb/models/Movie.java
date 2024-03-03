@@ -13,9 +13,10 @@ public class Movie {
 
     // TODO add more properties here
 
-    public Movie(String title, String description) {
+    public Movie(String title, String description, List<Genre> genres) {
         this.title = title;
         this.description = description;
+        this.genres = genres;
     }
 
     public String getTitle() {
@@ -29,8 +30,9 @@ public class Movie {
     public static List<Movie> initializeMovies(){
         List<Movie> movies = new ArrayList<>();
         // TODO add some dummy data here
-        movies.add(new Movie("Test", "Test"));
+        movies.add(new Movie("Test", "Test", List.of(Genre.ACTION)));
 
         return movies;
     }
+
 }
