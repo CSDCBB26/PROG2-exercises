@@ -68,7 +68,14 @@ public class HomeController implements Initializable {
         // either set event handlers in the fxml file (onAction) or add them here
         searchBtn.setOnAction(actionEvent -> {
 
-            filter(genreComboBox.)
+            filter( (Genre) genreComboBox.getValue(), allMovies);
+
+        });
+
+        searchField.setOnKeyPressed(keyEvent -> {
+
+            search(searchField.getText(), allMovies);
+
 
         });
 
