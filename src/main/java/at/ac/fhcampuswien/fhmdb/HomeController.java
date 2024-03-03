@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -43,9 +44,10 @@ public class HomeController implements Initializable {
 
     public static List<Movie> filter(Genre input, List<Movie> movieList) {
         //TODO implement method
-        List<Movie> result;
+        if(input == Genre.ALL_GENRES)
+            return movieList;
 
-        result = movieList.stream().filter(movie -> movie.getGenres().contains(input)).toList();
+        List<Movie> result = movieList.stream().filter(movie -> movie.getGenres().contains(input)).toList();
 
         return result;
     }
@@ -68,8 +70,28 @@ public class HomeController implements Initializable {
         // either set event handlers in the fxml file (onAction) or add them here
         searchBtn.setOnAction(actionEvent -> {
 
-            filter(genreComboBox.)
+            System.out.print("Filter set to genre:   ");
+            System.out.println(genreComboBox.getValue());
 
+            // TODO call filter method here:
+            List<Movie> temp = filter( (Genre) genreComboBox.getValue(), allMovies);
+            movieListView.setCellFactory(movieListView -> new MovieCell());
+            observableMovies.clear();
+            movieListView.setCellFactory(movieListView -> new MovieCell());
+            observableMovies.addAll(temp);
+            movieListView.setItems(observableMovies);
+            movieListView.setCellFactory(movieListView -> new MovieCell());
+
+        });
+
+        searchField.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode().equals(KeyCode.ENTER)) {
+
+                System.out.print("Enter pressed, searching for:  ");
+                System.out.println(searchField.getText());
+
+                // TODO call search method here:
+            }
         });
 
         // Sort button example:
