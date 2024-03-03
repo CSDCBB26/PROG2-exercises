@@ -1,13 +1,16 @@
 package at.ac.fhcampuswien.fhmdb.models;
 
+import at.ac.fhcampuswien.fhmdb.Genre;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 public class Movie {
     private String title;
     private String description;
-    public static final List<String> GENRES = List.of("ACTION", "ADVENTURE", "ANIMATION", "BIOGRAPHY",
+    private List<Genre> genres;
+    public static final Set<String> ALL_GENRES = Set.of("ACTION", "ADVENTURE", "ANIMATION", "BIOGRAPHY",
             "COMEDY", "CRIME", "DRAMA", "DOCUMENTARY", "FAMILY", "FANTASY", "HISTORY", "HORROR", "MUSICAL",
             "MYSTERY", "ROMANCE", "SCIENCE_FICTION", "SPORT", "THRILLER", "WAR", "WESTERN");
 
