@@ -29,12 +29,10 @@ class HomeControllerTest {
         movieList.add(new Movie("Spiderman: No Way Home", "Spiderman 3", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)));
         movieList.add(new Movie("The Avengers", "The Avengers", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)));
         movieList.add(new Movie("Documentation about the Universe", "Documentation about the Universe", List.of(Genre.DOCUMENTARY)));
-
-
     }
 
     /**
-     * Search for movie title
+     * Search for movie title / description
      */
     @Test
     void searching_for_superman_should_return_movie_superman() {
@@ -56,15 +54,44 @@ class HomeControllerTest {
     }
 
     @Test
-    void searching_dark_should_return_three_movie() {
-        List<Movie> result = HomeController.search("iceage", movieList);
-        assertEquals(3, result.size());
+    void searching_dark_should_return_3_movies() {
+        List<Movie> result = HomeController.search("dark", movieList);
+        List<Movie> expectedMovies = List.of(
+                new Movie("The Dark Knight", "Batman the Dark Knight", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
+                new Movie("The Dark Knight Rises", "Batman the Dark Knight Rises", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
+                new Movie("The Dark Knight Returns", "Batman the Dark Knight Returns", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.ANIMATION)),
+        );
+
+        assertTrue(result.size() == expectedMovies.size() && result.containsAll(expectedMovies) && expectedMovies.containsAll(result));
     }
 
     @Test
     void searching_for_whitespace_only_should_return_all_movies_containing_at_least_one_word() {
-        List<Movie> result = HomeController.search("iceage", movieList);
+        List<Movie> result = HomeController.search(" ", movieList);
         assertEquals(9, result.size());
+    }
+
+    @Test
+    void searching_for_description_using_the_query_description_of_should_return_movie_superman() {
+        List<Movie> result = HomeController.search("description of", movieList);
+        List<Movie> expectedMovies = List.of(
+                new Movie("Superman", "Description of Superman", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION))
+        );
+
+        assertTrue(result.size() == expectedMovies.size() && result.containsAll(expectedMovies) && expectedMovies.containsAll(result));
+    }
+
+    @Test
+    void searching_for_description_using_the_query_batman_the_should_return_a_list_containing_4_movies() {
+        List<Movie> result = HomeController.search("batman the", movieList);
+        List<Movie> expectedMovies = List.of(
+                new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)),
+                new Movie("The Dark Knight", "Batman the Dark Knight", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
+                new Movie("The Dark Knight Rises", "Batman the Dark Knight Rises", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
+                new Movie("The Dark Knight Returns", "Batman the Dark Knight Returns", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.ANIMATION))
+        );
+
+        assertTrue(result.size() == expectedMovies.size() && result.containsAll(expectedMovies) && expectedMovies.containsAll(result));
     }
 
     /**
@@ -120,9 +147,59 @@ class HomeControllerTest {
     }
 
     @Test
-    void filter_for_crime_should_return_five_movies() {
+    void filter_for_crime_should_return_5_movies() {
         List<Movie> result = HomeController.filter(Genre.CRIME, movieList);
+        List<Movie> result = HomeController.filter(Genre.ADVENTURE, movieList);
+        List<Movie> expectedMovies = List.of(
+                new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)),
+                new Movie("Peaky Blinders", "Peaky Blinders description", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA)),
+                new Movie("The Dark Knight", "Batman the Dark Knight", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
+                new Movie("The Dark Knight Rises", "Batman the Dark Knight Rises", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
+                new Movie("The Dark Knight Returns", "Batman the Dark Knight Returns", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.ANIMATION)),
+        );
 
+        assertTrue(result.size() == expectedMovies.size() && result.containsAll(expectedMovies) && expectedMovies.containsAll(result));
     }
 
+    /**
+     * Sort the movie list
+     */
+
+    void sort_the_movielist_ascending(){
+        List<Movie> result = HomeController.sort("ascending", movieList);
+
+        asc_movieList = new ArrayList<>();
+        asc_movieList.add(new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)));
+        asc_movieList.add(new Movie("Documentation about the Universe", "Documentation about the Universe", List.of(Genre.DOCUMENTARY)));
+        asc_movieList.add(new Movie("Ironman", "Ironman 1", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)));
+        asc_movieList.add(new Movie("Peaky Blinders", "Peaky Blinders description", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA)));
+        asc_movieList.add(new Movie("Spiderman: No Way Home", "Spiderman 3", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)));
+        asc_movieList.add(new Movie("Superman", "Description of Superman", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)));
+        asc_movieList.add(new Movie("The Avengers", "The Avengers", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)));
+        asc_movieList.add(new Movie("The Dark Knight", "Batman the Dark Knight", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)));
+        asc_movieList.add(new Movie("The Dark Knight Rises", "Batman the Dark Knight Rises", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)));
+        asc_movieList.add(new Movie("The Dark Knight Returns", "Batman the Dark Knight Returns", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.ANIMATION)));
+        asc_movieList.add(new Movie("Thor: Love and Thunder", "Thor 3 ", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.FANTASY, Genre.SCIENCE_FICTION)));
+
+        assertEquals(asc_movieList, result);
+    }
+
+    void sort_the_movielist_descending(){
+        List<Movie> result = HomeController.sort("descending", movieList);
+
+        List<Movie> desc_movieList = new ArrayList<>();
+        desc_movieList.add(new Movie("The Dark Knight Returns", "Batman the Dark Knight Returns", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.ANIMATION)));
+        desc_movieList.add(new Movie("Thor: Love and Thunder", "Thor 3 ", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.FANTASY, Genre.SCIENCE_ FICTION)));
+        desc_movieList.add(new Movie("The Avengers", "The Avengers", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_ FICTION)));
+        desc_movieList.add(new Movie("The Dark Knight Rises", "Batman the Dark Knight Rises", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)));
+        desc_movieList.add(new Movie("The Dark Knight", "Batman the Dark Knight", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)));
+        desc_movieList.add(new Movie("Spiderman: No Way Home", "Spiderman 3", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_ FICTION)));
+        desc_movieList.add(new Movie("Superman", "Description of Superman", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_ FICTION)));
+        desc_movieList.add(new Movie("Peaky Blinders", "Peaky Blinders description", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA)));
+        desc_movieList.add(new Movie("Ironman", "Ironman 1", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_ FICTION)));
+        desc_movieList.add(new Movie("Documentation about the Universe", "Documentation about the Universe", List.of(Genre.DOCUMENTARY)));
+        desc_movieList.add(new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_ FICTION)));
+
+        assertEquals(desc_movieList, result);
+    }
 }
