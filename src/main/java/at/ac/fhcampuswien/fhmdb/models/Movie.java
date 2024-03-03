@@ -10,9 +10,6 @@ public class Movie {
     private String title;
     private String description;
     private List<Genre> genres;
-    public static final Set<String> ALL_GENRES = Set.of("ACTION", "ADVENTURE", "ANIMATION", "BIOGRAPHY",
-            "COMEDY", "CRIME", "DRAMA", "DOCUMENTARY", "FAMILY", "FANTASY", "HISTORY", "HORROR", "MUSICAL",
-            "MYSTERY", "ROMANCE", "SCIENCE_FICTION", "SPORT", "THRILLER", "WAR", "WESTERN");
 
     // TODO add more properties here
 
