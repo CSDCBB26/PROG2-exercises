@@ -5,7 +5,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class HomeControllerTest {
 
@@ -29,7 +32,93 @@ class HomeControllerTest {
 
     }
 
+    /**
+     * Search for movie title
+     */
+    @Test
+    void searching_for_superman_should_return_movie_superman() {
+        List<Movie> result = HomeController.search("Superman", movieList);
+        assertEquals(1, result.size());
 
+    }
 
+    @Test
+    void searching_for_wonderwoman_should_return_no_movie() {
+        List<Movie> result = HomeController.search("Wonderwoman", movieList);
+        assertEquals(new ArrayList<>(), result);
+    }
+
+    @Test
+    void searching_for_iceage_should_return_no_movie() {
+        List<Movie> result = HomeController.search("iceage", movieList);
+        assertEquals(new ArrayList<>(), result);
+    }
+
+    @Test
+    void searching_dark_should_return_three_movie() {
+        List<Movie> result = HomeController.search("iceage", movieList);
+        assertEquals(3, result.size());
+    }
+
+    @Test
+    void searching_for_whitespace_only_should_return_all_movies_containing_at_least_one_word() {
+        List<Movie> result = HomeController.search("iceage", movieList);
+        assertEquals(9, result.size());
+    }
+
+    /**
+     * Filter for movie genre
+     */
+
+    void filter_for_horror_should_return_no_movie() {
+        List<Movie> result = HomeController.filter(Genre.DOCUMENTARY, movieList);
+        List<Movie> expectedMovies = new ArrayList<>();
+
+        assertEquals(expectedMovies, result);
+    }
+
+    void filter_for_action_should_return_10_movies() {
+        List<Movie> result = HomeController.filter(Genre.ACTION, movieList);
+        List<Movie> expectedMovies = List.of(
+                new Movie("Superman", "Description of Superman", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
+                new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)),
+                new Movie("Peaky Blinders", "Peaky Blinders description", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA)),
+                new Movie("Ironman", "Ironman 1", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
+                new Movie("Thor: Love and Thunder", "Thor 3 ", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.FANTASY, Genre.SCIENCE_FICTION)),
+                new Movie("The Dark Knight", "Batman the Dark Knight", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
+                new Movie("The Dark Knight Rises", "Batman the Dark Knight Rises", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
+                new Movie("The Dark Knight Returns", "Batman the Dark Knight Returns", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.ANIMATION)),
+                new Movie("Spiderman: No Way Home", "Spiderman 3", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
+                new Movie("The Avengers", "The Avengers", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION))
+        );
+        assertEquals(expectedMovies, result);
+    }
+
+    void filter_for_documentary_should_return_Documentation_about_the_Universe_movie() {
+        List<Movie> result = HomeController.filter(Genre.DOCUMENTARY, movieList);
+        List<Movie> expectedMovies = List.of(new Movie("Documentation about the Universe", "Documentation about the Universe", List.of(Genre.DOCUMENTARY)));
+
+        assertEquals(expectedMovies, result);
+    }
+
+    void filter_for_adventure_should_return_8_movies() {
+        List<Movie> result = HomeController.filter(Genre.ADVENTURE, movieList);
+        List<Movie> expectedMovies = List.of(
+                new Movie("Superman", "Description of Superman", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
+                new Movie("Thor: Love and Thunder", "Thor 3 ", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.FANTASY, Genre.SCIENCE_FICTION)),
+                new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)),
+                new Movie("Ironman", "Ironman 1", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
+                new Movie("The Dark Knight Rises", "Batman the Dark Knight Rises", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
+                new Movie("The Dark Knight Returns", "Batman the Dark Knight Returns", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.ANIMATION)),
+                new Movie("Spiderman: No Way Home", "Spiderman 3", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
+                new Movie("The Avengers", "The Avengers", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION))
+        );
+    }
+
+    @Test
+    void filter_for_crime_should_return_five_movies() {
+        List<Movie> result = HomeController.filter(Genre.CRIME, movieList);
+
+    }
 
 }

@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -34,6 +35,22 @@ public class HomeController implements Initializable {
     public List<Movie> allMovies = Movie.initializeMovies();
 
     private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
+
+    public static List<Movie> search(String input, List<Movie> movieList) {
+        //TODO implement method
+        return new ArrayList<>();
+    }
+
+    public static List<Movie> filter(Genre input, List<Movie> movieList) {
+        //TODO implement method
+
+        if(input == Genre.ALL_GENRES)
+            return allMovies;
+
+        List<Movie> result = movieList.stream().filter(movie -> movie.getGenres().contains(input)).toList();
+
+        return result;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
