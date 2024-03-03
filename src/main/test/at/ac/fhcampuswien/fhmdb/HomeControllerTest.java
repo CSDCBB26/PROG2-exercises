@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class HomeControllerTest {
 
@@ -77,7 +78,7 @@ class HomeControllerTest {
         assertEquals(expectedMovies, result);
     }
 
-    void filter_for_action_should_return_10_movies() {
+    void filter_for_action_should_return_a_list_of_10_movies() {
         List<Movie> result = HomeController.filter(Genre.ACTION, movieList);
         List<Movie> expectedMovies = List.of(
                 new Movie("Superman", "Description of Superman", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
@@ -91,7 +92,8 @@ class HomeControllerTest {
                 new Movie("Spiderman: No Way Home", "Spiderman 3", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
                 new Movie("The Avengers", "The Avengers", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION))
         );
-        assertEquals(expectedMovies, result);
+
+        assertTrue(result.size() == expectedMovies.size() && result.containsAll(expectedMovies) && expectedMovies.containsAll(result));
     }
 
     void filter_for_documentary_should_return_Documentation_about_the_Universe_movie() {
@@ -101,7 +103,7 @@ class HomeControllerTest {
         assertEquals(expectedMovies, result);
     }
 
-    void filter_for_adventure_should_return_8_movies() {
+    void filter_for_adventure_should_return_a_list_containing_8_movies() {
         List<Movie> result = HomeController.filter(Genre.ADVENTURE, movieList);
         List<Movie> expectedMovies = List.of(
                 new Movie("Superman", "Description of Superman", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
@@ -113,6 +115,8 @@ class HomeControllerTest {
                 new Movie("Spiderman: No Way Home", "Spiderman 3", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
                 new Movie("The Avengers", "The Avengers", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION))
         );
+
+        assertTrue(result.size() == expectedMovies.size() && result.containsAll(expectedMovies) && expectedMovies.containsAll(result));
     }
 
     @Test

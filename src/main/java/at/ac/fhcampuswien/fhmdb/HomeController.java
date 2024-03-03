@@ -43,14 +43,13 @@ public class HomeController implements Initializable {
 
     public static List<Movie> filter(Genre input, List<Movie> movieList) {
         //TODO implement method
+        List<Movie> result;
 
-        if(input == Genre.ALL_GENRES)
-            return allMovies;
-
-        List<Movie> result = movieList.stream().filter(movie -> movie.getGenres().contains(input)).toList();
+        result = movieList.stream().filter(movie -> movie.getGenres().contains(input)).toList();
 
         return result;
     }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -67,6 +66,11 @@ public class HomeController implements Initializable {
 
         // TODO add event handlers to buttons and call the regarding methods
         // either set event handlers in the fxml file (onAction) or add them here
+        searchBtn.setOnAction(actionEvent -> {
+
+            filter(genreComboBox.)
+
+        });
 
         // Sort button example:
         sortBtn.setOnAction(actionEvent -> {
