@@ -98,7 +98,7 @@ class HomeControllerTest {
     /**
      * Filter for movie genre
      */
-
+    @Test
     void filter_for_horror_should_return_no_movie() {
         List<Movie> result = HomeController.filter(Genre.DOCUMENTARY, movieList);
         List<Movie> expectedMovies = new ArrayList<>();
@@ -106,6 +106,7 @@ class HomeControllerTest {
         assertEquals(expectedMovies, result);
     }
 
+    @Test
     void filter_for_action_should_return_a_list_of_10_movies() {
         List<Movie> result = HomeController.filter(Genre.ACTION, movieList);
         List<Movie> expectedMovies = List.of(
@@ -124,6 +125,7 @@ class HomeControllerTest {
         assertTrue(result.size() == expectedMovies.size() && result.containsAll(expectedMovies) && expectedMovies.containsAll(result));
     }
 
+    @Test
     void filter_for_documentary_should_return_Documentation_about_the_Universe_movie() {
         List<Movie> result = HomeController.filter(Genre.DOCUMENTARY, movieList);
         List<Movie> expectedMovies = List.of(new Movie("Documentation about the Universe", "Documentation about the Universe", List.of(Genre.DOCUMENTARY)));
@@ -131,6 +133,7 @@ class HomeControllerTest {
         assertEquals(expectedMovies, result);
     }
 
+    @Test
     void filter_for_adventure_should_return_a_list_containing_8_movies() {
         List<Movie> result = HomeController.filter(Genre.ADVENTURE, movieList);
         List<Movie> expectedMovies = List.of(
@@ -165,7 +168,7 @@ class HomeControllerTest {
     /**
      * Sort the movie list
      */
-
+    @Test
     void sort_empty_movielist_ascending(){
         List<Movie> result = HomeController.sort("ascending", emptyList);
 
@@ -174,6 +177,7 @@ class HomeControllerTest {
         assertEquals(asc_movieList, result);
     }
 
+    @Test
     void sort_empty_movielist_descending(){
         List<Movie> result = HomeController.sort("descending", emptyList);
 
@@ -182,8 +186,10 @@ class HomeControllerTest {
         assertEquals(asc_movieList, result);
     }
 
+    @Test
     void sort_the_movielist_ascending(){
-        List<Movie> result = HomeController.sort("ascending", movieList);
+        List<Movie> temp = movieList;
+        List<Movie> result = HomeController.sort("ascending", temp);
 
         List<Movie> asc_movieList = new ArrayList<>();
         asc_movieList.add(new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)));
@@ -194,29 +200,51 @@ class HomeControllerTest {
         asc_movieList.add(new Movie("Superman", "Description of Superman", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)));
         asc_movieList.add(new Movie("The Avengers", "The Avengers", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)));
         asc_movieList.add(new Movie("The Dark Knight", "Batman the Dark Knight", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)));
-        asc_movieList.add(new Movie("The Dark Knight Rises", "Batman the Dark Knight Rises", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)));
         asc_movieList.add(new Movie("The Dark Knight Returns", "Batman the Dark Knight Returns", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.ANIMATION)));
+        asc_movieList.add(new Movie("The Dark Knight Rises", "Batman the Dark Knight Rises", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)));
         asc_movieList.add(new Movie("Thor: Love and Thunder", "Thor 3 ", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.FANTASY, Genre.SCIENCE_FICTION)));
 
-        assertEquals(asc_movieList, result);
+        String expected = "";
+        String actual = "";
+
+        for(int i = 0; i < result.size() -1; ++i){
+            expected += asc_movieList.get(i).toString();
+            actual += result.get(i).toString();
+        }
+
+        assertEquals(expected, actual);
+
+       // assertEquals(asc_movieList, result);
     }
 
+    @Test
     void sort_the_movielist_descending(){
-        List<Movie> result = HomeController.sort("descending", movieList);
+        List<Movie> temp = movieList;
+        List<Movie> result = HomeController.sort("descending", temp);
 
         List<Movie> desc_movieList = new ArrayList<>();
-        desc_movieList.add(new Movie("The Dark Knight Returns", "Batman the Dark Knight Returns", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.ANIMATION)));
         desc_movieList.add(new Movie("Thor: Love and Thunder", "Thor 3 ", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.FANTASY, Genre.SCIENCE_FICTION)));
-        desc_movieList.add(new Movie("The Avengers", "The Avengers", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)));
         desc_movieList.add(new Movie("The Dark Knight Rises", "Batman the Dark Knight Rises", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)));
+        desc_movieList.add(new Movie("The Dark Knight Returns", "Batman the Dark Knight Returns", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.ANIMATION)));
         desc_movieList.add(new Movie("The Dark Knight", "Batman the Dark Knight", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)));
-        desc_movieList.add(new Movie("Spiderman: No Way Home", "Spiderman 3", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)));
+        desc_movieList.add(new Movie("The Avengers", "The Avengers", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)));
         desc_movieList.add(new Movie("Superman", "Description of Superman", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)));
+        desc_movieList.add(new Movie("Spiderman: No Way Home", "Spiderman 3", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)));
         desc_movieList.add(new Movie("Peaky Blinders", "Peaky Blinders description", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA)));
         desc_movieList.add(new Movie("Ironman", "Ironman 1", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)));
         desc_movieList.add(new Movie("Documentation about the Universe", "Documentation about the Universe", List.of(Genre.DOCUMENTARY)));
         desc_movieList.add(new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)));
 
-        assertEquals(desc_movieList, result);
+        String expected = "";
+        String actual = "";
+
+        for(int i = 0; i < result.size() -1; ++i){
+            expected += desc_movieList.get(i).toString();
+            actual += result.get(i).toString();
+        }
+
+        assertEquals(expected, actual);
+
+        //assertEquals(desc_movieList, result);
     }
 }

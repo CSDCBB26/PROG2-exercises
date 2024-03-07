@@ -37,11 +37,20 @@ public class HomeController implements Initializable {
 
     private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
 
+    //ToDO by Andreas Drozd implement method
     public static List<Movie> search(String input, List<Movie> movieList) {
         //TODO implement method
-        return new ArrayList<>();
+        List<Movie> searchList =  new ArrayList<>();
+        for(Movie movie : movieList){
+            if(movie.getDescription().contains(input)|| movie.getTitle().contains(input)){
+                searchList.add(movie);
+            }
+        }
+
+        return searchList;
     }
 
+    //ToDo by Sergiu
     public static List<Movie> filter(Genre input, List<Movie> movieList) {
         //TODO implement method
         if(input == Genre.ALL_GENRES)
@@ -52,11 +61,44 @@ public class HomeController implements Initializable {
         return result;
     }
 
+    //ToDo by Jakob
+
+    /**
+     * Bubblesort algorithm
+     * @param mode Whether to sort in ascending or descending order
+     * @param input List of Movies to sort
+     * @return the sorted List
+     */
     public static List<Movie> sort(String mode, List<Movie> input){
         if(input.isEmpty()){
             return input;
         }
-        return new ArrayList<>();
+        Movie temp;
+
+        for(int i = 0; i < input.size()-1; ++i){
+
+            for(int j = 0; j < input.size()-1 - i; ++j){
+
+                if(mode.equals("descending")) {
+
+                    if (input.get(j).getTitle().compareTo(input.get(j + 1).getTitle()) < 0) {
+                        temp = input.get(j);
+                        input.set(j, input.get(j + 1));
+                        input.set(j + 1, temp);
+                    }
+                }else{
+                    if (input.get(j).getTitle().compareTo(input.get(j + 1).getTitle()) > 0) {
+                        temp = input.get(j);
+                        input.set(j, input.get(j + 1));
+                        input.set(j + 1, temp);
+                    }
+                }
+
+            }
+
+        }
+
+        return input;
     }
 
 
@@ -102,13 +144,17 @@ public class HomeController implements Initializable {
             }
         });
 
+
+
         // Sort button example:
         sortBtn.setOnAction(actionEvent -> {
             if(sortBtn.getText().equals("Sort (asc)")) {
-                // TODO sort observableMovies ascending
+
+                sort("ascending", observableMovies);
                 sortBtn.setText("Sort (desc)");
             } else {
-                // TODO sort observableMovies descending
+
+                sort("descending", observableMovies);
                 sortBtn.setText("Sort (asc)");
             }
         });

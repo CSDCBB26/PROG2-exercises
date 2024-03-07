@@ -19,6 +19,26 @@ public class Movie {
         this.genres = genres;
     }
 
+    @Override
+    public String toString() {
+        return "{Title: " + title + "}   \n";
+    }
+
+    /**
+     * Idea for simple equals method from stackoverflow
+     * @param obj
+     * @return equals
+     */
+    @Override
+    public boolean equals(Object obj) {
+        boolean res = false;
+        if(obj instanceof Movie){
+            Movie other = (Movie) obj;
+            res = (this.title.equals(other.title) && this.description.equals(other.description) && this.genres == other.genres);
+        }
+        return res;
+    }
+
     public String getTitle() {
         return title;
     }
