@@ -52,6 +52,13 @@ public class HomeController implements Initializable {
         return result;
     }
 
+    public static List<Movie> sort(String mode, List<Movie> input){
+        if(input.isEmpty()){
+            return input;
+        }
+        return new ArrayList<>();
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -74,6 +81,7 @@ public class HomeController implements Initializable {
             System.out.println(genreComboBox.getValue());
 
             // TODO call filter method here:
+            movieListView.setCellFactory(movieListView -> new MovieCell());
             List<Movie> temp = filter( (Genre) genreComboBox.getValue(), allMovies);
             movieListView.setCellFactory(movieListView -> new MovieCell());
             observableMovies.clear();
