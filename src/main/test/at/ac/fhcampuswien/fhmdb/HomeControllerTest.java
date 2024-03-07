@@ -204,13 +204,9 @@ class HomeControllerTest {
         asc_movieList.add(new Movie("The Dark Knight Rises", "Batman the Dark Knight Rises", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)));
         asc_movieList.add(new Movie("Thor: Love and Thunder", "Thor 3 ", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.FANTASY, Genre.SCIENCE_FICTION)));
 
-        String expected = "";
-        String actual = "";
+        String expected = asc_movieList.toString();
+        String actual = result.toString();
 
-        for(int i = 0; i < result.size() -1; ++i){
-            expected += asc_movieList.get(i).toString();
-            actual += result.get(i).toString();
-        }
 
         assertEquals(expected, actual);
 
@@ -235,13 +231,8 @@ class HomeControllerTest {
         desc_movieList.add(new Movie("Documentation about the Universe", "Documentation about the Universe", List.of(Genre.DOCUMENTARY)));
         desc_movieList.add(new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)));
 
-        String expected = "";
-        String actual = "";
-
-        for(int i = 0; i < result.size() -1; ++i){
-            expected += desc_movieList.get(i).toString();
-            actual += result.get(i).toString();
-        }
+        String expected = desc_movieList.toString();
+        String actual = result.toString();
 
         assertEquals(expected, actual);
 
