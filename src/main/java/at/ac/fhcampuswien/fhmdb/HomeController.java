@@ -127,9 +127,9 @@ public class HomeController implements Initializable {
     protected void setUpGenreComboBox() {
         genreComboBox.setPromptText("Filter by Genre");
         genreComboBox.getItems().addAll(Genre.class.getEnumConstants());
-        // filter by genre immediately after selecting a value from comboBox
-        genreComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)
-                -> handleFilterAction());
+        // TODO - needed? filter by genre immediately after selecting a value from comboBox
+        /*genreComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)
+                -> handleFilterAction());*/
     }
 
     @Override

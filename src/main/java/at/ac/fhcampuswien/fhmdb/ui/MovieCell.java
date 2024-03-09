@@ -9,6 +9,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 import java.util.List;
 
@@ -24,37 +25,42 @@ public class MovieCell extends ListCell<Movie> {
 
         if (empty || movie == null) {
             setText(null);
-        } else {
-            this.getStyleClass().add("movie-cell");
-            title.setText(movie.getTitle());
-            detail.setText(
-                    movie.getDescription() != null
-                            ? movie.getDescription()
-                            : "No description available"
-            );
-            List<Genre> temp = movie.getGenres();
-            String var = temp.get(0).toString();
-            for(int i = 1; i < temp.size(); ++i)
-                var += ", " + temp.get(i).toString();
-            genre.setText(var);
-
-
-
-            // color scheme
-            title.getStyleClass().add("text-yellow");
-            detail.getStyleClass().add("text-white");
-            genre.getStyleClass().add("text-white-cursive");
-            layout.setBackground(new Background(new BackgroundFill(Color.web("#454545"), null, null)));
-
-            // layout
-            title.fontProperty().set(title.getFont().font(20));
-            detail.setMaxWidth(this.getScene().getWidth() - 30);
-            detail.setWrapText(true);
-            layout.setPadding(new Insets(10));
-            layout.spacingProperty().set(10);
-            layout.alignmentProperty().set(javafx.geometry.Pos.CENTER_LEFT);
-            setGraphic(layout);
+            return;
         }
+
+        this.getStyleClass().add("movie-cell");
+        title.setText(movie.getTitle());
+        detail.setText(
+                movie.getDescription() != null
+                        ? movie.getDescription()
+                        : "No description available"
+        );
+
+        List<Genre> temp = movie.getGenres();
+        StringBuilder var = new StringBuilder(temp.get(0).toString());
+        for(int i = 1; i < temp.size(); ++i) {
+            var.append(", ").append(temp.get(i).toString());
+        }
+
+        genre.setText(var.toString());
+
+        // color scheme
+        title.getStyleClass().add("text-yellow");
+        detail.getStyleClass().add("text-white");
+        genre.getStyleClass().add("text-white-cursive");
+        layout.setBackground(new Background(new BackgroundFill(Color.web("#454545"), null, null)));
+
+        // layout
+        title.getFont();
+        title.fontProperty().set(Font.font(20));
+        if (this.getScene() != null) {
+            detail.setMaxWidth(this.getScene().getWidth() - 30);
+        }
+        detail.setWrapText(true);
+        layout.setPadding(new Insets(10));
+        layout.spacingProperty().set(10);
+        layout.alignmentProperty().set(javafx.geometry.Pos.CENTER_LEFT);
+        setGraphic(layout);
     }
 }
 
