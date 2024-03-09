@@ -114,14 +114,10 @@ public class HomeController implements Initializable {
         System.out.print("Filter set to genre:   ");
         System.out.println(genreComboBox.getValue());
 
-        movieListView.setCellFactory(movieListView -> new MovieCell());
         List<Movie> temp = filter(genreComboBox.getValue(), allMovies, searchField.getText());
-        movieListView.setCellFactory(movieListView -> new MovieCell());
         observableMovies.clear();
-        movieListView.setCellFactory(movieListView -> new MovieCell());
         observableMovies.addAll(temp);
         movieListView.setItems(observableMovies);
-        movieListView.setCellFactory(movieListView -> new MovieCell());
     }
 
     protected void setUpGenreComboBox() {
