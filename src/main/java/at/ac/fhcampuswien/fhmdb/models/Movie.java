@@ -34,7 +34,9 @@ public class Movie {
         boolean res = false;
         if(obj instanceof Movie){
             Movie other = (Movie) obj;
-            res = (this.title.equals(other.title) && this.description.equals(other.description) && this.genres == other.genres);
+            res = this.title.equals(other.title)
+                    && this.description.equals(other.description)
+                    && this.genres.equals(other.genres);
         }
         return res;
     }

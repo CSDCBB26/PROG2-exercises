@@ -16,6 +16,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class HomeController implements Initializable {
     @FXML
@@ -25,10 +27,10 @@ public class HomeController implements Initializable {
     public TextField searchField;
 
     @FXML
-    public JFXListView movieListView;
+    public JFXListView<Movie> movieListView;
 
     @FXML
-    public JFXComboBox genreComboBox;
+    public JFXComboBox<Genre> genreComboBox;
 
     @FXML
     public JFXButton sortBtn;
@@ -50,15 +52,22 @@ public class HomeController implements Initializable {
         return searchList;
     }
 
-    //ToDo by Sergiu
-    public static List<Movie> filter(Genre input, List<Movie> movieList) {
-        //TODO implement method
-        if(input == Genre.ALL_GENRES)
-            return movieList;
+    //ToDo by Sergiu - Work in progress
+    public static List<Movie> filter(Genre selectedGenre, List<Movie> movieList, String searchQuery) {
+        Stream<Movie> filteredStream = selectedGenre == Genre.ALL_GENRES
+                ? movieList.stream()
+                : movieList.stream().filter(movie -> movie.getGenres().contains(selectedGenre));
 
-        List<Movie> result = movieList.stream().filter(movie -> movie.getGenres().contains(input)).toList();
+        if (!searchQuery.isBlank()) {
+            filteredStream = filteredStream.filter(movie -> isMovieMatchesSearchQuery(movie, searchQuery));
+        }
 
-        return result;
+        return filteredStream.collect(Collectors.toList());
+    }
+
+    protected static boolean isMovieMatchesSearchQuery(Movie movie, String searchQuery) {
+        return movie.getTitle().toLowerCase().contains(searchQuery.toLowerCase()) ||
+                movie.getDescription().toLowerCase().contains(searchQuery.toLowerCase());
     }
 
     //ToDo by Jakob
@@ -101,6 +110,27 @@ public class HomeController implements Initializable {
         return input;
     }
 
+    protected void handleFilterAction() {
+        System.out.print("Filter set to genre:   ");
+        System.out.println(genreComboBox.getValue());
+
+        movieListView.setCellFactory(movieListView -> new MovieCell());
+        List<Movie> temp = filter( (Genre) genreComboBox.getValue(), allMovies, searchField.getText());
+        movieListView.setCellFactory(movieListView -> new MovieCell());
+        observableMovies.clear();
+        movieListView.setCellFactory(movieListView -> new MovieCell());
+        observableMovies.addAll(temp);
+        movieListView.setItems(observableMovies);
+        movieListView.setCellFactory(movieListView -> new MovieCell());
+    }
+
+    protected void setUpGenreComboBox() {
+        genreComboBox.setPromptText("Filter by Genre");
+        genreComboBox.getItems().addAll(Genre.class.getEnumConstants());
+        // filter by genre immediately after selecting a value from comboBox
+        genreComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)
+                -> handleFilterAction());
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -110,29 +140,11 @@ public class HomeController implements Initializable {
         movieListView.setItems(observableMovies);   // set data of observable list to list view
         movieListView.setCellFactory(movieListView -> new MovieCell()); // use custom cell factory to display data
 
-        // TODO add genre filter items with genreComboBox.getItems().addAll(...)
-        genreComboBox.setPromptText("Filter by Genre");
-        genreComboBox.getItems().addAll(Genre.class.getEnumConstants());
-
+        setUpGenreComboBox();
 
         // TODO add event handlers to buttons and call the regarding methods
         // either set event handlers in the fxml file (onAction) or add them here
-        searchBtn.setOnAction(actionEvent -> {
-
-            System.out.print("Filter set to genre:   ");
-            System.out.println(genreComboBox.getValue());
-
-            // TODO call filter method here:
-            movieListView.setCellFactory(movieListView -> new MovieCell());
-            List<Movie> temp = filter( (Genre) genreComboBox.getValue(), allMovies);
-            movieListView.setCellFactory(movieListView -> new MovieCell());
-            observableMovies.clear();
-            movieListView.setCellFactory(movieListView -> new MovieCell());
-            observableMovies.addAll(temp);
-            movieListView.setItems(observableMovies);
-            movieListView.setCellFactory(movieListView -> new MovieCell());
-
-        });
+        searchBtn.setOnAction(actionEvent -> handleFilterAction());
 
         searchField.setOnKeyPressed(keyEvent -> {
             if(keyEvent.getCode().equals(KeyCode.ENTER)) {

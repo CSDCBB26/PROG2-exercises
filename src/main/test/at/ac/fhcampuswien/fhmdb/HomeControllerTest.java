@@ -100,7 +100,7 @@ class HomeControllerTest {
      */
     @Test
     void filter_for_horror_should_return_no_movie() {
-        List<Movie> result = HomeController.filter(Genre.DOCUMENTARY, movieList);
+        List<Movie> result = HomeController.filter(Genre.HORROR, movieList, "");
         List<Movie> expectedMovies = new ArrayList<>();
 
         assertEquals(expectedMovies, result);
@@ -108,7 +108,7 @@ class HomeControllerTest {
 
     @Test
     void filter_for_action_should_return_a_list_of_10_movies() {
-        List<Movie> result = HomeController.filter(Genre.ACTION, movieList);
+        List<Movie> result = HomeController.filter(Genre.ACTION, movieList, "");
         List<Movie> expectedMovies = List.of(
                 new Movie("Superman", "Description of Superman", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
                 new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)),
@@ -127,7 +127,7 @@ class HomeControllerTest {
 
     @Test
     void filter_for_documentary_should_return_Documentation_about_the_Universe_movie() {
-        List<Movie> result = HomeController.filter(Genre.DOCUMENTARY, movieList);
+        List<Movie> result = HomeController.filter(Genre.DOCUMENTARY, movieList, "");
         List<Movie> expectedMovies = List.of(new Movie("Documentation about the Universe", "Documentation about the Universe", List.of(Genre.DOCUMENTARY)));
 
         assertEquals(expectedMovies, result);
@@ -135,7 +135,7 @@ class HomeControllerTest {
 
     @Test
     void filter_for_adventure_should_return_a_list_containing_8_movies() {
-        List<Movie> result = HomeController.filter(Genre.ADVENTURE, movieList);
+        List<Movie> result = HomeController.filter(Genre.ADVENTURE, movieList, "");
         List<Movie> expectedMovies = List.of(
                 new Movie("Superman", "Description of Superman", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
                 new Movie("Thor: Love and Thunder", "Thor 3 ", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.FANTASY, Genre.SCIENCE_FICTION)),
@@ -152,7 +152,7 @@ class HomeControllerTest {
 
     @Test
     void filter_for_crime_should_return_5_movies() {
-        List<Movie> result = HomeController.filter(Genre.CRIME, movieList);
+        List<Movie> result = HomeController.filter(Genre.CRIME, movieList, "");
 
         List<Movie> expectedMovies = List.of(
                 new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)),
