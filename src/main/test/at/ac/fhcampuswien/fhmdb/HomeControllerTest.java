@@ -101,10 +101,59 @@ class HomeControllerTest {
     @Test
     void filter_for_horror_should_return_no_movie() {
         List<Movie> result = HomeController.filter(Genre.HORROR, movieList, "");
-        List<Movie> expectedMovies = new ArrayList<>();
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void filter_for_action_having_SuPeR_as_queryString_should_return_movie_superman() {
+        List<Movie> result = HomeController.filter(Genre.ACTION, movieList, "SuPeR");
+        List<Movie> expectedMovies = List.of(new Movie("Superman", "Description of Superman", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)));
 
         assertEquals(expectedMovies, result);
     }
+
+    @Test
+    void filter_for_action_having_ddd_as_queryString_should_return_no_movie() {
+        List<Movie> result = HomeController.filter(Genre.ACTION, movieList, "ddd");
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void filter_for_adventure_having_batman_the_beginning_as_queryString_should_return_movie_BatmanBegins() {
+        List<Movie> result = HomeController.filter(Genre.ADVENTURE, movieList, "batman the beginning");
+        List<Movie> expectedMovies = List.of(new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)));
+
+        assertTrue(result.size() == expectedMovies.size()
+                && result.containsAll(expectedMovies)
+                && expectedMovies.containsAll(result));
+    }
+
+    @Test
+    void filter_for_all_genres_having_empty_space_as_queryString_should_return_all_movies() {
+        List<Movie> result = HomeController.filter(Genre.ALL, movieList, " ");
+        List<Movie> expectedMovies = movieList;
+
+        assertTrue(result.size() == expectedMovies.size()
+                && result.containsAll(expectedMovies)
+                && expectedMovies.containsAll(result));
+    }
+
+    @Test
+    void filter_for_action_having_tHe_DaRk_as_queryString_should_return_a_list_of_3_movies() {
+        List<Movie> result = HomeController.filter(Genre.ACTION, movieList, "tHe DaRk");
+        List<Movie> expectedMovies = List.of(
+                new Movie("The Dark Knight", "Batman the Dark Knight", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
+                new Movie("The Dark Knight Returns", "Batman the Dark Knight Returns", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.ANIMATION)),
+                new Movie("The Dark Knight Rises", "Batman the Dark Knight Rises", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER))
+        );
+
+        assertTrue(result.size() == expectedMovies.size()
+                && result.containsAll(expectedMovies)
+                && expectedMovies.containsAll(result));
+    }
+
 
     @Test
     void filter_for_action_should_return_a_list_of_10_movies() {
@@ -122,15 +171,19 @@ class HomeControllerTest {
                 new Movie("The Avengers", "The Avengers", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION))
         );
 
-        assertTrue(result.size() == expectedMovies.size() && result.containsAll(expectedMovies) && expectedMovies.containsAll(result));
+        assertTrue(result.size() == expectedMovies.size()
+                && result.containsAll(expectedMovies)
+                && expectedMovies.containsAll(result));
     }
 
     @Test
-    void filter_for_documentary_should_return_Documentation_about_the_Universe_movie() {
+    void filter_for_documentary_should_return_Documentary_about_the_Universe_movie() {
         List<Movie> result = HomeController.filter(Genre.DOCUMENTARY, movieList, "");
         List<Movie> expectedMovies = List.of(new Movie("Documentation about the Universe", "Documentation about the Universe", List.of(Genre.DOCUMENTARY)));
 
-        assertEquals(expectedMovies, result);
+        assertTrue(result.size() == expectedMovies.size()
+                && result.containsAll(expectedMovies)
+                && expectedMovies.containsAll(result));
     }
 
     @Test
@@ -162,7 +215,9 @@ class HomeControllerTest {
                 new Movie("The Dark Knight Returns", "Batman the Dark Knight Returns", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.ANIMATION))
         );
 
-        assertTrue(result.size() == expectedMovies.size() && result.containsAll(expectedMovies) && expectedMovies.containsAll(result));
+        assertTrue(result.size() == expectedMovies.size()
+                && result.containsAll(expectedMovies)
+                && expectedMovies.containsAll(result));
     }
 
     /**
@@ -186,6 +241,7 @@ class HomeControllerTest {
         assertEquals(asc_movieList, result);
     }
 
+    // TODO - to discuss - no need for toString anymore, since we changed the equals method in movie
     @Test
     void sort_the_movielist_ascending(){
         List<Movie> temp = movieList;
@@ -213,6 +269,7 @@ class HomeControllerTest {
        // assertEquals(asc_movieList, result);
     }
 
+    // TODO - to discuss - no need for toString anymore, since we changed the equals method in movie
     @Test
     void sort_the_movielist_descending(){
         List<Movie> temp = movieList;

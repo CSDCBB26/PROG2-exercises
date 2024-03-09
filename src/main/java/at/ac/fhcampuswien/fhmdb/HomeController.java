@@ -54,7 +54,7 @@ public class HomeController implements Initializable {
 
     //ToDo by Sergiu - Work in progress
     public static List<Movie> filter(Genre selectedGenre, List<Movie> movieList, String searchQuery) {
-        Stream<Movie> filteredStream = selectedGenre == Genre.ALL_GENRES
+        Stream<Movie> filteredStream = selectedGenre == null || selectedGenre == Genre.ALL
                 ? movieList.stream()
                 : movieList.stream().filter(movie -> movie.getGenres().contains(selectedGenre));
 
@@ -125,8 +125,10 @@ public class HomeController implements Initializable {
     }
 
     protected void setUpGenreComboBox() {
-        genreComboBox.setPromptText("Filter by Genre");
+        // TODO - to discuss, removed filter by genre text and put ALL as default
+        // genreComboBox.setPromptText("Filter by Genre");
         genreComboBox.getItems().addAll(Genre.class.getEnumConstants());
+        genreComboBox.setValue(Genre.ALL);
         // TODO - needed? filter by genre immediately after selecting a value from comboBox
         /*genreComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)
                 -> handleFilterAction());*/
