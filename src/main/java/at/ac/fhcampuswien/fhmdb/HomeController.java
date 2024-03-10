@@ -151,6 +151,7 @@ public class HomeController implements Initializable {
                 System.out.println(searchField.getText());
 
                 // TODO call search method here:
+                handleFilterAction();
             }
         });
 
