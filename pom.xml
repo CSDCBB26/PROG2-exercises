@@ -86,15 +86,7 @@
             <!-- https://www.baeldung.com/maven-surefire-plugin -->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
-                <configuration>
-                    <excludes>
-                        <exclude>DataTest.java</exclude>
-                    </excludes>
-                    <includes>
-                        <include>DataCheck.java</include>
-                    </includes>
-                </configuration>
+                <version>3.1.2</version>
             </plugin>
         </plugins>
     </build>

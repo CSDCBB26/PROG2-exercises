@@ -55,6 +55,18 @@ class HomeControllerTest {
     }
 
     @Test
+    void searching_batman_should_return_4_movies() {
+        List<Movie> result = HomeController.search("batman", movieList);
+        List<Movie> expectedMovies = List.of(
+                new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)),
+                new Movie("The Dark Knight", "Batman the Dark Knight", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
+                new Movie("The Dark Knight Rises", "Batman the Dark Knight Rises", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
+                new Movie("The Dark Knight Returns", "Batman the Dark Knight Returns", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.ANIMATION))
+        );
+
+        assertEquals(expectedMovies, result);
+    }
+    @Test
     void searching_dark_should_return_3_movies() {
         List<Movie> result = HomeController.search("dark", movieList);
         List<Movie> expectedMovies = List.of(
