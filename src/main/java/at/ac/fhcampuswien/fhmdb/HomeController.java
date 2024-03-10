@@ -44,11 +44,10 @@ public class HomeController implements Initializable {
         //TODO implement method
         List<Movie> searchList =  new ArrayList<>();
         for(Movie movie : movieList){
-            if(movie.getDescription().contains(input)|| movie.getTitle().contains(input)){
+            if(movie.getDescription().toLowerCase().contains(input.toLowerCase()) || movie.getTitle().contains(input.toLowerCase())){
                 searchList.add(movie);
             }
         }
-
         return searchList;
     }
 

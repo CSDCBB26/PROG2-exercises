@@ -63,13 +63,13 @@ class HomeControllerTest {
                 new Movie("The Dark Knight Returns", "Batman the Dark Knight Returns", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.ANIMATION))
         );
 
-        assertTrue(result.size() == expectedMovies.size() && result.containsAll(expectedMovies) && expectedMovies.containsAll(result));
+        assertEquals(expectedMovies, result);
     }
 
     @Test
-    void searching_for_whitespace_only_should_return_all_movies_containing_at_least_one_word() {
+    void searching_for_whitespace_only_should_return_all_movies_containing_at_least_one_word_in_title_or_description() {
         List<Movie> result = HomeController.search(" ", movieList);
-        assertEquals(9, result.size());
+        assertEquals(11, result.size());
     }
 
     @Test
@@ -79,7 +79,7 @@ class HomeControllerTest {
                 new Movie("Superman", "Description of Superman", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION))
         );
 
-        assertTrue(result.size() == expectedMovies.size() && result.containsAll(expectedMovies) && expectedMovies.containsAll(result));
+        assertEquals(expectedMovies, result);
     }
 
     @Test
@@ -92,7 +92,7 @@ class HomeControllerTest {
                 new Movie("The Dark Knight Returns", "Batman the Dark Knight Returns", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.ANIMATION))
         );
 
-        assertTrue(result.size() == expectedMovies.size() && result.containsAll(expectedMovies) && expectedMovies.containsAll(result));
+        assertEquals(expectedMovies, result);
     }
 
     /**
