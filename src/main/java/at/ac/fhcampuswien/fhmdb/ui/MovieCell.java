@@ -37,13 +37,13 @@ public class MovieCell extends ListCell<Movie> {
                         : "No description available"
         );
 
-        List<Genre> temp = movie.getGenres();
-        StringBuilder var = new StringBuilder(temp.get(0).toString());
-        for(int i = 1; i < temp.size(); ++i) {
-            var.append(", ").append(temp.get(i).toString());
+        List<Genre> genresAsList = movie.getGenres();
+        StringBuilder genresAsText = new StringBuilder(genresAsList.get(0).toString());
+        for(int i = 1; i < genresAsList.size(); ++i) {
+            genresAsText.append(", ").append(genresAsList.get(i).toString());
         }
 
-        genre.setText(var.toString());
+        genre.setText(genresAsText.toString());
 
         // color scheme
         title.getStyleClass().add("text-yellow");
@@ -64,4 +64,3 @@ public class MovieCell extends ListCell<Movie> {
         setGraphic(layout);
     }
 }
-

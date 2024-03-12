@@ -11,8 +11,6 @@ public class Movie {
     private String description;
     private List<Genre> genres;
 
-    // TODO add more properties here
-
     public Movie(String title, String description, List<Genre> genres) {
         this.title = title;
         this.description = description;
@@ -54,7 +52,6 @@ public class Movie {
 
     public static List<Movie> initializeMovies(){
         List<Movie> movies = new ArrayList<>();
-        // TODO add some dummy data here
         movies.add(new Movie("Test", "Test", List.of(Genre.ACTION)));
         movies.addAll(List.of(
                 new Movie("Superman", "Description of Superman", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),

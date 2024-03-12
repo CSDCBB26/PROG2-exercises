@@ -41,7 +41,6 @@ public class HomeController implements Initializable {
 
     //ToDO by Andreas Drozd implement method
     public static List<Movie> search(String input, List<Movie> movieList) {
-        //TODO implement method
         List<Movie> searchList =  new ArrayList<>();
         for(Movie movie : movieList){
             if(movie.getDescription().toLowerCase().contains(input.toLowerCase()) || movie.getTitle().contains(input.toLowerCase())){
