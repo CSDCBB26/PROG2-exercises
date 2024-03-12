@@ -11,9 +11,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -41,13 +43,9 @@ public class HomeController implements Initializable {
 
     //ToDO by Andreas Drozd implement method
     public static List<Movie> search(String input, List<Movie> movieList) {
-        List<Movie> searchList =  new ArrayList<>();
-        for(Movie movie : movieList){
-            if(movie.getDescription().toLowerCase().contains(input.toLowerCase()) || movie.getTitle().contains(input.toLowerCase())){
-                searchList.add(movie);
-            }
-        }
-        return searchList;
+        return movieList.stream()
+                .filter(movie -> isMovieMatchesSearchQuery(movie, input))
+                .collect(Collectors.toList());
     }
 
     public static List<Movie> filter(Genre selectedGenre, List<Movie> movieList, String searchQuery) {
@@ -62,6 +60,7 @@ public class HomeController implements Initializable {
         return filteredList;
     }
 
+    //is naming boolean functions like this a convention?
     protected static boolean isMovieMatchesSearchQuery(Movie movie, String searchQuery) {
         return movie.getTitle().toLowerCase().contains(searchQuery.toLowerCase()) ||
                 movie.getDescription().toLowerCase().contains(searchQuery.toLowerCase());
@@ -69,42 +68,18 @@ public class HomeController implements Initializable {
 
     //ToDo by Jakob
 
-    /**
-     * Bubblesort algorithm
-     * @param mode Whether to sort in ascending or descending order
-     * @param input List of Movies to sort
-     * @return the sorted List
-     */
-    public static List<Movie> sort(String mode, List<Movie> input){
-        if(input.isEmpty()){
-            return input;
-        }
-        Movie temp;
-
-        for(int i = 0; i < input.size()-1; ++i){
-
-            for(int j = 0; j < input.size()-1 - i; ++j){
-
-                if(mode.equals("descending")) {
-
-                    if (input.get(j).getTitle().compareTo(input.get(j + 1).getTitle()) < 0) {
-                        temp = input.get(j);
-                        input.set(j, input.get(j + 1));
-                        input.set(j + 1, temp);
-                    }
-                }else{
-                    if (input.get(j).getTitle().compareTo(input.get(j + 1).getTitle()) > 0) {
-                        temp = input.get(j);
-                        input.set(j, input.get(j + 1));
-                        input.set(j + 1, temp);
-                    }
-                }
-
-            }
-
+    public static List<Movie> sort(String mode, List<Movie> movieList){
+        if(movieList.isEmpty()){
+            return movieList;
         }
 
-        return input;
+        if ("descending".equals(mode)) {
+            movieList.sort(Comparator.comparing(Movie::getTitle).reversed());
+        } else {
+            movieList.sort(Comparator.comparing(Movie::getTitle));
+        }
+
+        return movieList;
     }
 
     protected void handleFilterAction() {
@@ -117,11 +92,23 @@ public class HomeController implements Initializable {
         movieListView.setItems(observableMovies);
     }
 
-    protected void setUpGenreComboBox() {
-        genreComboBox.getItems().addAll(Genre.class.getEnumConstants());
-        genreComboBox.setValue(Genre.ALL);
-        genreComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)
-                -> handleFilterAction());
+    protected void onEnterKeyPressed(KeyEvent keyEvent) {
+        if(keyEvent.getCode().equals(KeyCode.ENTER)) {
+            System.out.print("Enter pressed, searching for:  ");
+            System.out.println(searchField.getText());
+
+            handleFilterAction();
+        }
+    }
+
+    protected void onSortButtonClick() {
+        if(sortBtn.getText().equals("Sort (asc)")) {
+            sort("ascending", observableMovies);
+            sortBtn.setText("Sort (desc)");
+        } else {
+            sort("descending", observableMovies);
+            sortBtn.setText("Sort (asc)");
+        }
     }
 
     @Override
@@ -133,33 +120,15 @@ public class HomeController implements Initializable {
         // use custom cell factory to display data
         movieListView.setCellFactory(movieListView -> new MovieCell());
 
-        setUpGenreComboBox();
+        genreComboBox.getItems().addAll(Genre.class.getEnumConstants());
+        genreComboBox.setValue(Genre.ALL);
+        // items will be filtered directly after selecting a value from combobox
+        genreComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)
+                -> handleFilterAction());
 
         searchBtn.setOnAction(actionEvent -> handleFilterAction());
-
-        searchField.setOnKeyPressed(keyEvent -> {
-            if(keyEvent.getCode().equals(KeyCode.ENTER)) {
-
-                System.out.print("Enter pressed, searching for:  ");
-                System.out.println(searchField.getText());
-
-                // TODO call search method here:
-                handleFilterAction();
-            }
-        });
-
-        sortBtn.setOnAction(actionEvent -> {
-            if(sortBtn.getText().equals("Sort (asc)")) {
-
-                sort("ascending", observableMovies);
-                sortBtn.setText("Sort (desc)");
-            } else {
-
-                sort("descending", observableMovies);
-                sortBtn.setText("Sort (asc)");
-            }
-        });
-
+        searchField.setOnKeyPressed(this::onEnterKeyPressed);
+        sortBtn.setOnAction(actionEvent -> onSortButtonClick());
 
     }
 }
