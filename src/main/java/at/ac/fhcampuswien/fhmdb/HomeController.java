@@ -14,16 +14,17 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class HomeController implements Initializable {
     @FXML
     public JFXButton searchBtn;
+
+    @FXML
+    public JFXButton resetBtn;
 
     @FXML
     public TextField searchField;
@@ -41,7 +42,6 @@ public class HomeController implements Initializable {
 
     private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
 
-    //ToDO by Andreas Drozd implement method
     public static List<Movie> search(String input, List<Movie> movieList) {
         return movieList.stream()
                 .filter(movie -> isMovieMatchesSearchQuery(movie, input))
@@ -60,13 +60,10 @@ public class HomeController implements Initializable {
         return filteredList;
     }
 
-    //is naming boolean functions like this a convention?
     protected static boolean isMovieMatchesSearchQuery(Movie movie, String searchQuery) {
         return movie.getTitle().toLowerCase().contains(searchQuery.toLowerCase()) ||
                 movie.getDescription().toLowerCase().contains(searchQuery.toLowerCase());
     }
-
-    //ToDo by Jakob
 
     public static List<Movie> sort(String mode, List<Movie> movieList){
         if(movieList.isEmpty()){
@@ -111,6 +108,11 @@ public class HomeController implements Initializable {
         }
     }
 
+    protected void onResetButtonClick(){
+        searchField.clear();
+        genreComboBox.setValue(Genre.ALL);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         observableMovies.addAll(allMovies);
@@ -129,6 +131,7 @@ public class HomeController implements Initializable {
         searchBtn.setOnAction(actionEvent -> handleFilterAction());
         searchField.setOnKeyPressed(this::onEnterKeyPressed);
         sortBtn.setOnAction(actionEvent -> onSortButtonClick());
+        resetBtn.setOnAction(actionEvent -> onResetButtonClick());
 
     }
 }

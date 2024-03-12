@@ -35,11 +35,14 @@ class HomeControllerTest {
     /**
      * Search for movie title / description
      */
-    @Test
-    void searching_for_superman_should_return_movie_superman() {
-        List<Movie> result = HomeController.search("Superman", movieList);
-        assertEquals(1, result.size());
 
+    @Test
+    void searching_for_superman_should_return_one_movie_superman() {
+        List<Movie> result = HomeController.search("Superman", movieList);
+        List<Movie> expectedMovies = List.of(
+                new Movie("Superman", "Description of Superman", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION))
+                );
+        assertEquals(expectedMovies, result);
     }
 
     @Test
@@ -55,6 +58,16 @@ class HomeControllerTest {
     }
 
     @Test
+    void searching_for_3_should_return_spiderman3_and_thor3_movies_from_the_list() {
+        List<Movie> result = HomeController.search("3", movieList);
+        List<Movie> expectedMovies = List.of(
+                new Movie("Thor: Love and Thunder", "Thor 3 ", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.FANTASY, Genre.SCIENCE_FICTION)),
+                new Movie("Spiderman: No Way Home", "Spiderman 3", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION))
+        );
+        assertEquals(expectedMovies, result);
+    }
+
+    @Test
     void searching_batman_should_return_4_movies() {
         List<Movie> result = HomeController.search("batman", movieList);
         List<Movie> expectedMovies = List.of(
@@ -66,6 +79,7 @@ class HomeControllerTest {
 
         assertEquals(expectedMovies, result);
     }
+
     @Test
     void searching_dark_should_return_3_movies() {
         List<Movie> result = HomeController.search("dark", movieList);
@@ -79,9 +93,15 @@ class HomeControllerTest {
     }
 
     @Test
+    void searching_with_no_string_should_return_all_movies_from_the_list() {
+        List<Movie> result = HomeController.search("", movieList);
+        assertEquals(movieList, result);
+    }
+
+    @Test
     void searching_for_whitespace_only_should_return_all_movies_containing_at_least_one_word_in_title_or_description() {
         List<Movie> result = HomeController.search(" ", movieList);
-        assertEquals(11, result.size());
+        assertEquals(movieList, result);
     }
 
     @Test
@@ -253,7 +273,6 @@ class HomeControllerTest {
         assertEquals(asc_movieList, result);
     }
 
-    // TODO - to discuss - no need for toString anymore, since we changed the equals method in movie
     @Test
     void sort_the_movielist_ascending(){
         List<Movie> temp = movieList;
@@ -272,16 +291,9 @@ class HomeControllerTest {
         asc_movieList.add(new Movie("The Dark Knight Rises", "Batman the Dark Knight Rises", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)));
         asc_movieList.add(new Movie("Thor: Love and Thunder", "Thor 3 ", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.FANTASY, Genre.SCIENCE_FICTION)));
 
-        String expected = asc_movieList.toString();
-        String actual = result.toString();
-
-
-        assertEquals(expected, actual);
-
-       // assertEquals(asc_movieList, result);
+        assertEquals(asc_movieList, result);
     }
 
-    // TODO - to discuss - no need for toString anymore, since we changed the equals method in movie
     @Test
     void sort_the_movielist_descending(){
         List<Movie> temp = movieList;
@@ -300,11 +312,6 @@ class HomeControllerTest {
         desc_movieList.add(new Movie("Documentation about the Universe", "Documentation about the Universe", List.of(Genre.DOCUMENTARY)));
         desc_movieList.add(new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)));
 
-        String expected = desc_movieList.toString();
-        String actual = result.toString();
-
-        assertEquals(expected, actual);
-
-        //assertEquals(desc_movieList, result);
+        assertEquals(desc_movieList, result);
     }
 }
