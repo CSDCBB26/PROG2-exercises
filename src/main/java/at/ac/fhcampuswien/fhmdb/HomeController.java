@@ -51,17 +51,16 @@ public class HomeController implements Initializable {
         return searchList;
     }
 
-    //ToDo by Sergiu - Work in progress
     public static List<Movie> filter(Genre selectedGenre, List<Movie> movieList, String searchQuery) {
-        Stream<Movie> filteredStream = selectedGenre == null || selectedGenre == Genre.ALL
-                ? movieList.stream()
-                : movieList.stream().filter(movie -> movie.getGenres().contains(selectedGenre));
+        List<Movie> filteredList = selectedGenre == null || selectedGenre == Genre.ALL
+                ? movieList.stream().toList()
+                : movieList.stream().filter(movie -> movie.getGenres().contains(selectedGenre)).toList();
 
         if (!searchQuery.isBlank()) {
-            filteredStream = filteredStream.filter(movie -> isMovieMatchesSearchQuery(movie, searchQuery));
+            filteredList = search(searchQuery, filteredList);
         }
 
-        return filteredStream.collect(Collectors.toList());
+        return filteredList;
     }
 
     protected static boolean isMovieMatchesSearchQuery(Movie movie, String searchQuery) {
@@ -120,13 +119,10 @@ public class HomeController implements Initializable {
     }
 
     protected void setUpGenreComboBox() {
-        // TODO - to discuss, removed filter by genre text and put ALL as default
-        // genreComboBox.setPromptText("Filter by Genre");
         genreComboBox.getItems().addAll(Genre.class.getEnumConstants());
         genreComboBox.setValue(Genre.ALL);
-        // TODO - needed? filter by genre immediately after selecting a value from comboBox
-        /*genreComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)
-                -> handleFilterAction());*/
+        genreComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)
+                -> handleFilterAction());
     }
 
     @Override
@@ -139,8 +135,6 @@ public class HomeController implements Initializable {
 
         setUpGenreComboBox();
 
-        // TODO add event handlers to buttons and call the regarding methods
-        // either set event handlers in the fxml file (onAction) or add them here
         searchBtn.setOnAction(actionEvent -> handleFilterAction());
 
         searchField.setOnKeyPressed(keyEvent -> {
