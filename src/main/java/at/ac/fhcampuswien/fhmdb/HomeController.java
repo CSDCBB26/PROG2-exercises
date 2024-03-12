@@ -127,11 +127,12 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        observableMovies.addAll(allMovies);         // add dummy data to observable list
+        observableMovies.addAll(allMovies);
 
-        // initialize UI stuff
-        movieListView.setItems(observableMovies);   // set data of observable list to list view
-        movieListView.setCellFactory(movieListView -> new MovieCell()); // use custom cell factory to display data
+        // set data of observable list to list view
+        movieListView.setItems(observableMovies);
+        // use custom cell factory to display data
+        movieListView.setCellFactory(movieListView -> new MovieCell());
 
         setUpGenreComboBox();
 
@@ -148,9 +149,6 @@ public class HomeController implements Initializable {
             }
         });
 
-
-
-        // Sort button example:
         sortBtn.setOnAction(actionEvent -> {
             if(sortBtn.getText().equals("Sort (asc)")) {
 
