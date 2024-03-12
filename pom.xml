@@ -86,7 +86,8 @@
             <!-- https://www.baeldung.com/maven-surefire-plugin -->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>3.2.5</version>
+                <!-- By default, surefire automatically includes all test classes whose name starts with Test, or ends with Test, Tests or TestCase.-->
             </plugin>
         </plugins>
     </build>
