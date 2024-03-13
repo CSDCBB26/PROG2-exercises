@@ -14,6 +14,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -49,11 +50,15 @@ public class HomeController implements Initializable {
     }
 
     public static List<Movie> filter(Genre selectedGenre, List<Movie> movieList, String searchQuery) {
+        if (movieList == null || movieList.isEmpty()) {
+            return new ArrayList<>();
+        }
+
         List<Movie> filteredList = selectedGenre == null || selectedGenre == Genre.ALL
                 ? movieList.stream().toList()
                 : movieList.stream().filter(movie -> movie.getGenres().contains(selectedGenre)).toList();
 
-        if (!searchQuery.isBlank()) {
+        if (!searchQuery.isEmpty()) {
             filteredList = search(searchQuery, filteredList);
         }
 

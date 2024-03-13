@@ -81,7 +81,7 @@ class HomeControllerTest {
     }
 
     @Test
-    void searching_dark_should_return_3_movies() {
+    void searching_for_dark_should_return_3_movies() {
         List<Movie> result = HomeController.search("dark", movieList);
         List<Movie> expectedMovies = List.of(
                 new Movie("The Dark Knight", "Batman the Dark Knight", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
@@ -213,9 +213,7 @@ class HomeControllerTest {
         List<Movie> result = HomeController.filter(Genre.DOCUMENTARY, movieList, "");
         List<Movie> expectedMovies = List.of(new Movie("Documentation about the Universe", "Documentation about the Universe", List.of(Genre.DOCUMENTARY)));
 
-        assertTrue(result.size() == expectedMovies.size()
-                && result.containsAll(expectedMovies)
-                && expectedMovies.containsAll(result));
+        assertEquals(result, expectedMovies);
     }
 
     @Test
