@@ -51,9 +51,7 @@ public class Movie {
     };
 
     public static List<Movie> initializeMovies(){
-        List<Movie> movies = new ArrayList<>();
-        movies.add(new Movie("Test", "Test", List.of(Genre.ACTION)));
-        movies.addAll(List.of(
+        return List.of(
                 new Movie("Superman", "Description of Superman", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
                 new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)),
                 new Movie("Peaky Blinders", "Peaky Blinders description", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA)),
@@ -65,9 +63,7 @@ public class Movie {
                 new Movie("Spiderman: No Way Home", "Spiderman 3", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
                 new Movie("The Avengers", "The Avengers", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
                 new Movie("Documentation about the Universe", "Documentation about the Universe", List.of(Genre.DOCUMENTARY))
-        ));
-
-        return movies;
+        );
     }
 
 }
