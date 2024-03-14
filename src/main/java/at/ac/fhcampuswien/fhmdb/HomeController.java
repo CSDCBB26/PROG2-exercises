@@ -43,19 +43,25 @@ public class HomeController implements Initializable {
 
     private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
 
+    /**
+     * refactor to movie or new class movieUtils
+     */
     public static List<Movie> search(String input, List<Movie> movieList) {
         return movieList.stream()
                 .filter(movie -> isMovieMatchesSearchQuery(movie, input))
                 .collect(Collectors.toList());
     }
 
+    /**
+     * refactor to movie or new class movieUtils
+     */
     public static List<Movie> filter(Genre selectedGenre, List<Movie> movieList, String searchQuery) {
         if (movieList == null || movieList.isEmpty()) {
             return new ArrayList<>();
         }
 
         List<Movie> filteredList = selectedGenre == null || selectedGenre == Genre.ALL
-                ? movieList.stream().toList()
+                ? movieList.stream().toList() //movielist stehen lassen
                 : movieList.stream().filter(movie -> movie.getGenres().contains(selectedGenre)).toList();
 
         if (!searchQuery.isEmpty()) {
@@ -65,11 +71,17 @@ public class HomeController implements Initializable {
         return filteredList;
     }
 
+    /**
+     * refactor to movie or new class movieUtils
+     */
     protected static boolean isMovieMatchesSearchQuery(Movie movie, String searchQuery) {
         return movie.getTitle().toLowerCase().contains(searchQuery.toLowerCase()) ||
                 movie.getDescription().toLowerCase().contains(searchQuery.toLowerCase());
     }
 
+    /**
+     * refactor to movie or new class movieUtils
+     */
     public static List<Movie> sort(String mode, List<Movie> movieList){
         if(movieList.isEmpty()){
             return movieList;

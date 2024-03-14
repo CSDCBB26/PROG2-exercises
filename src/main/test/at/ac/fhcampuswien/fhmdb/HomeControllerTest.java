@@ -157,6 +157,7 @@ class HomeControllerTest {
         List<Movie> result = HomeController.filter(Genre.ADVENTURE, movieList, "batman the beginning");
         List<Movie> expectedMovies = List.of(new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)));
 
+        //split to 3 assertions, granualar & better for troubleshooting
         assertTrue(result.size() == expectedMovies.size()
                 && result.containsAll(expectedMovies)
                 && expectedMovies.containsAll(result));
@@ -171,7 +172,7 @@ class HomeControllerTest {
                 && result.containsAll(expectedMovies)
                 && expectedMovies.containsAll(result));
     }
-
+    // split methods and tests to more test classes for better structure
     @Test
     void filter_for_action_having_tHe_DaRk_as_queryString_should_return_a_list_of_3_movies() {
         List<Movie> result = HomeController.filter(Genre.ACTION, movieList, "tHe DaRk");
