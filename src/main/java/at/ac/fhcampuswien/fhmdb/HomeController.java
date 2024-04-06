@@ -1,6 +1,7 @@
 package at.ac.fhcampuswien.fhmdb;
 
 import at.ac.fhcampuswien.fhmdb.models.Movie;
+import at.ac.fhcampuswien.fhmdb.utils.MovieUtils;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -100,7 +101,7 @@ public class HomeController implements Initializable {
         System.out.print("Filter set to genre:   ");
         System.out.println(genreComboBox.getValue());
 
-        List<Movie> temp = filter(genreComboBox.getValue(), allMovies, searchField.getText());
+        List<Movie> temp = MovieUtils.filter(genreComboBox.getValue(), allMovies, searchField.getText());
         observableMovies.clear();
         observableMovies.addAll(temp);
         movieListView.setItems(observableMovies);
@@ -117,10 +118,10 @@ public class HomeController implements Initializable {
 
     protected void onSortButtonClick() {
         if(sortBtn.getText().equals("Sort (asc)")) {
-            sort("ascending", observableMovies);
+            MovieUtils.sort("ascending", observableMovies);
             sortBtn.setText("Sort (desc)");
         } else {
-            sort("descending", observableMovies);
+            MovieUtils.sort("descending", observableMovies);
             sortBtn.setText("Sort (asc)");
         }
     }
