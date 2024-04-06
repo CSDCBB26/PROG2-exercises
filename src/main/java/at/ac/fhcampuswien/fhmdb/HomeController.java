@@ -61,7 +61,7 @@ public class HomeController implements Initializable {
         }
 
         List<Movie> filteredList = selectedGenre == null || selectedGenre == Genre.ALL
-                ? movieList.stream().toList() //movielist stehen lassen
+                ? movieList
                 : movieList.stream().filter(movie -> movie.getGenres().contains(selectedGenre)).toList();
 
         if (!searchQuery.isEmpty()) {
