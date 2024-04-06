@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+//ToDO: Enhance movie class by Jakob
 public class Movie {
     private String title;
     private String description;

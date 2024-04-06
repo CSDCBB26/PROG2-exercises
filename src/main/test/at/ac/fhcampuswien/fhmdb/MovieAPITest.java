@@ -10,9 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MovieAPITest {
 
-    /**
-     * Get all movies
-     */
+    //ToDo Andi
     @Test
     void API_call_should_return_all_movies() {
         String result = MovieAPI.getAllMovies(MovieAPI.API_URL);

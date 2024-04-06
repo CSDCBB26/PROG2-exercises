@@ -10,9 +10,8 @@ import java.util.stream.Collectors;
 
 public class MovieUtils {
 
-
     /**
-     * refactor to movie or new class movieUtils
+     * ToDo: Refactor for API by Jakob
      */
     public static List<Movie> search(String input, List<Movie> movieList) {
         return movieList.stream()
@@ -21,7 +20,7 @@ public class MovieUtils {
     }
 
     /**
-     * refactor to movie or new class movieUtils
+     * ToDo: Refactor for API by Jakob
      */
     public static List<Movie> filter(Genre selectedGenre, List<Movie> movieList, String searchQuery) {
         if (movieList == null || movieList.isEmpty()) {
@@ -39,7 +38,7 @@ public class MovieUtils {
         return filteredList;
     }
     /**
-     * refactor to movie or new class movieUtils
+     * ToDo: Refactor for API by Jakob
      */
     protected static boolean isMovieMatchesSearchQuery(Movie movie, String searchQuery) {
         return movie.getTitle().toLowerCase().contains(searchQuery.toLowerCase()) ||
@@ -47,7 +46,7 @@ public class MovieUtils {
     }
 
     /**
-     * refactor to movie or new class movieUtils
+     * ToDo: Refactor for API by Jakob
      */
     public static List<Movie> sort(String mode, List<Movie> movieList){
         if(movieList.isEmpty()){
@@ -63,26 +62,28 @@ public class MovieUtils {
         return movieList;
     }
 
-    //ToDo @
+    //ToDo API handling by Andi
+
+    //ToDo @Sergiu
     public static String getMostPopularActor(List<Movie> movies){
         //TODO implement
         return "";
     }
 
-    //ToDo @
+    //ToDo @Sergiu
     public static int getLongestMovieTitle(List<Movie> movies){
         //TODO implement
         return 0;
     }
 
-    //ToDo @
+    //ToDo @Sergiu
     public static long countMoviesFrom(List<Movie> movies, String director)
     {
         //TODO implement
         return 0;
     }
 
-    //ToDo @
+    //ToDo @Sergiu
     public static List<Movie> getMoviesBetweenYears(List<Movie> movies, int startYear, int
             endYear){
         //TODO implement
