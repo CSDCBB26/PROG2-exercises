@@ -62,4 +62,32 @@ public class MovieUtils {
 
         return movieList;
     }
+
+    //ToDo @
+    public static String getMostPopularActor(List<Movie> movies){
+        //TODO implement
+        return "";
+    }
+
+    //ToDo @
+    public static int getLongestMovieTitle(List<Movie> movies){
+        //TODO implement
+        return 0;
+    }
+
+    //ToDo @
+    public static long countMoviesFrom(List<Movie> movies, String director)
+    {
+        //TODO implement
+        return 0;
+    }
+
+    //ToDo @
+    public static List<Movie> getMoviesBetweenYears(List<Movie> movies, int startYear, int
+            endYear){
+        //TODO implement
+
+        return null;
+    }
+
 }

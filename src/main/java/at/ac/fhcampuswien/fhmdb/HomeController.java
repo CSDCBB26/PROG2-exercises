@@ -42,6 +42,7 @@ public class HomeController implements Initializable {
     private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
 
 
+
     protected void handleFilterAction() {
         System.out.print("Filter set to genre:   ");
         System.out.println(genreComboBox.getValue());
