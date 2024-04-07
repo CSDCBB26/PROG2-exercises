@@ -38,10 +38,10 @@ public class MovieAPI {
         if (genre != null) {
             urlBuilder.addQueryParameter("genre", genre.name());
         }
-        if (releaseYear != 0) {
+        if (releaseYear > 0) {
             urlBuilder.addQueryParameter("releaseYear", String.valueOf(releaseYear));
         }
-        if (ratingFrom != 0) {
+        if (ratingFrom > 0) {
             urlBuilder.addQueryParameter("ratingFrom", String.valueOf(ratingFrom));
         }
 

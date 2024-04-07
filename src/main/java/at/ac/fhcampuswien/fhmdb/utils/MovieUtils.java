@@ -3,6 +3,9 @@ package at.ac.fhcampuswien.fhmdb.utils;
 import at.ac.fhcampuswien.fhmdb.Genre;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -89,6 +92,17 @@ public class MovieUtils {
         //TODO implement
 
         return null;
+    }
+
+    /**
+     * Parses a JSON string from Response to a list of movies
+     * @param jsonString
+     * @return
+     */
+    public static List<Movie> parseMovies(String jsonString) {
+        Gson gson = new Gson();
+        Type movieListType = new TypeToken<List<Movie>>(){}.getType();
+        return gson.fromJson(jsonString, movieListType);
     }
 
 }

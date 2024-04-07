@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static at.ac.fhcampuswien.fhmdb.utils.MovieAPI.API_URL;
+import static at.ac.fhcampuswien.fhmdb.utils.MovieUtils.parseMovies;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -58,6 +59,10 @@ public class MovieAPITest {
         assertEquals(expectedResponse, result);
     }
 
-
+    void API_call_parse_move_list(){
+        String json = MovieAPI.getMoviesByQueries(API_URL, null, Genre.ACTION,0,9.0);
+        List<Movie> result = parseMovies(json);
+        List<Movie> expected = List.of( new Movie("The Matrix", "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.", List.of(Genre.SCIENCE_FICTION, Genre.ACTION)));
+    }
 
 }
