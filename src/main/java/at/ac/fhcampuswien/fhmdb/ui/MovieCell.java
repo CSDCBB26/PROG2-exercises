@@ -21,7 +21,11 @@ public class MovieCell extends ListCell<Movie> {
     private final Label genre = new Label();
     private final Label releaseYear = new Label();
     private final Label rating = new Label();
-    private final VBox layout = new VBox(title, genre, detail, rating, releaseYear);
+    private final Label directors = new Label();
+    private final Label writers = new Label();
+    private final Label mainCast = new Label();
+    private final Label lengthInMinutes = new Label();
+    private final VBox layout = new VBox(title, releaseYear, genre, detail, rating, directors, writers,mainCast, lengthInMinutes);
     private final ImageView imageView = new ImageView();
 
     public MovieCell() {
@@ -46,6 +50,12 @@ public class MovieCell extends ListCell<Movie> {
 
         this.getStyleClass().add("movie-cell");
         title.setText(movie.getTitle());
+        releaseYear.setText(
+                movie.getReleaseYear() != 0
+                        ? String.valueOf(movie.getReleaseYear())
+                        : "No release year available"
+        );
+
         detail.setText(
                 movie.getDescription() != null
                         ? movie.getDescription()
@@ -53,9 +63,25 @@ public class MovieCell extends ListCell<Movie> {
         );
         rating.setText(
                 movie.getRating() != 0
-                ? String.valueOf(movie.getRating())
+                ? "Rating: " + movie.getRating()
                 : "No rating available"
         );
+        directors.setText(
+                movie.getDirectors() != null && !movie.getDirectors().isEmpty()
+                        ? "Directors: " + String.join(", ", movie.getDirectors())
+                        : "No director available"
+        );
+        writers.setText(
+                movie.getWriters() != null
+                        ? "Writers: " + String.join(", ", movie.getWriters())
+                        : "No writer available"
+        );
+        mainCast.setText(
+                movie.getWriters() != null
+                        ? "Main Cast: " + String.join(", ", movie.getMainCast())
+                        : "No actor available"
+        );
+
 
         List<Genre> genresAsList = movie.getGenres();
         StringBuilder genresAsText = new StringBuilder(genresAsList.get(0).toString());
@@ -68,6 +94,12 @@ public class MovieCell extends ListCell<Movie> {
         // color scheme
         title.getStyleClass().add("text-yellow");
         detail.getStyleClass().add("text-white");
+        releaseYear.getStyleClass().add("text-white");
+        rating.getStyleClass().add("text-white");
+        directors.getStyleClass().add("text-white");
+        writers.getStyleClass().add("text-white");
+        mainCast.getStyleClass().add("text-white");
+        lengthInMinutes.getStyleClass().add("text-white");
         genre.getStyleClass().add("text-white-cursive");
         layout.setBackground(new Background(new BackgroundFill(Color.web("#454545"), null, null)));
 
