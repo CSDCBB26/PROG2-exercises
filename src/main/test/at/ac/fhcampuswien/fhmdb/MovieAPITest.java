@@ -9,7 +9,6 @@ import java.util.List;
 import static at.ac.fhcampuswien.fhmdb.utils.MovieAPI.API_URL;
 import static at.ac.fhcampuswien.fhmdb.utils.MovieUtils.parseMovies;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MovieAPITest {
 
