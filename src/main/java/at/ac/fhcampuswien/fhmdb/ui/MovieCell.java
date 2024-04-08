@@ -27,7 +27,7 @@ public class MovieCell extends ListCell<Movie> {
     private final Label writers = new Label();
     private final Label mainCast = new Label();
     private final Label lengthInMinutes = new Label();
-    private final VBox layout = new VBox(title, releaseYear, genre, detail, rating, directors, writers,mainCast, lengthInMinutes);
+    private final VBox layout = new VBox(title, releaseYear, genre, detail, rating, directors, writers, mainCast, lengthInMinutes);
 
     private final HBox sideBySide = new HBox();
     private final ImageView imageView = new ImageView();
@@ -126,6 +126,10 @@ public class MovieCell extends ListCell<Movie> {
         if (this.getScene() != null) {
             detail.setMaxWidth(this.getScene().getWidth() - 30);
         }
+
+        detail.setPrefWidth(500);
+
+//        sideBySide.setPrefWidth(this.getScene().getWidth());
 
         detail.setWrapText(true);
         layout.setPadding(new Insets(10));
