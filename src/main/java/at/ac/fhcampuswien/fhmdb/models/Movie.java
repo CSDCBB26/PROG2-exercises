@@ -25,12 +25,16 @@ public class Movie {
         this.description = description;
     }
 
-    public Movie(String title, String description, List<Genre> genres, int releaseYear, String imgUrl, int rating) {
+    public Movie(String title, String description, List<Genre> genres, int releaseYear, String imgUrl, int lengthInMinutes, List<String> directors, List<String> writers, List<String> mainCast, int rating) {
         this.title = title;
         this.description = description;
         this.genres = genres;
         this.releaseYear = releaseYear;
         this.imgUrl = imgUrl;
+        this.lengthInMinutes = lengthInMinutes;
+        this.directors = directors;
+        this.writers = writers;
+        this.mainCast = mainCast;
         this.rating = rating;
     }
 
@@ -74,6 +78,36 @@ public class Movie {
             return this;
         }
 
+        public Builder setReleaseYear(int releaseYear) {
+            this.releaseYear = releaseYear;
+            return this;
+        }
+
+        public Builder setLengthInMinutes(int lengthInMinutes) {
+            this.lengthInMinutes = lengthInMinutes;
+            return this;
+        }
+
+        public Builder setDirectors(List<String> directors) {
+            this.directors = directors;
+            return this;
+        }
+
+        public Builder setWriters(List<String> writers) {
+            this.writers = writers;
+            return this;
+        }
+
+        public Builder setMainCast(List<String> mainCast) {
+            this.mainCast = mainCast;
+            return this;
+        }
+
+        public Builder setRating(double rating) {
+            this.rating = rating;
+            return this;
+        }
+
         public Movie build() {
             return new Movie(this);
         }
@@ -114,8 +148,17 @@ public class Movie {
 
     public String getImgUrl() {return imgUrl;}
 
+    public int getReleaseYear() {return releaseYear;}
 
+    public int getLengthInMinutes() {return lengthInMinutes;}
 
+    public List<String> getDirectors() {return directors;}
+
+    public List<String> getWriters() {return writers;}
+
+    public List<String> getMainCast() {return mainCast;}
+
+    public double getRating() {return rating;}
 
     public static List<Movie> initializeMovies(){
         String json = MovieAPI.getAllMovies(MovieAPI.API_URL);
