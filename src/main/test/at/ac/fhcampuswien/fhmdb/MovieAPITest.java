@@ -89,7 +89,7 @@ public class MovieAPITest {
 
     @Test
     void API_call_parse_all_movies_to_movie_list(){
-        String json = MovieAPI.getMoviesByQueries(API_URL, null, null,0,0);
+        String json = MovieAPI.getAllMovies(API_URL);
         List<Movie> result = parseMovies(json);
         List<Movie> expected = List.of(
                 new Movie("The Godfather", "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.", List.of(Genre.DRAMA)),
@@ -126,5 +126,7 @@ public class MovieAPITest {
                 );
         assertEquals(expected, result);
     }
+
+
 
 }
