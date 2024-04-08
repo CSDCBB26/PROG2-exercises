@@ -19,7 +19,9 @@ public class MovieCell extends ListCell<Movie> {
     private final Label title = new Label();
     private final Label detail = new Label();
     private final Label genre = new Label();
-    private final VBox layout = new VBox(title, genre, detail);
+    private final Label releaseYear = new Label();
+    private final Label rating = new Label();
+    private final VBox layout = new VBox(title, genre, detail, rating, releaseYear);
     private final ImageView imageView = new ImageView();
 
     public MovieCell() {
@@ -37,9 +39,9 @@ public class MovieCell extends ListCell<Movie> {
             imageView.setImage(null);
             return;
         } else {
-        String imageUrl = movie.getImgUrl();
-        Image image = new Image(imageUrl);
-        imageView.setImage(image);
+            String imageUrl = movie.getImgUrl();
+            Image image = new Image(imageUrl);
+            imageView.setImage(image);
         }
 
         this.getStyleClass().add("movie-cell");
@@ -49,10 +51,15 @@ public class MovieCell extends ListCell<Movie> {
                         ? movie.getDescription()
                         : "No description available"
         );
+        rating.setText(
+                movie.getRating() != 0
+                ? String.valueOf(movie.getRating())
+                : "No rating available"
+        );
 
         List<Genre> genresAsList = movie.getGenres();
         StringBuilder genresAsText = new StringBuilder(genresAsList.get(0).toString());
-        for(int i = 1; i < genresAsList.size(); ++i) {
+        for (int i = 1; i < genresAsList.size(); ++i) {
             genresAsText.append(", ").append(genresAsList.get(i).toString());
         }
 
