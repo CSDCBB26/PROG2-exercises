@@ -3,11 +3,13 @@ package at.ac.fhcampuswien.fhmdb.ui;
 import at.ac.fhcampuswien.fhmdb.Genre;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.image.Image;
@@ -26,10 +28,16 @@ public class MovieCell extends ListCell<Movie> {
     private final Label mainCast = new Label();
     private final Label lengthInMinutes = new Label();
     private final VBox layout = new VBox(title, releaseYear, genre, detail, rating, directors, writers,mainCast, lengthInMinutes);
+
     private final ImageView imageView = new ImageView();
+    private final HBox imageContainer = new HBox(imageView); // Wrap imageView in an HBox
 
     public MovieCell() {
-        layout.getChildren().add(imageView);
+        imageView.setFitWidth(500);  // Set the width of the image
+        imageView.setFitHeight(500); // Set the height of the image
+        imageView.setPreserveRatio(true); // Preserve aspect ratio
+        layout.setAlignment(Pos.CENTER_RIGHT); // Align items to the right
+        layout.getChildren().add(imageContainer); // Add the HBox to the VBox
     }
 
     //ToDo adapt UI Jakob
