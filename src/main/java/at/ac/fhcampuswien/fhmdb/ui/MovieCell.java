@@ -64,6 +64,12 @@ public class MovieCell extends ListCell<Movie> {
                         : "No release year available"
         );
 
+        lengthInMinutes.setText(
+                movie.getLengthInMinutes() != 0
+                        ? movie.getLengthInMinutes() + " minutes"
+                        : "No duration available."
+        );
+
         detail.setText(
                 movie.getDescription() != null
                         ? movie.getDescription()

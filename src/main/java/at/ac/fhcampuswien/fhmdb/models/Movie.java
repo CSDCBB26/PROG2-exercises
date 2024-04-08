@@ -145,19 +145,12 @@ public class Movie {
     public List<Genre> getGenres(){
         return genres;
     };
-
     public String getImgUrl() {return imgUrl;}
-
     public int getReleaseYear() {return releaseYear;}
-
     public int getLengthInMinutes() {return lengthInMinutes;}
-
     public List<String> getDirectors() {return directors;}
-
     public List<String> getWriters() {return writers;}
-
     public List<String> getMainCast() {return mainCast;}
-
     public double getRating() {return rating;}
 
     public static List<Movie> initializeMovies(){
