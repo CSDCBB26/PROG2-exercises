@@ -31,18 +31,25 @@ public class MovieAPI {
     public static String getMoviesByQueries(String api_url, String query, Genre genre, int releaseYear, double ratingFrom) {
         OkHttpClient client = new OkHttpClient();
 
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(api_url + "/movies").newBuilder();
-        if (query != null) {
-            urlBuilder.addQueryParameter("query", query);
-        }
-        if (genre != null) {
-            urlBuilder.addQueryParameter("genre", genre.name());
-        }
-        if (releaseYear > 0) {
-            urlBuilder.addQueryParameter("releaseYear", String.valueOf(releaseYear));
-        }
-        if (ratingFrom > 0) {
-            urlBuilder.addQueryParameter("ratingFrom", String.valueOf(ratingFrom));
+        HttpUrl httpUrl = HttpUrl.parse(api_url + "/movies");
+        HttpUrl.Builder urlBuilder;
+
+        if (httpUrl != null) {
+            urlBuilder = httpUrl.newBuilder();
+            if (query != null) {
+                urlBuilder.addQueryParameter("query", query);
+            }
+            if (genre != null) {
+                urlBuilder.addQueryParameter("genre", genre.name());
+            }
+            if (releaseYear > 0) {
+                urlBuilder.addQueryParameter("releaseYear", String.valueOf(releaseYear));
+            }
+            if (ratingFrom > 0) {
+                urlBuilder.addQueryParameter("ratingFrom", String.valueOf(ratingFrom));
+            }
+        } else {
+            throw new IllegalArgumentException("URL is not valid");
         }
 
         String url = urlBuilder.build().toString();
