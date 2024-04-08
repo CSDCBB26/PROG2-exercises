@@ -29,6 +29,7 @@ public class MovieCell extends ListCell<Movie> {
     private final Label lengthInMinutes = new Label();
     private final VBox layout = new VBox(title, releaseYear, genre, detail, rating, directors, writers,mainCast, lengthInMinutes);
 
+    private final HBox sideBySide = new HBox();
     private final ImageView imageView = new ImageView();
     private final HBox imageContainer = new HBox(imageView); // Wrap imageView in an HBox
 
@@ -37,7 +38,9 @@ public class MovieCell extends ListCell<Movie> {
         imageView.setFitHeight(500); // Set the height of the image
         imageView.setPreserveRatio(true); // Preserve aspect ratio
         layout.setAlignment(Pos.CENTER_RIGHT); // Align items to the right
-        layout.getChildren().add(imageContainer); // Add the HBox to the VBox
+        //layout.getChildren().add(imageContainer); // Add the HBox to the VBox
+        sideBySide.getChildren().add(layout);
+        sideBySide.getChildren().add(imageContainer);
     }
 
     //ToDo adapt UI Jakob
@@ -128,6 +131,6 @@ public class MovieCell extends ListCell<Movie> {
         layout.setPadding(new Insets(10));
         layout.spacingProperty().set(10);
         layout.alignmentProperty().set(javafx.geometry.Pos.CENTER_LEFT);
-        setGraphic(layout);
+        setGraphic(sideBySide);
     }
 }

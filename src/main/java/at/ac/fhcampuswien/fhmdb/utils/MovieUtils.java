@@ -42,6 +42,18 @@ public class MovieUtils {
 
         return filteredList;
     }
+
+    public static List<Movie> filter_re(Genre selectedGenre, String searchQuery, int selectedReleaseYear, int selectedRatingFrom) {
+        String json = MovieAPI.getMoviesByQueries(API_URL, searchQuery, selectedGenre, selectedReleaseYear, selectedRatingFrom);
+        List<Movie> temp = MovieUtils.parseMovies(json);
+
+
+
+
+
+        return temp;
+    }
+
     /**
      * ToDo: Refactor for API by Jakob
      */
