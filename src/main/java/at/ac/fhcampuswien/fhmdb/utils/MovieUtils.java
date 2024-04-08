@@ -11,6 +11,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static at.ac.fhcampuswien.fhmdb.utils.MovieAPI.API_URL;
+
 public class MovieUtils {
 
     /**
@@ -104,5 +106,4 @@ public class MovieUtils {
         Type movieListType = new TypeToken<List<Movie>>(){}.getType();
         return gson.fromJson(jsonString, movieListType);
     }
-
 }

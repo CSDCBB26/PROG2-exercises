@@ -59,10 +59,23 @@ public class MovieAPITest {
         assertEquals(expectedResponse, result);
     }
 
-    void API_call_parse_move_list(){
-        String json = MovieAPI.getMoviesByQueries(API_URL, null, Genre.ACTION,0,9.0);
+    @Test
+    void API_call_parse_movie_matrix_to_movie_list(){
+        String json = MovieAPI.getMoviesByQueries(API_URL, "Matrix", Genre.ACTION,0,0);
         List<Movie> result = parseMovies(json);
-        List<Movie> expected = List.of( new Movie("The Matrix", "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.", List.of(Genre.SCIENCE_FICTION, Genre.ACTION)));
+        List<Movie> expected = List.of( new Movie("The Matrix", "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.", List.of(Genre.ACTION, Genre.SCIENCE_FICTION)));
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void API_call_parse_movie_above_9_2_rated_to_movie_list(){
+        String json = MovieAPI.getMoviesByQueries(API_URL, null, null,0,9.2);
+        List<Movie> result = parseMovies(json);
+        List<Movie> expected = List.of(
+                new Movie("The Godfather", "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.", List.of(Genre.DRAMA)),
+                new Movie("The Shawshank Redemption", "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.", List.of(Genre.DRAMA))
+                );
+        assertEquals(expected, result);
     }
 
 }
