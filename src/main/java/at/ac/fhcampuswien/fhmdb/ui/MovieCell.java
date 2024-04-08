@@ -10,6 +10,8 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.util.List;
 
@@ -17,7 +19,12 @@ public class MovieCell extends ListCell<Movie> {
     private final Label title = new Label();
     private final Label detail = new Label();
     private final Label genre = new Label();
-    private final VBox layout = new VBox(title, detail, genre);
+    private final VBox layout = new VBox(title, genre, detail);
+    private final ImageView imageView = new ImageView();
+
+    public MovieCell() {
+        layout.getChildren().add(imageView);
+    }
 
     //ToDo adapt UI Jakob
     @Override
@@ -27,7 +34,12 @@ public class MovieCell extends ListCell<Movie> {
         if (empty || movie == null) {
             setText(null);
             setGraphic(null);
+            imageView.setImage(null);
             return;
+        } else {
+        String imageUrl = movie.getImgUrl();
+        Image image = new Image(imageUrl);
+        imageView.setImage(image);
         }
 
         this.getStyleClass().add("movie-cell");
@@ -58,6 +70,7 @@ public class MovieCell extends ListCell<Movie> {
         if (this.getScene() != null) {
             detail.setMaxWidth(this.getScene().getWidth() - 30);
         }
+
         detail.setWrapText(true);
         layout.setPadding(new Insets(10));
         layout.spacingProperty().set(10);

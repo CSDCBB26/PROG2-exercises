@@ -127,7 +127,7 @@ public class MovieAPITest {
     }
 
     @Test
-    void API_call_parse_getMoviesByQueries_to_movie_list(){
+    void API_call_parse_all_movies_with_getMoviesByQueries_to_movie_list(){
         String json = MovieAPI.getMoviesByQueries(API_URL, null, null,0,0);
         List<Movie> result = parseMovies(json);
         List<Movie> expected = List.of(

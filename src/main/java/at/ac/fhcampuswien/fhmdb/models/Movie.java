@@ -1,21 +1,82 @@
 package at.ac.fhcampuswien.fhmdb.models;
 
 import at.ac.fhcampuswien.fhmdb.Genre;
+import at.ac.fhcampuswien.fhmdb.utils.MovieAPI;
+import at.ac.fhcampuswien.fhmdb.utils.MovieUtils;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 //ToDO: Enhance movie class by Jakob
 public class Movie {
     private String title;
     private String description;
     private List<Genre> genres;
+    private int releaseYear;
+    private String imgUrl;
+    private int lengthInMinutes;
+    private List<String> directors;
+    private List<String> writers;
+    private List<String> mainCast;
+    private double rating;
 
     public Movie(String title, String description, List<Genre> genres) {
         this.title = title;
+        this.genres = genres;
+        this.description = description;
+    }
+
+    public Movie(String title, String description, List<Genre> genres, int releaseYear, String imgUrl, int rating) {
+        this.title = title;
         this.description = description;
         this.genres = genres;
+        this.releaseYear = releaseYear;
+        this.imgUrl = imgUrl;
+        this.rating = rating;
+    }
+
+    public Movie(Builder builder) {
+        this.title = builder.title;
+        this.description = builder.description;
+        this.genres = builder.genres;
+        this.imgUrl = builder.imgUrl;
+    }
+
+
+    public static class Builder {
+        private String title;
+        private String description;
+        private List<Genre> genres;
+        private int releaseYear;
+        private String imgUrl;
+        private int lengthInMinutes;
+        private List<String> directors;
+        private List<String> writers;
+        private List<String> mainCast;
+        private double rating;
+
+        public Builder setTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder setGenres(List<Genre> genres) {
+            this.genres = genres;
+            return this;
+        }
+
+        public Builder setimgUrl(String imgUrl) {
+            this.imgUrl = imgUrl;
+            return this;
+        }
+
+        public Movie build() {
+            return new Movie(this);
+        }
     }
 
     @Override
@@ -51,20 +112,14 @@ public class Movie {
         return genres;
     };
 
+    public String getImgUrl() {return imgUrl;}
+
+
+
+
     public static List<Movie> initializeMovies(){
-        return List.of(
-                new Movie("Superman", "Description of Superman", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
-                new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)),
-                new Movie("Peaky Blinders", "Peaky Blinders description", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA)),
-                new Movie("Ironman", "Ironman 1", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
-                new Movie("Thor: Love and Thunder", "Thor 3 ", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.FANTASY, Genre.SCIENCE_FICTION)),
-                new Movie("The Dark Knight", "Batman the Dark Knight", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
-                new Movie("The Dark Knight Rises", "Batman the Dark Knight Rises", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
-                new Movie("The Dark Knight Returns", "Batman the Dark Knight Returns", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.ANIMATION)),
-                new Movie("Spiderman: No Way Home", "Spiderman 3", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
-                new Movie("The Avengers", "The Avengers", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
-                new Movie("Documentation about the Universe", "Documentation about the Universe", List.of(Genre.DOCUMENTARY))
-        );
+        String json = MovieAPI.getAllMovies(MovieAPI.API_URL);
+        return MovieUtils.parseMovies(json);
     }
 
 }
