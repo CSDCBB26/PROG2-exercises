@@ -30,7 +30,7 @@ public abstract class BaseTest {
                 .setLengthInMinutes(175)
                 .setDirectors(List.of("Francis Ford Coppola", "Directore Grande"))
                 .setWriters(List.of("Mario Puzo", "Francis Ford Coppola"))
-                .setMainCast(List.of("Marlon Brando", "Al Pacino", "James Caan"))
+                .setMainCast(List.of("Marlon Brando", "Al Pacino", "James Caan", "Actore Grande"))
                 .setRating(9.2)
                 .build());
 
@@ -43,7 +43,7 @@ public abstract class BaseTest {
                 .setLengthInMinutes(142)
                 .setDirectors(List.of("Frank Darabont", "Directore Grande"))
                 .setWriters(List.of("Stephen King", "Frank Darabont"))
-                .setMainCast(List.of("Tim Robbins", "Morgan Freeman", "Bob Gunton"))
+                .setMainCast(List.of("Tim Robbins", "Morgan Freeman", "Bob Gunton", "Actore Grande"))
                 .setRating(9.3)
                 .build());
 
@@ -56,7 +56,7 @@ public abstract class BaseTest {
                 .setLengthInMinutes(152)
                 .setDirectors(List.of("Christopher Nolan", "Directore Grande"))
                 .setWriters(List.of("Jonathan Nolan", "Christopher Nolan"))
-                .setMainCast(List.of("Christian Bale", "Heath Ledger", "Aaron Eckhart"))
+                .setMainCast(List.of("Christian Bale", "Heath Ledger", "Aaron Eckhart", "Actore Grande"))
                 .setRating(9.0)
                 .build());
 
@@ -149,6 +149,19 @@ public abstract class BaseTest {
                 .setWriters(List.of("Reginald Rose"))
                 .setMainCast(List.of("Henry Fonda", "Lee J. Cobb", "Martin Balsam"))
                 .setRating(8.9)
+                .build());
+
+        movieMap.put("Seven", new Movie.Builder()
+                .setTitle("12 Angry Men")
+                .setDescription("Two detectives, a rookie and a veteran, hunt a serial killer who uses the seven deadly sins as his modus operandi.")
+                .setGenres(List.of(Genre.DRAMA, Genre.CRIME, Genre.MYSTERY, Genre.THRILLER))
+                .setReleaseYear(1995)
+                .setimgUrl("https://m.media-amazon.com/images/M/MV5BOTUwODM5MTctZjczMi00OTk4LTg3NWUtNmVhMTAzNTNjYjcyXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg")
+                .setLengthInMinutes(127)
+                .setDirectors(List.of("David Fincher"))
+                .setWriters(List.of("Andrew Kevin Walker"))
+                .setMainCast(List.of("Morgan Freeman", "Brad Pitt", "Kevin Spacey"))
+                .setRating(8.6)
                 .build());
 
         movieList = new ArrayList<>(movieMap.values());
