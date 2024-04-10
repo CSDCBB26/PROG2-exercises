@@ -143,8 +143,7 @@ public class HomeController implements Initializable {
         //releaseYearComboBox.getItems().add
         releaseYearComboBox.setPromptText("Filter by Release Year");
         releaseYearComboBox.getItems().addAll(getAllReleaseYears(allMovies));
-
-
+        
 
         for(int i = 1; i <= 10; ++i){
             ratingComboBox.getItems().add(i);
