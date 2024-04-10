@@ -1,11 +1,7 @@
 package at.ac.fhcampuswien.fhmdb.utils;
-
 import at.ac.fhcampuswien.fhmdb.Genre;
-import com.google.gson.Gson;
 import okhttp3.*;
 
-import java.io.IOException;
-//ToDo implement the methods by Andreas Drozd
 public class MovieAPI {
     public static final String API_URL = "https://prog2.fh-campuswien.ac.at";
 

@@ -22,7 +22,7 @@ public class MovieAPITest {
 
     @Test
     void API_call_should_return_movies_by_Genre_DRAMA_and_Year_2003() {
-        String result = MovieAPI.getMoviesByQueries(API_URL, null, Genre.DRAMA,2003,0);
+        String result = MovieAPI.getMoviesByQueries(API_URL, null, Genre.DRAMA, 2003, 0);
 
         String expectedResponse = "[{\"id\":\"a47afd8a-b768-4a34-8ed6-bf5d90c0feeb\",\"title\":\"The Lord of the Rings: The Return of the King\",\"genres\":[\"ADVENTURE\",\"DRAMA\",\"FANTASY\"],\"releaseYear\":2003,\"description\":\"Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.\",\"imgUrl\":\"https://m.media-amazon.com/images/M/MV5BNzA5ZDNlZWMtM2NhNS00NDJjLTk4NDItYTRmY2EwMWZlMTY3XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_FMjpg_UX1000_.jpg\",\"lengthInMinutes\":201,\"directors\":[\"Peter Jackson\"],\"writers\":[\"J.R.R. Tolkien\",\"Fran Walsh\",\"Philippa Boyens\"],\"mainCast\":[\"Elijah Wood\",\"Ian McKellen\",\"Viggo Mortensen\"],\"rating\":8.9}]";
         assertEquals(expectedResponse, result);
@@ -30,14 +30,15 @@ public class MovieAPITest {
 
     @Test
     void API_call_should_return_movies_by_ACTION() {
-        String result = MovieAPI.getMoviesByQueries(API_URL, null, Genre.ACTION,0,0);
+        String result = MovieAPI.getMoviesByQueries(API_URL, null, Genre.ACTION, 0, 0);
 
         String expectedResponse = "[{\"id\":\"8ca193d8-7879-42ed-820e-6230b52746a3\",\"title\":\"The Dark Knight\",\"genres\":[\"ACTION\",\"CRIME\",\"DRAMA\"],\"releaseYear\":2008,\"description\":\"When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, the caped crusader must come to terms with one of the greatest psychological tests of his ability to fight injustice.\",\"imgUrl\":\"https://m.media-amazon.com/images/M/MV5BMTk4ODQzNDY3Ml5BMl5BanBnXkFtZTcwODA0NTM4Nw@@._V1_FMjpg_UX1000_.jpg\",\"lengthInMinutes\":152,\"directors\":[\"Christopher Nolan\"],\"writers\":[\"Jonathan Nolan\",\"Christopher Nolan\"],\"mainCast\":[\"Christian Bale\",\"Heath Ledger\",\"Aaron Eckhart\"],\"rating\":9.0},{\"id\":\"4bde30e9-c433-4288-b576-7a51da9e71c8\",\"title\":\"Star Wars: Episode V - The Empire Strikes Back\",\"genres\":[\"ACTION\",\"ADVENTURE\",\"FANTASY\",\"SCIENCE_FICTION\"],\"releaseYear\":1980,\"description\":\"After the rebels are brutally overpowered by the Empire on the ice planet Hoth, Luke Skywalker begins Jedi training with Yoda, while his friends are pursued by Darth Vader and a bounty hunter named Boba Fett all over the galaxy.\",\"imgUrl\":\"https://m.media-amazon.com/images/M/MV5BYmU1NDRjNDgtMzhiMi00NjZmLTg5NGItZDNiZjU5NTU4OTE0XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg\",\"lengthInMinutes\":124,\"directors\":[\"Irvin Kershner\"],\"writers\":[\"Leigh Brackett\",\"Lawrence Kasdan\",\"George Lucas\"],\"mainCast\":[\"Mark Hamill\",\"Harrison Ford\",\"Carrie Fisher\"],\"rating\":8.7},{\"id\":\"ba48d73a-7332-4712-b36a-8446b7cedd36\",\"title\":\"Inception\",\"genres\":[\"ACTION\",\"ADVENTURE\",\"SCIENCE_FICTION\",\"THRILLER\"],\"releaseYear\":2010,\"description\":\"A thief, who steals corporate secrets through use of dream-sharing technology, is given the inverse task of planting an idea into the mind of a CEO.\",\"imgUrl\":\"https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_FMjpg_UX1000_.jpg\",\"lengthInMinutes\":148,\"directors\":[\"Christopher Nolan\"],\"writers\":[\"Christopher Nolan\"],\"mainCast\":[\"Leonardo DiCaprio\",\"Joseph Gordon-Levitt\",\"Elliot Page\"],\"rating\":8.8},{\"id\":\"011e9e20-d54f-4708-a28b-51460c881a37\",\"title\":\"The Matrix\",\"genres\":[\"ACTION\",\"SCIENCE_FICTION\"],\"releaseYear\":1999,\"description\":\"A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.\",\"imgUrl\":\"https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg\",\"lengthInMinutes\":136,\"directors\":[\"Lana Wachowski\",\"Lilly Wachowski\"],\"writers\":[\"Lana Wachowski\",\"Lilly Wachowski\"],\"mainCast\":[\"Keanu Reeves\",\"Laurence Fishburne\",\"Carrie-Anne Moss\"],\"rating\":8.7},{\"id\":\"7f6f1e36-3d5c-4e65-adcc-252f8611bfb9\",\"title\":\"Saving Private Ryan\",\"genres\":[\"ACTION\",\"DRAMA\",\"WAR\"],\"releaseYear\":1998,\"description\":\"Following the Normandy Landings, a group of U.S. soldiers go behind enemy lines to retrieve a paratrooper whose brothers have been killed in action.\",\"imgUrl\":\"https://m.media-amazon.com/images/M/MV5BZjhkMDM4MWItZTVjOC00ZDRhLThmYTAtM2I5NzBmNmNlMzI1XkEyXkFqcGdeQXVyNDYyMDk5MTU@._V1_FMjpg_UX1000_.jpg\",\"lengthInMinutes\":169,\"directors\":[\"Steven Spielberg\"],\"writers\":[\"Robert Rodat\"],\"mainCast\":[\"Tom Hanks\",\"Matt Damon\",\"Tom Sizemore\"],\"rating\":8.6},{\"id\":\"399f8e7e-7ab7-4e22-94db-3d068fba2ac2\",\"title\":\"Avatar\",\"genres\":[\"ACTION\",\"ADVENTURE\",\"FANTASY\",\"SCIENCE_FICTION\"],\"releaseYear\":2009,\"description\":\"A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.\",\"imgUrl\":\"https://m.media-amazon.com/images/M/MV5BZDA0OGQxNTItMDZkMC00N2UyLTg3MzMtYTJmNjg3Nzk5MzRiXkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_FMjpg_UX1000_.jpg\",\"lengthInMinutes\":162,\"directors\":[\"James Cameron\"],\"writers\":[\"James Cameron\"],\"mainCast\":[\"Sam Worthington\",\"Zoe Saldana\",\"Sigourney Weaver\"],\"rating\":7.8}]";
         assertEquals(expectedResponse, result);
     }
+
     @Test
     void API_call_should_return_movies_by_searchQuery_Father() {
-        String result = MovieAPI.getMoviesByQueries(API_URL, "Father", null,0,0);
+        String result = MovieAPI.getMoviesByQueries(API_URL, "Father", null, 0, 0);
 
         String expectedResponse = "[{\"id\":\"a00b56aa-0eaf-4332-a02d-736910950128\",\"title\":\"The Godfather\",\"genres\":[\"DRAMA\"],\"releaseYear\":1972,\"description\":\"The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.\",\"imgUrl\":\"https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg\",\"lengthInMinutes\":175,\"directors\":[\"Francis Ford Coppola\"],\"writers\":[\"Mario Puzo\",\"Francis Ford Coppola\"],\"mainCast\":[\"Marlon Brando\",\"Al Pacino\",\"James Caan\"],\"rating\":9.2}]";
         assertEquals(expectedResponse, result);
@@ -45,41 +46,42 @@ public class MovieAPITest {
 
     @Test
     void API_call_should_return_movies_by_ratingFrom_8_8() {
-        String result = MovieAPI.getMoviesByQueries(API_URL, null, null,0,8.8);
+        String result = MovieAPI.getMoviesByQueries(API_URL, null, null, 0, 8.8);
 
         String expectedResponse = "[{\"id\":\"a00b56aa-0eaf-4332-a02d-736910950128\",\"title\":\"The Godfather\",\"genres\":[\"DRAMA\"],\"releaseYear\":1972,\"description\":\"The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.\",\"imgUrl\":\"https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg\",\"lengthInMinutes\":175,\"directors\":[\"Francis Ford Coppola\"],\"writers\":[\"Mario Puzo\",\"Francis Ford Coppola\"],\"mainCast\":[\"Marlon Brando\",\"Al Pacino\",\"James Caan\"],\"rating\":9.2},{\"id\":\"16f94a79-7804-4d73-bab9-6cf415b30182\",\"title\":\"The Shawshank Redemption\",\"genres\":[\"DRAMA\"],\"releaseYear\":1994,\"description\":\"Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.\",\"imgUrl\":\"https://m.media-amazon.com/images/M/MV5BNDE3ODcxYzMtY2YzZC00NmNlLWJiNDMtZDViZWM2MzIxZDYwXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_.jpg\",\"lengthInMinutes\":142,\"directors\":[\"Frank Darabont\"],\"writers\":[\"Stephen King\",\"Frank Darabont\"],\"mainCast\":[\"Tim Robbins\",\"Morgan Freeman\",\"Bob Gunton\"],\"rating\":9.3},{\"id\":\"8ca193d8-7879-42ed-820e-6230b52746a3\",\"title\":\"The Dark Knight\",\"genres\":[\"ACTION\",\"CRIME\",\"DRAMA\"],\"releaseYear\":2008,\"description\":\"When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, the caped crusader must come to terms with one of the greatest psychological tests of his ability to fight injustice.\",\"imgUrl\":\"https://m.media-amazon.com/images/M/MV5BMTk4ODQzNDY3Ml5BMl5BanBnXkFtZTcwODA0NTM4Nw@@._V1_FMjpg_UX1000_.jpg\",\"lengthInMinutes\":152,\"directors\":[\"Christopher Nolan\"],\"writers\":[\"Jonathan Nolan\",\"Christopher Nolan\"],\"mainCast\":[\"Christian Bale\",\"Heath Ledger\",\"Aaron Eckhart\"],\"rating\":9.0},{\"id\":\"8213aa96-b8ba-4c36-b070-a968313d9d5f\",\"title\":\"Schindler's List\",\"genres\":[\"BIOGRAPHY\",\"DRAMA\",\"HISTORY\"],\"releaseYear\":1993,\"description\":\"In German-occupied Poland during World War II, Oskar Schindler gradually becomes concerned for his Jewish workforce after witnessing their persecution by the Nazi Germans.\",\"imgUrl\":\"https://m.media-amazon.com/images/M/MV5BNDE4OTMxMTctNmRhYy00NWE2LTg3YzItYTk3M2UwOTU5Njg4XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg\",\"lengthInMinutes\":195,\"directors\":[\"Steven Spielberg\"],\"writers\":[\"Steven Zaillian\",\"Thomas Keneally\"],\"mainCast\":[\"Liam Neeson\",\"Ralph Fiennes\",\"Ben Kingsley\"],\"rating\":8.9},{\"id\":\"8135fa74-210e-4fe0-885a-45263aa2acd6\",\"title\":\"Pulp Fiction\",\"genres\":[\"CRIME\",\"DRAMA\"],\"releaseYear\":1994,\"description\":\"The lives of two mob hit men, a boxer, a gangster's wife, and a pair of diner bandits intertwine in four tales of violence and redemption.\",\"imgUrl\":\"https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg\",\"lengthInMinutes\":154,\"directors\":[\"Quentin Tarantino\"],\"writers\":[\"Quentin Tarantino\",\"Roger Avary\"],\"mainCast\":[\"John Travolta\",\"Uma Thurman\",\"Samuel L. Jackson\"],\"rating\":8.9},{\"id\":\"a47afd8a-b768-4a34-8ed6-bf5d90c0feeb\",\"title\":\"The Lord of the Rings: The Return of the King\",\"genres\":[\"ADVENTURE\",\"DRAMA\",\"FANTASY\"],\"releaseYear\":2003,\"description\":\"Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.\",\"imgUrl\":\"https://m.media-amazon.com/images/M/MV5BNzA5ZDNlZWMtM2NhNS00NDJjLTk4NDItYTRmY2EwMWZlMTY3XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_FMjpg_UX1000_.jpg\",\"lengthInMinutes\":201,\"directors\":[\"Peter Jackson\"],\"writers\":[\"J.R.R. Tolkien\",\"Fran Walsh\",\"Philippa Boyens\"],\"mainCast\":[\"Elijah Wood\",\"Ian McKellen\",\"Viggo Mortensen\"],\"rating\":8.9},{\"id\":\"4585b527-7da5-4a2f-b2f6-f13af345b7ab\",\"title\":\"The Good, the Bad and the Ugly\",\"genres\":[\"WESTERN\"],\"releaseYear\":1966,\"description\":\"A bounty hunting scam joins two men in an uneasy alliance against a third in a race to find a fortune in gold buried in a remote cemetery.\",\"imgUrl\":\"https://m.media-amazon.com/images/M/MV5BNjJlYmNkZGItM2NhYy00MjlmLTk5NmQtNjg1NmM2ODU4OTMwXkEyXkFqcGdeQXVyMjUzOTY1NTc@._V1_FMjpg_UX1000_.jpg\",\"lengthInMinutes\":161,\"directors\":[\"Sergio Leone\"],\"writers\":[\"Luciano Vincenzoni\",\"Agenore Incrocci\",\"Furio Scarpelli\",\"Sergio Leone\"],\"mainCast\":[\"Clint Eastwood\",\"Eli Wallach\",\"Lee Van Cleef\"],\"rating\":8.9},{\"id\":\"943aca1d-190c-421e-a1ea-4c42c64c05f6\",\"title\":\"12 Angry Men\",\"genres\":[\"DRAMA\"],\"releaseYear\":1957,\"description\":\"A jury holdout attempts to prevent a miscarriage of justice by forcing his colleagues to reconsider the evidence.\",\"imgUrl\":\"https://m.media-amazon.com/images/M/MV5BMWU4N2FjNzYtNTVkNC00NzQ0LTg0MjAtYTJlMjFhNGUxZDFmXkEyXkFqcGdeQXVyNjc1NTYyMjg@._V1_FMjpg_UX1000_.jpg\",\"lengthInMinutes\":96,\"directors\":[\"Sidney Lumet\"],\"writers\":[\"Reginald Rose\"],\"mainCast\":[\"Henry Fonda\",\"Lee J. Cobb\",\"Martin Balsam\"],\"rating\":8.9},{\"id\":\"ba48d73a-7332-4712-b36a-8446b7cedd36\",\"title\":\"Inception\",\"genres\":[\"ACTION\",\"ADVENTURE\",\"SCIENCE_FICTION\",\"THRILLER\"],\"releaseYear\":2010,\"description\":\"A thief, who steals corporate secrets through use of dream-sharing technology, is given the inverse task of planting an idea into the mind of a CEO.\",\"imgUrl\":\"https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_FMjpg_UX1000_.jpg\",\"lengthInMinutes\":148,\"directors\":[\"Christopher Nolan\"],\"writers\":[\"Christopher Nolan\"],\"mainCast\":[\"Leonardo DiCaprio\",\"Joseph Gordon-Levitt\",\"Elliot Page\"],\"rating\":8.8},{\"id\":\"e5ba4b50-be0a-489a-a2e5-d4b5466f018c\",\"title\":\"Forrest Gump\",\"genres\":[\"DRAMA\",\"ROMANCE\"],\"releaseYear\":1994,\"description\":\"The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other historical events unfold from the perspective of an Alabama man with an IQ of 75, whose only desire is to be reunited with his childhood sweetheart.\",\"imgUrl\":\"https://m.media-amazon.com/images/M/MV5BNWIwODRlZTUtY2U3ZS00Yzg1LWJhNzYtMmZiYmEyNmU1NjMzXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_FMjpg_UX1000_.jpg\",\"lengthInMinutes\":144,\"directors\":[\"Robert Zemeckis\"],\"writers\":[\"Eric Roth\",\"Winston Groom\"],\"mainCast\":[\"Tom Hanks\",\"Robin Wright\",\"Gary Sinise\"],\"rating\":8.8}]";
         assertEquals(expectedResponse, result);
     }
+
     @Test
     void API_call_should_return_movies_by_Genre_Action_and_ratingFrom_9_0() {
-        String result = MovieAPI.getMoviesByQueries(API_URL, null, Genre.ACTION,0,9.0);
+        String result = MovieAPI.getMoviesByQueries(API_URL, null, Genre.ACTION, 0, 9.0);
 
         String expectedResponse = "[{\"id\":\"8ca193d8-7879-42ed-820e-6230b52746a3\",\"title\":\"The Dark Knight\",\"genres\":[\"ACTION\",\"CRIME\",\"DRAMA\"],\"releaseYear\":2008,\"description\":\"When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, the caped crusader must come to terms with one of the greatest psychological tests of his ability to fight injustice.\",\"imgUrl\":\"https://m.media-amazon.com/images/M/MV5BMTk4ODQzNDY3Ml5BMl5BanBnXkFtZTcwODA0NTM4Nw@@._V1_FMjpg_UX1000_.jpg\",\"lengthInMinutes\":152,\"directors\":[\"Christopher Nolan\"],\"writers\":[\"Jonathan Nolan\",\"Christopher Nolan\"],\"mainCast\":[\"Christian Bale\",\"Heath Ledger\",\"Aaron Eckhart\"],\"rating\":9.0}]";
         assertEquals(expectedResponse, result);
     }
 
     @Test
-    void API_call_parse_movie_matrix_to_movie_list(){
-        String json = MovieAPI.getMoviesByQueries(API_URL, "Matrix", Genre.ACTION,0,0);
+    void API_call_parse_movie_matrix_to_movie_list() {
+        String json = MovieAPI.getMoviesByQueries(API_URL, "Matrix", Genre.ACTION, 0, 0);
         List<Movie> result = parseMovies(json);
-        List<Movie> expected = List.of( new Movie("The Matrix", "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.", List.of(Genre.ACTION, Genre.SCIENCE_FICTION)));
+        List<Movie> expected = List.of(new Movie("The Matrix", "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.", List.of(Genre.ACTION, Genre.SCIENCE_FICTION)));
         assertEquals(expected, result);
     }
 
     @Test
-    void API_call_parse_movie_above_9_2_rated_to_movie_list(){
-        String json = MovieAPI.getMoviesByQueries(API_URL, null, null,0,9.2);
+    void API_call_parse_movie_above_9_2_rated_to_movie_list() {
+        String json = MovieAPI.getMoviesByQueries(API_URL, null, null, 0, 9.2);
         List<Movie> result = parseMovies(json);
         List<Movie> expected = List.of(
                 new Movie("The Godfather", "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.", List.of(Genre.DRAMA)),
                 new Movie("The Shawshank Redemption", "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.", List.of(Genre.DRAMA))
-                );
+        );
         assertEquals(expected, result);
     }
 
     @Test
-    void API_call_parse_movies_from_2008_to_movie_list(){
-        String json = MovieAPI.getMoviesByQueries(API_URL, null, null,2008,0);
+    void API_call_parse_movies_from_2008_to_movie_list() {
+        String json = MovieAPI.getMoviesByQueries(API_URL, null, null, 2008, 0);
         List<Movie> result = parseMovies(json);
         List<Movie> expected = List.of(
                 new Movie("The Dark Knight", "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, the caped crusader must come to terms with one of the greatest psychological tests of his ability to fight injustice.", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA)));
@@ -87,7 +89,7 @@ public class MovieAPITest {
     }
 
     @Test
-    void API_call_parse_getAllMovies_to_movie_list(){
+    void API_call_parse_getAllMovies_to_movie_list() {
         String json = MovieAPI.getAllMovies(API_URL);
         List<Movie> result = parseMovies(json);
         List<Movie> expected = List.of(
@@ -108,12 +110,12 @@ public class MovieAPITest {
                 new Movie("Seven", "Two detectives, a rookie and a veteran, hunt a serial killer who uses the seven deadly sins as his modus operandi.", List.of(Genre.CRIME, Genre.DRAMA, Genre.MYSTERY, Genre.THRILLER)),
                 new Movie("The Silence of the Lambs", "A young FBI cadet must receive the help of an incarcerated and manipulative cannibal killer to help catch another serial killer, a madman who skins his victims.", List.of(Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
                 new Movie("It\"s a Wonderful Life", "An angel is sent from Heaven to help a desperately frustrated businessman by showing him what life would have been like if he had never existed.", List.of(Genre.DRAMA, Genre.FAMILY, Genre.FANTASY)),
-                new Movie("Saving Private Ryan","Following the Normandy Landings, a group of U.S. soldiers go behind enemy lines to retrieve a paratrooper whose brothers have been killed in action.", List.of(Genre.ACTION, Genre.DRAMA, Genre.WAR)),
+                new Movie("Saving Private Ryan", "Following the Normandy Landings, a group of U.S. soldiers go behind enemy lines to retrieve a paratrooper whose brothers have been killed in action.", List.of(Genre.ACTION, Genre.DRAMA, Genre.WAR)),
                 new Movie("City of God", "Two boys growing up in a violent neighborhood of Rio de Janeiro take different paths: one becomes a photographer, the other a drug dealer.", List.of(Genre.CRIME, Genre.DRAMA)),
                 new Movie("Life Is Beautiful", "When an open-minded Jewish librarian and his son become victims of the Holocaust, he uses a perfect mixture of will, humor, and imagination to protect his son from the dangers around their camp.", List.of(Genre.COMEDY, Genre.DRAMA, Genre.ROMANCE, Genre.WAR)),
                 new Movie("The Usual Suspects", "A sole survivor tells of the twisty events leading up to a horrific gun battle on a boat, which begin when five criminals meet at a seemingly random police lineup.", List.of(Genre.CRIME, Genre.MYSTERY, Genre.THRILLER)),
                 new Movie("Puss in Boots", "An outlaw cat, his childhood egg-friend, and a seductive thief kitty set out in search for the eggs of the fabled Golden Goose to clear his name, restore his lost honor, and regain the trust of his mother and town.", List.of(Genre.ANIMATION, Genre.ADVENTURE, Genre.COMEDY)),
-                new Movie("Forrest Gump","The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other historical events unfold from the perspective of an Alabama man with an IQ of 75, whose only desire is to be reunited with his childhood sweetheart.", List.of(Genre.DRAMA, Genre.ROMANCE)),
+                new Movie("Forrest Gump", "The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other historical events unfold from the perspective of an Alabama man with an IQ of 75, whose only desire is to be reunited with his childhood sweetheart.", List.of(Genre.DRAMA, Genre.ROMANCE)),
                 new Movie("The Lion King", "Lion cub and future king Simba searches for his identity. His eagerness to please others and penchant for testing his boundaries sometimes gets him into trouble.", List.of(Genre.ANIMATION, Genre.ADVENTURE, Genre.DRAMA, Genre.FAMILY, Genre.MUSICAL)),
                 new Movie("Spirited Away", "During her family's move to the suburbs, a sullen 10-year-old girl wanders into a world ruled by gods, witches, and spirits, and where humans are changed into beasts.", List.of(Genre.ANIMATION, Genre.ADVENTURE, Genre.FAMILY, Genre.FANTASY, Genre.MYSTERY)),
                 new Movie("Toy Story", "A cowboy doll is profoundly threatened and jealous when a new spaceman action figure supplants him as top toy in a boy's bedroom.", List.of(Genre.ANIMATION, Genre.ADVENTURE, Genre.COMEDY, Genre.FAMILY, Genre.FANTASY)),
@@ -122,13 +124,13 @@ public class MovieAPITest {
                 new Movie("Once Upon a Time in Hollywood", "A faded television actor and his stunt double strive to achieve fame and success in the film industry during the final years of Hollywood's Golden Age in 1969 Los Angeles.", List.of(Genre.COMEDY, Genre.DRAMA)),
                 new Movie("Django Unchained", "With the help of a German bounty hunter, a freed slave sets out to rescue his wife from a brutal Mississippi plantation owner.", List.of(Genre.DRAMA, Genre.WESTERN)),
                 new Movie("The Wolf of Wall Street", "Based on the true story of Jordan Belfort, from his rise to a wealthy stock-broker living the high life to his fall involving crime, corruption and the federal government.", List.of(Genre.BIOGRAPHY, Genre.COMEDY, Genre.CRIME, Genre.DRAMA))
-                );
+        );
         assertEquals(expected, result);
     }
 
     @Test
-    void API_call_parse_all_movies_with_getMoviesByQueries_to_movie_list(){
-        String json = MovieAPI.getMoviesByQueries(API_URL, null, null,0,0);
+    void API_call_parse_all_movies_with_getMoviesByQueries_to_movie_list() {
+        String json = MovieAPI.getMoviesByQueries(API_URL, null, null, 0, 0);
         List<Movie> result = parseMovies(json);
         List<Movie> expected = List.of(
                 new Movie("The Godfather", "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.", List.of(Genre.DRAMA)),
@@ -148,12 +150,12 @@ public class MovieAPITest {
                 new Movie("Seven", "Two detectives, a rookie and a veteran, hunt a serial killer who uses the seven deadly sins as his modus operandi.", List.of(Genre.CRIME, Genre.DRAMA, Genre.MYSTERY, Genre.THRILLER)),
                 new Movie("The Silence of the Lambs", "A young FBI cadet must receive the help of an incarcerated and manipulative cannibal killer to help catch another serial killer, a madman who skins his victims.", List.of(Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
                 new Movie("It\"s a Wonderful Life", "An angel is sent from Heaven to help a desperately frustrated businessman by showing him what life would have been like if he had never existed.", List.of(Genre.DRAMA, Genre.FAMILY, Genre.FANTASY)),
-                new Movie("Saving Private Ryan","Following the Normandy Landings, a group of U.S. soldiers go behind enemy lines to retrieve a paratrooper whose brothers have been killed in action.", List.of(Genre.ACTION, Genre.DRAMA, Genre.WAR)),
+                new Movie("Saving Private Ryan", "Following the Normandy Landings, a group of U.S. soldiers go behind enemy lines to retrieve a paratrooper whose brothers have been killed in action.", List.of(Genre.ACTION, Genre.DRAMA, Genre.WAR)),
                 new Movie("City of God", "Two boys growing up in a violent neighborhood of Rio de Janeiro take different paths: one becomes a photographer, the other a drug dealer.", List.of(Genre.CRIME, Genre.DRAMA)),
                 new Movie("Life Is Beautiful", "When an open-minded Jewish librarian and his son become victims of the Holocaust, he uses a perfect mixture of will, humor, and imagination to protect his son from the dangers around their camp.", List.of(Genre.COMEDY, Genre.DRAMA, Genre.ROMANCE, Genre.WAR)),
                 new Movie("The Usual Suspects", "A sole survivor tells of the twisty events leading up to a horrific gun battle on a boat, which begin when five criminals meet at a seemingly random police lineup.", List.of(Genre.CRIME, Genre.MYSTERY, Genre.THRILLER)),
                 new Movie("Puss in Boots", "An outlaw cat, his childhood egg-friend, and a seductive thief kitty set out in search for the eggs of the fabled Golden Goose to clear his name, restore his lost honor, and regain the trust of his mother and town.", List.of(Genre.ANIMATION, Genre.ADVENTURE, Genre.COMEDY)),
-                new Movie("Forrest Gump","The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other historical events unfold from the perspective of an Alabama man with an IQ of 75, whose only desire is to be reunited with his childhood sweetheart.", List.of(Genre.DRAMA, Genre.ROMANCE)),
+                new Movie("Forrest Gump", "The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other historical events unfold from the perspective of an Alabama man with an IQ of 75, whose only desire is to be reunited with his childhood sweetheart.", List.of(Genre.DRAMA, Genre.ROMANCE)),
                 new Movie("The Lion King", "Lion cub and future king Simba searches for his identity. His eagerness to please others and penchant for testing his boundaries sometimes gets him into trouble.", List.of(Genre.ANIMATION, Genre.ADVENTURE, Genre.DRAMA, Genre.FAMILY, Genre.MUSICAL)),
                 new Movie("Spirited Away", "During her family's move to the suburbs, a sullen 10-year-old girl wanders into a world ruled by gods, witches, and spirits, and where humans are changed into beasts.", List.of(Genre.ANIMATION, Genre.ADVENTURE, Genre.FAMILY, Genre.FANTASY, Genre.MYSTERY)),
                 new Movie("Toy Story", "A cowboy doll is profoundly threatened and jealous when a new spaceman action figure supplants him as top toy in a boy's bedroom.", List.of(Genre.ANIMATION, Genre.ADVENTURE, Genre.COMEDY, Genre.FAMILY, Genre.FANTASY)),

@@ -5,6 +5,7 @@ import at.ac.fhcampuswien.fhmdb.models.Movie;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -48,9 +49,6 @@ public class MovieUtils {
         List<Movie> temp = MovieUtils.parseMovies(json);
 
 
-
-
-
         return temp;
     }
 
@@ -65,8 +63,8 @@ public class MovieUtils {
     /**
      * ToDo: Refactor for API by Jakob
      */
-    public static List<Movie> sort(String mode, List<Movie> movieList){
-        if(movieList.isEmpty()){
+    public static List<Movie> sort(String mode, List<Movie> movieList) {
+        if (movieList.isEmpty()) {
             return movieList;
         }
 
@@ -79,43 +77,41 @@ public class MovieUtils {
         return movieList;
     }
 
-    //ToDo API handling by Andi
-
     //ToDo @Sergiu
-    public static String getMostPopularActor(List<Movie> movies){
+    public static String getMostPopularActor(List<Movie> movies) {
         //TODO implement
         return "";
     }
 
     //ToDo @Sergiu
-    public static int getLongestMovieTitle(List<Movie> movies){
+    public static int getLongestMovieTitle(List<Movie> movies) {
         //TODO implement
         return 0;
     }
 
     //ToDo @Sergiu
-    public static long countMoviesFrom(List<Movie> movies, String director)
-    {
+    public static long countMoviesFrom(List<Movie> movies, String director) {
         //TODO implement
         return 0;
     }
 
     //ToDo @Sergiu
     public static List<Movie> getMoviesBetweenYears(List<Movie> movies, int startYear, int
-            endYear){
+            endYear) {
         //TODO implement
-
         return null;
     }
 
     /**
-     * Parses a JSON string from Response to a list of movies
+     * Converts a JSON Response (String) to a list of movie objects
+     *
      * @param jsonString
      * @return
      */
     public static List<Movie> parseMovies(String jsonString) {
         Gson gson = new Gson();
-        Type movieListType = new TypeToken<List<Movie>>(){}.getType();
+        Type movieListType = new TypeToken<List<Movie>>() {
+        }.getType();
         return gson.fromJson(jsonString, movieListType);
     }
 }
