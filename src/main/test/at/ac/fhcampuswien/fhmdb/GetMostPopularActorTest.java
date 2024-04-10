@@ -35,13 +35,13 @@ public class GetMostPopularActorTest extends BaseTest {
     }
 
     @Test
-    void most_popular_actor_with_empty_list_should_return_empty_string() {
+    void most_popular_actor_with_empty_list_given_should_return_empty_string() {
         String result = MovieUtils.getMostPopularActor(new ArrayList<>());
         assertEquals("", result);
     }
 
     @Test
-    void most_popular_actor_with_null_list_should_return_empty_string() {
+    void most_popular_actor_with_null_list_given_should_return_empty_string() {
         String result = MovieUtils.getMostPopularActor(null);
         assertEquals("", result);
     }
