@@ -14,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class MovieFilterTest {
 
     private List<Movie> movieList;
-    private final List<Movie> emptyList = new ArrayList<>();
 
     @BeforeEach
     void setUp() {
