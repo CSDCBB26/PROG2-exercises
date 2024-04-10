@@ -152,7 +152,7 @@ public abstract class BaseTest {
                 .build());
 
         movieMap.put("Seven", new Movie.Builder()
-                .setTitle("12 Angry Men")
+                .setTitle("Seven")
                 .setDescription("Two detectives, a rookie and a veteran, hunt a serial killer who uses the seven deadly sins as his modus operandi.")
                 .setGenres(List.of(Genre.DRAMA, Genre.CRIME, Genre.MYSTERY, Genre.THRILLER))
                 .setReleaseYear(1995)

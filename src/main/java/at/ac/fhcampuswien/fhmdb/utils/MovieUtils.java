@@ -102,11 +102,30 @@ public class MovieUtils {
                 .orElse("");
     }
 
-
-    //ToDo @Sergiu
     public static int getLongestMovieTitle(List<Movie> movies) {
-        //TODO implement
-        return 0;
+        if (movies == null || movies.isEmpty()) {
+            return 0;
+        }
+
+        List<Movie> allMoviesHavingTitle = movies.stream()
+                .filter(movie -> movie.getTitle() != null && !movie.getTitle().isBlank()).toList();
+
+        if (allMoviesHavingTitle.isEmpty()) {
+            return 0;
+        }
+
+        Map<String, Integer> movieNameToTitleLengthMap = allMoviesHavingTitle.stream()
+                .map(Movie::getTitle)
+                .distinct()
+                .collect(Collectors.toMap(Function.identity(), String::length));
+
+        return movieNameToTitleLengthMap
+                .entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                // return the length of title
+                .map(Map.Entry::getValue)
+                // or 0 if not found
+                .orElse(0);
     }
 
     //ToDo @Sergiu
