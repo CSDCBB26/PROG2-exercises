@@ -20,9 +20,9 @@ public class GetMostPopularActorTest extends BaseTest {
     @Test
     void most_popular_actor_from_a_list_of_movies_containing_The_Godfather_Seven_and_Once_Upon_a_Time_in_Hollywood_should_return_Brad_Pitt() {
         String result = MovieUtils.getMostPopularActor(
-                List.of(movieMap.get("The Godfather"), movieMap.get("Once Upon a Time in Hollywood"))
+                List.of(movieMap.get("The Godfather"), movieMap.get("Once Upon a Time in Hollywood"), movieMap.get("Seven"))
         );
-        assertEquals("Actore Grande", result);
+        assertEquals("Brad Pitt", result);
     }
 
     @Test

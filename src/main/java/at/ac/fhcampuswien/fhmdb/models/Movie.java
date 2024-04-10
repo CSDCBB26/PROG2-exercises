@@ -38,13 +38,18 @@ public class Movie {
         this.rating = rating;
     }
 
-    public Movie(Builder builder) {
+    private Movie(Builder builder) {
         this.title = builder.title;
         this.description = builder.description;
         this.genres = builder.genres;
+        this.releaseYear = builder.releaseYear;
         this.imgUrl = builder.imgUrl;
+        this.lengthInMinutes = builder.lengthInMinutes;
+        this.directors = builder.directors;
+        this.writers = builder.writers;
+        this.mainCast = builder.mainCast;
+        this.rating = builder.rating;
     }
-
 
     public static class Builder {
         private String title;

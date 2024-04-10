@@ -7,9 +7,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static at.ac.fhcampuswien.fhmdb.utils.MovieAPI.API_URL;
@@ -77,11 +76,32 @@ public class MovieUtils {
         return movieList;
     }
 
-    //ToDo @Sergiu
     public static String getMostPopularActor(List<Movie> movies) {
-        //TODO implement
-        return "";
+        if (movies == null || movies.isEmpty()) {
+            return "";
+        }
+
+        List<Movie> allMoviesHavingCast = movies.stream()
+                .filter(movie -> movie.getMainCast() != null && !movie.getMainCast().isEmpty()).toList();
+
+        if (allMoviesHavingCast.isEmpty()) {
+            return "";
+        }
+
+        Map<String, Long> actorNameToOccurencesMap = allMoviesHavingCast.stream()
+                // use flatMap as each movie contains a list of actors
+                .flatMap(movie -> movie.getMainCast().stream())
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        return actorNameToOccurencesMap
+                .entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                // return name of the actor
+                .map(Map.Entry::getKey)
+                // or an empty string if not found
+                .orElse("");
     }
+
 
     //ToDo @Sergiu
     public static int getLongestMovieTitle(List<Movie> movies) {
