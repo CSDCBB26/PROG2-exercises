@@ -21,7 +21,7 @@ public class MovieAPI {
         } catch (Exception e) {
             return "Error: " + e.getMessage();
         }
-        return null;
+        return "";
     }
 
     public static String getMoviesByQueries(String api_url, String query, Genre genre, int releaseYear, double ratingFrom) {
@@ -62,6 +62,6 @@ public class MovieAPI {
         } catch (Exception e) {
             return "Error: " + e.getMessage();
         }
-        return null;
+        return "";
     }
 }

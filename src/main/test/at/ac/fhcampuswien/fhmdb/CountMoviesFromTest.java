@@ -31,7 +31,6 @@ public class CountMoviesFromTest extends BaseTest {
         assertEquals(2, result);
     }
 
-
     @Test
     void counting_movies_from_director_Frank_Darabont_should_return_1() {
         long result = MovieUtils.countMoviesFrom(movieList, "Frank Darabont");

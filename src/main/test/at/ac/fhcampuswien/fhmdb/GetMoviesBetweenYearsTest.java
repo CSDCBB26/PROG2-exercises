@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GetMoviesBetweenYearsTest extends BaseTest {
 
-
     @Test
     void movies_between_1993_and_1994_should_return_a_list_of_movies_containing_the_movies_The_Shawshank_Redemption_Pulp_Fiction_and_Schindlers_List() {
         List<Movie> result = MovieUtils.getMoviesBetweenYears(movieList, 1993, 1994);
@@ -35,7 +34,7 @@ public class GetMoviesBetweenYearsTest extends BaseTest {
 
     @Test
     void movies_between_1800_and_1850_should_return_an_empty_list() {
-        List<Movie> result = MovieUtils.getMoviesBetweenYears(movieList, 1800, 1900);
+        List<Movie> result = MovieUtils.getMoviesBetweenYears(movieList, 1800, 1850);
         assertEquals(new ArrayList<>(), result);
     }
 
@@ -45,6 +44,12 @@ public class GetMoviesBetweenYearsTest extends BaseTest {
                 .setTitle("No Release Year Movie")
                 .build();
         List<Movie> result = MovieUtils.getMoviesBetweenYears(List.of(noReleaseYearMovie), 1800, 2024);
+        assertEquals(new ArrayList<>(), result);
+    }
+
+    @Test
+    void movies_between_minus_1_and_0_should_return_an_empty_list() {
+        List<Movie> result = MovieUtils.getMoviesBetweenYears(movieList, -1, 0);
         assertEquals(new ArrayList<>(), result);
     }
 
@@ -59,5 +64,4 @@ public class GetMoviesBetweenYearsTest extends BaseTest {
         List<Movie> result = MovieUtils.getMoviesBetweenYears(null, 1800, 2024);
         assertEquals(new ArrayList<>(), result);
     }
-
 }
