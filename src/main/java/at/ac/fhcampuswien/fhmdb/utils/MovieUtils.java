@@ -54,6 +54,7 @@ public class MovieUtils {
 
     /**
      * ToDo: Refactor for API by Jakob
+     * only used in search which is only used in old tests
      */
     protected static boolean isMovieMatchesSearchQuery(Movie movie, String searchQuery) {
         return movie.getTitle().toLowerCase().contains(searchQuery.toLowerCase()) ||
