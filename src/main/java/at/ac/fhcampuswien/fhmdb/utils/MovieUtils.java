@@ -80,7 +80,7 @@ public class MovieUtils {
     }
 
     public static String getMostPopularActor(List<Movie> movies) {
-        if (movies == null || movies.isEmpty()) {
+        if (!validateMoviesList(movies)) {
             return "";
         }
 
@@ -88,7 +88,7 @@ public class MovieUtils {
                 .filter(movie -> movie.getMainCast() != null && !movie.getMainCast().isEmpty())
                 .toList();
 
-        if (allMoviesHavingCast.isEmpty()) {
+        if (!validateMoviesList(allMoviesHavingCast)) {
             return "";
         }
 
@@ -107,7 +107,7 @@ public class MovieUtils {
     }
 
     public static int getLongestMovieTitle(List<Movie> movies) {
-        if (movies == null || movies.isEmpty()) {
+        if (!validateMoviesList(movies)) {
             return 0;
         }
 
@@ -115,7 +115,7 @@ public class MovieUtils {
                 .filter(movie -> movie.getTitle() != null && !movie.getTitle().isBlank())
                 .toList();
 
-        if (allMoviesHavingTitle.isEmpty()) {
+        if (!validateMoviesList(allMoviesHavingTitle)) {
             return 0;
         }
 
@@ -134,7 +134,7 @@ public class MovieUtils {
     }
 
     public static long countMoviesFrom(List<Movie> movies, String director) {
-        if (movies == null || movies.isEmpty() || director == null || director.isBlank()) {
+        if (!validateMoviesList(movies) || director == null || director.isBlank()) {
             return 0;
         }
 
@@ -142,7 +142,7 @@ public class MovieUtils {
                 .filter(movie -> movie.getDirectors() != null && !movie.getDirectors().isEmpty())
                 .toList();
 
-        if (allMoviesHavingDirectors.isEmpty()) {
+        if (!validateMoviesList(allMoviesHavingDirectors)) {
             return 0;
         }
 
@@ -153,11 +153,26 @@ public class MovieUtils {
                 .count();
     }
 
-    //ToDo @Sergiu
-    public static List<Movie> getMoviesBetweenYears(List<Movie> movies, int startYear, int
-            endYear) {
-        //TODO implement
-        return null;
+    public static List<Movie> getMoviesBetweenYears(List<Movie> movies, int startYear, int endYear) {
+        if (!validateMoviesList(movies)) {
+            return new ArrayList<>();
+        }
+
+        List<Movie> allMoviesHavingReleaseYear = movies.stream()
+                .filter(movie -> movie.getReleaseYear() > 0)
+                .toList();
+
+        if (!validateMoviesList(allMoviesHavingReleaseYear)) {
+            return new ArrayList<>();
+        }
+
+        return allMoviesHavingReleaseYear.stream()
+                .filter(movie -> movie.getReleaseYear() >= startYear && movie.getReleaseYear() <= endYear)
+                .toList();
+    }
+
+    protected static boolean validateMoviesList(List<Movie> movies) {
+        return movies != null && !movies.isEmpty();
     }
 
     /**
