@@ -84,25 +84,14 @@ public class MovieUtils {
             return "";
         }
 
-        List<Movie> allMoviesHavingCast = movies.stream()
+        Map<String, Long> actorNameToOccurrencesMap = movies.stream()
                 .filter(movie -> movie.getMainCast() != null && !movie.getMainCast().isEmpty())
-                .toList();
-
-        if (!validateMoviesList(allMoviesHavingCast)) {
-            return "";
-        }
-
-        Map<String, Long> actorNameToOccurencesMap = allMoviesHavingCast.stream()
-                // use flatMap as each movie contains a list of actors
                 .flatMap(movie -> movie.getMainCast().stream())
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
-        return actorNameToOccurencesMap
-                .entrySet().stream()
+        return actorNameToOccurrencesMap.entrySet().stream()
                 .max(Map.Entry.comparingByValue())
-                // return name of the actor
                 .map(Map.Entry::getKey)
-                // or an empty string if not found
                 .orElse("");
     }
 
@@ -111,25 +100,10 @@ public class MovieUtils {
             return 0;
         }
 
-        List<Movie> allMoviesHavingTitle = movies.stream()
+        return movies.stream()
                 .filter(movie -> movie.getTitle() != null && !movie.getTitle().isBlank())
-                .toList();
-
-        if (!validateMoviesList(allMoviesHavingTitle)) {
-            return 0;
-        }
-
-        Map<String, Integer> movieNameToTitleLengthMap = allMoviesHavingTitle.stream()
-                .map(Movie::getTitle)
-                .distinct()
-                .collect(Collectors.toMap(Function.identity(), String::length));
-
-        return movieNameToTitleLengthMap
-                .entrySet().stream()
-                .max(Map.Entry.comparingByValue())
-                // return the length of title
-                .map(Map.Entry::getValue)
-                // or 0 if not found
+                .mapToInt(title -> title.getTitle().length())
+                .max()
                 .orElse(0);
     }
 
@@ -138,17 +112,8 @@ public class MovieUtils {
             return 0;
         }
 
-        List<Movie> allMoviesHavingDirectors = movies.stream()
-                .filter(movie -> movie.getDirectors() != null && !movie.getDirectors().isEmpty())
-                .toList();
-
-        if (!validateMoviesList(allMoviesHavingDirectors)) {
-            return 0;
-        }
-
-        return allMoviesHavingDirectors.stream()
-                // Stream the list of directors for each movie and do case-sensitive comparison
-                .filter(movie -> movie.getDirectors().stream()
+        return movies.stream()
+                .filter(movie -> movie.getDirectors() != null && movie.getDirectors().stream()
                         .anyMatch(d -> d.equalsIgnoreCase(director)))
                 .count();
     }
@@ -158,15 +123,7 @@ public class MovieUtils {
             return new ArrayList<>();
         }
 
-        List<Movie> allMoviesHavingReleaseYear = movies.stream()
-                .filter(movie -> movie.getReleaseYear() > 0)
-                .toList();
-
-        if (!validateMoviesList(allMoviesHavingReleaseYear)) {
-            return new ArrayList<>();
-        }
-
-        return allMoviesHavingReleaseYear.stream()
+        return movies.stream()
                 .filter(movie -> movie.getReleaseYear() >= startYear && movie.getReleaseYear() <= endYear)
                 .toList();
     }
