@@ -85,7 +85,8 @@ public class MovieUtils {
         }
 
         List<Movie> allMoviesHavingCast = movies.stream()
-                .filter(movie -> movie.getMainCast() != null && !movie.getMainCast().isEmpty()).toList();
+                .filter(movie -> movie.getMainCast() != null && !movie.getMainCast().isEmpty())
+                .toList();
 
         if (allMoviesHavingCast.isEmpty()) {
             return "";
@@ -111,7 +112,8 @@ public class MovieUtils {
         }
 
         List<Movie> allMoviesHavingTitle = movies.stream()
-                .filter(movie -> movie.getTitle() != null && !movie.getTitle().isBlank()).toList();
+                .filter(movie -> movie.getTitle() != null && !movie.getTitle().isBlank())
+                .toList();
 
         if (allMoviesHavingTitle.isEmpty()) {
             return 0;
@@ -131,10 +133,24 @@ public class MovieUtils {
                 .orElse(0);
     }
 
-    //ToDo @Sergiu
     public static long countMoviesFrom(List<Movie> movies, String director) {
-        //TODO implement
-        return 0;
+        if (movies == null || movies.isEmpty() || director == null || director.isBlank()) {
+            return 0;
+        }
+
+        List<Movie> allMoviesHavingDirectors = movies.stream()
+                .filter(movie -> movie.getDirectors() != null && !movie.getDirectors().isEmpty())
+                .toList();
+
+        if (allMoviesHavingDirectors.isEmpty()) {
+            return 0;
+        }
+
+        return allMoviesHavingDirectors.stream()
+                // Stream the list of directors for each movie and do case-sensitive comparison
+                .filter(movie -> movie.getDirectors().stream()
+                        .anyMatch(d -> d.equalsIgnoreCase(director)))
+                .count();
     }
 
     //ToDo @Sergiu
