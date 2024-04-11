@@ -46,7 +46,7 @@
 
 .filter-slider *.track{
     -fx-background-color: #f5c518;
-    -fx-font-style: white;
+    -fx-text-fill: white;
     -fx-snap-to-ticks: yes;
     -fx-progress-color: #f5c518;
 }
@@ -57,5 +57,10 @@
 
 .number-field{
     -fx-background-color: white;
-    -fx-font-style: black;
+    -fx-text-fill: black;
+}
+
+.space-out{
+    -fx-font-style: italic;
+    -fx-text-fill: white;
 }

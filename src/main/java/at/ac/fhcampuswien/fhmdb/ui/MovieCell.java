@@ -27,8 +27,10 @@ public class MovieCell extends ListCell<Movie> {
     private final Label writers = new Label();
     private final Label mainCast = new Label();
     private final Label lengthInMinutes = new Label();
-    private final VBox layout = new VBox(title, releaseYear, genre, detail, rating, directors, writers, mainCast, lengthInMinutes);
-
+    private ImageView ratingStar = new ImageView();
+    private final HBox ratingBox = new HBox(rating, ratingStar);
+    private final HBox headline = new HBox(title, releaseYear, ratingBox);
+    private final VBox layout = new VBox(headline, genre, detail, directors, writers, mainCast, lengthInMinutes);
     private final HBox sideBySide = new HBox();
     private final ImageView imageView = new ImageView();
     private final HBox imageContainer = new HBox(imageView); // Wrap imageView in an HBox
@@ -36,14 +38,19 @@ public class MovieCell extends ListCell<Movie> {
     public MovieCell() {
         imageView.setFitWidth(500);  // Set the width of the image
         imageView.setFitHeight(500); // Set the height of the image
+        ratingStar.setFitWidth(15);  // Set the width of the image
+        ratingStar.setFitHeight(15); // Set the height of the image
         imageView.setPreserveRatio(true); // Preserve aspect ratio
         layout.setAlignment(Pos.TOP_RIGHT); // Align items to the right
-        //layout.getChildren().add(imageContainer); // Add the HBox to the VBox
+        headline.setSpacing(100);
+        headline.setAlignment(Pos.BOTTOM_LEFT);
+        ratingBox.setAlignment(Pos.BOTTOM_RIGHT);
         sideBySide.getChildren().add(layout);
         sideBySide.getChildren().add(imageContainer);
+
     }
 
-    //ToDo adapt UI Jakob
+
     @Override
     protected void updateItem(Movie movie, boolean empty) {
         super.updateItem(movie, empty);
@@ -69,7 +76,7 @@ public class MovieCell extends ListCell<Movie> {
 
         lengthInMinutes.setText(
                 movie.getLengthInMinutes() != 0
-                        ? movie.getLengthInMinutes() + " minutes"
+                        ? movie.getLengthInMinutes()/60 + " h " + movie.getLengthInMinutes()%60 + " min"
                         : "No duration available."
         );
 
@@ -78,9 +85,14 @@ public class MovieCell extends ListCell<Movie> {
                         ? movie.getDescription()
                         : "No description available"
         );
+
+        Image ratingImg = new Image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXt2Yq6rXpS5eQUE_5bmX-xPezK4ui4ibNF-AAO4sUTA&s");
+        ratingStar.setImage(ratingImg);
+
+
         rating.setText(
                 movie.getRating() != 0
-                ? "Rating: " + movie.getRating()
+                ? String.valueOf(movie.getRating())
                 : "No rating available"
         );
         directors.setText(
@@ -111,8 +123,8 @@ public class MovieCell extends ListCell<Movie> {
         // color scheme
         title.getStyleClass().add("text-yellow");
         detail.getStyleClass().add("text-white");
-        releaseYear.getStyleClass().add("text-white");
-        rating.getStyleClass().add("text-white");
+        releaseYear.getStyleClass().add("space-out");
+        rating.getStyleClass().add("space-out");
         directors.getStyleClass().add("text-white");
         writers.getStyleClass().add("text-white");
         mainCast.getStyleClass().add("text-white");
@@ -123,6 +135,7 @@ public class MovieCell extends ListCell<Movie> {
         // layout
         title.getFont();
         title.fontProperty().set(Font.font(20));
+
         if (this.getScene() != null) {
             detail.setMaxWidth(this.getScene().getWidth() - 30);
         }

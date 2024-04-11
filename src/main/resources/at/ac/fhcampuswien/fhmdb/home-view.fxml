@@ -37,8 +37,8 @@
          <JFXComboBox fx:id="releaseYearComboBox" focusColor="#f5c518" styleClass="filter-combo-box" stylesheets="@styles.css" />
          <VBox spacing="5.0" styleClass="background-black" stylesheets="@styles.css">
             <children>
+               <JFXTextField fx:id="ratingField" prefHeight="25.0" prefWidth="25.0" styleClass="number-field" promptText="Enter Rating" stylesheets="@styles.css"/>
                <JFXSlider fx:id="ratingSlider" styleClass="filter-slider" stylesheets="@styles.css" />
-               <JFXTextField fx:id="ratingField" prefHeight="25.0" prefWidth="25.0" styleClass="number-field" stylesheets="@styles.css"/>
             </children>
          </VBox>
          <JFXButton fx:id="searchBtn" styleClass="background-yellow" stylesheets="@styles.css" text="Filter" />

@@ -85,6 +85,7 @@ public class HomeController implements Initializable {
         genreComboBox.setValue(null);
         releaseYearComboBox.setValue(null);
         ratingSlider.setValue(0);
+        ratingField.clear();
         observableMovies.clear();
         observableMovies.addAll(allMovies);
     }
@@ -170,7 +171,7 @@ public class HomeController implements Initializable {
             ratingField.setText(String.valueOf(temp));
         });
 
-        ratingField.setText("0");
+        //ratingField.setText("0");
 
         searchBtn.setOnAction(actionEvent -> handleFilterAction());
         searchField.setOnKeyPressed(this::onEnterKeyPressed);
