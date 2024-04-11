@@ -17,6 +17,7 @@ public class MovieUtils {
 
     /**
      * ToDo: Refactor for API by Jakob
+     * unnecessary -> only used in old filter method
      */
     public static List<Movie> search(String input, List<Movie> movieList) {
         return movieList.stream()
@@ -27,7 +28,7 @@ public class MovieUtils {
     /**
      * ToDo: Refactor for API by Jakob
      */
-    public static List<Movie> filter(Genre selectedGenre, List<Movie> movieList, String searchQuery) {
+    public static List<Movie> filter_old(Genre selectedGenre, List<Movie> movieList, String searchQuery) {
         if (movieList == null || movieList.isEmpty()) {
             return new ArrayList<>();
         }
@@ -43,7 +44,7 @@ public class MovieUtils {
         return filteredList;
     }
 
-    public static List<Movie> filter_re(Genre selectedGenre, String searchQuery, int selectedReleaseYear, int selectedRatingFrom) {
+    public static List<Movie> filter(Genre selectedGenre, String searchQuery, int selectedReleaseYear, int selectedRatingFrom) {
         String json = MovieAPI.getMoviesByQueries(API_URL, searchQuery, selectedGenre, selectedReleaseYear, selectedRatingFrom);
         List<Movie> temp = MovieUtils.parseMovies(json);
 
@@ -61,6 +62,7 @@ public class MovieUtils {
 
     /**
      * ToDo: Refactor for API by Jakob
+     * unnecessary -> sorting works the same
      */
     public static List<Movie> sort(String mode, List<Movie> movieList) {
         if (movieList.isEmpty()) {

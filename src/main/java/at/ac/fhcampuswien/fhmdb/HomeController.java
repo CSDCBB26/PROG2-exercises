@@ -45,25 +45,14 @@ public class HomeController implements Initializable {
     private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
 
 
-
-    protected void handleFilterAction_old() {
-        System.out.print("Filter set to genre:   ");
-        System.out.println(genreComboBox.getValue());
-
-        List<Movie> temp = MovieUtils.filter(genreComboBox.getValue(), allMovies, searchField.getText());
-        observableMovies.clear();
-        observableMovies.addAll(temp);
-        movieListView.setItems(observableMovies);
-    }
-
-    protected void handleFilterAction_re() {
+    protected void handleFilterAction() {
         Genre genre = genreComboBox.getValue();
         int releaseYear = releaseYearComboBox.getValue() == null ? 0 : releaseYearComboBox.getValue();
         int ratingFrom = ratingComboBox.getValue() == null ? 0 : ratingComboBox.getValue();
 
         System.out.println("genre: " + genreComboBox.getValue() + "\nrelease: " + releaseYear + "\nrating: " + ratingFrom);
 
-        List<Movie> temp = MovieUtils.filter_re(genre, searchField.getText(), releaseYear, ratingFrom);
+        List<Movie> temp = MovieUtils.filter(genre, searchField.getText(), releaseYear, ratingFrom);
         observableMovies.clear();
         observableMovies.addAll(temp);
         movieListView.setItems(observableMovies);
@@ -74,7 +63,7 @@ public class HomeController implements Initializable {
             System.out.print("Enter pressed, searching for:  ");
             System.out.println(searchField.getText());
 
-            handleFilterAction_re();
+            handleFilterAction();
         }
     }
 
@@ -152,13 +141,13 @@ public class HomeController implements Initializable {
 
         // items will be filtered directly after selecting a value from combobox
         genreComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)
-                -> handleFilterAction_re());
+                -> handleFilterAction());
         releaseYearComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)
-                -> handleFilterAction_re());
+                -> handleFilterAction());
         ratingComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)
-                -> handleFilterAction_re());
+                -> handleFilterAction());
 
-        searchBtn.setOnAction(actionEvent -> handleFilterAction_re());
+        searchBtn.setOnAction(actionEvent -> handleFilterAction());
         searchField.setOnKeyPressed(this::onEnterKeyPressed);
         sortBtn.setOnAction(actionEvent -> onSortButtonClick());
         resetBtn.setOnAction(actionEvent -> onResetButtonClick());
