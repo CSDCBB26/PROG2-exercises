@@ -6,7 +6,6 @@ import at.ac.fhcampuswien.fhmdb.utils.MovieUtils;
 
 import java.util.List;
 
-//ToDO: Enhance movie class by Jakob
 public class Movie {
     private String title;
     private String description;

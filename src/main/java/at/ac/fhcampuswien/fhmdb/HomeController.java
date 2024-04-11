@@ -99,6 +99,8 @@ public class HomeController implements Initializable {
             System.out.println("set!!!");
         }
         else ratingField.clear();
+
+        handleFilterAction();
         }
     }
 
@@ -170,8 +172,6 @@ public class HomeController implements Initializable {
             temp = Math.round(temp*10)/10.;
             ratingField.setText(String.valueOf(temp));
         });
-
-        //ratingField.setText("0");
 
         searchBtn.setOnAction(actionEvent -> handleFilterAction());
         searchField.setOnKeyPressed(this::onEnterKeyPressed);

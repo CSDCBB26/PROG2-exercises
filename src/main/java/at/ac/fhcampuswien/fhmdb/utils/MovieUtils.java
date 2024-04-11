@@ -22,10 +22,6 @@ public class MovieUtils {
     }
 
 
-    /**
-     * ToDo: Refactor for API by Jakob
-     * unnecessary -> sorting works the same
-     */
     public static List<Movie> sort(String mode, List<Movie> movieList) {
         if (movieList.isEmpty()) {
             return movieList;
