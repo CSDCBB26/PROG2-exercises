@@ -43,3 +43,19 @@
     -fx-background-color: white;
     -fx-text-fill: #ffffff;
 }
+
+.filter-slider *.track{
+    -fx-background-color: #f5c518;
+    -fx-font-style: white;
+    -fx-snap-to-ticks: yes;
+    -fx-progress-color: #f5c518;
+}
+
+.filter-slider .thumb{
+    -fx-background-color: green;
+}
+
+.number-field{
+    -fx-background-color: white;
+    -fx-font-style: black;
+}

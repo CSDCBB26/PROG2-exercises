@@ -10,6 +10,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import com.jfoenix.controls.JFXSlider?>
+<?import com.jfoenix.controls.JFXTextField?>
 <VBox prefHeight="331.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampuswien.fhmdb.HomeController">
    <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="347.0" spacing="20.0" style="-fx-background-color: black;">
       <padding>
@@ -27,13 +29,18 @@
          <Label styleClass="text-white" stylesheets="@styles.css" text="Welcome to FHMDb!" />
       </children>
    </HBox>
-   <HBox spacing="5.0" styleClass="background-black" stylesheets="@styles.css">
+   <HBox spacing="1" styleClass="background-black" stylesheets="@styles.css">
       <children>
          <JFXButton fx:id="sortBtn" styleClass="background-yellow" stylesheets="@styles.css" text="Sort (asc)" />
          <TextField fx:id="searchField" prefHeight="25.0" prefWidth="170.0" promptText="Search FHMDb" />
          <JFXComboBox fx:id="genreComboBox" focusColor="#f5c518" styleClass="filter-combo-box" stylesheets="@styles.css" />
          <JFXComboBox fx:id="releaseYearComboBox" focusColor="#f5c518" styleClass="filter-combo-box" stylesheets="@styles.css" />
-         <JFXComboBox fx:id="ratingComboBox" focusColor="#f5c518" styleClass="filter-combo-box" stylesheets="@styles.css" />
+         <VBox spacing="5.0" styleClass="background-black" stylesheets="@styles.css">
+            <children>
+               <JFXSlider fx:id="ratingSlider" styleClass="filter-slider" stylesheets="@styles.css" />
+               <JFXTextField fx:id="ratingField" prefHeight="25.0" prefWidth="25.0" styleClass="number-field" stylesheets="@styles.css"/>
+            </children>
+         </VBox>
          <JFXButton fx:id="searchBtn" styleClass="background-yellow" stylesheets="@styles.css" text="Filter" />
          <JFXButton fx:id="resetBtn" styleClass="background-yellow" stylesheets="@styles.css" text="Reset" />
       </children>

@@ -37,7 +37,7 @@ public class MovieCell extends ListCell<Movie> {
         imageView.setFitWidth(500);  // Set the width of the image
         imageView.setFitHeight(500); // Set the height of the image
         imageView.setPreserveRatio(true); // Preserve aspect ratio
-        layout.setAlignment(Pos.CENTER_RIGHT); // Align items to the right
+        layout.setAlignment(Pos.TOP_RIGHT); // Align items to the right
         //layout.getChildren().add(imageContainer); // Add the HBox to the VBox
         sideBySide.getChildren().add(layout);
         sideBySide.getChildren().add(imageContainer);
@@ -134,7 +134,7 @@ public class MovieCell extends ListCell<Movie> {
         detail.setWrapText(true);
         layout.setPadding(new Insets(10));
         layout.spacingProperty().set(10);
-        layout.alignmentProperty().set(javafx.geometry.Pos.CENTER_LEFT);
+        layout.alignmentProperty().set(javafx.geometry.Pos.TOP_LEFT);
         setGraphic(sideBySide);
     }
 }

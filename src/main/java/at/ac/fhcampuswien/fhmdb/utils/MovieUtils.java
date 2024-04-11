@@ -15,51 +15,12 @@ import static at.ac.fhcampuswien.fhmdb.utils.MovieAPI.API_URL;
 
 public class MovieUtils {
 
-    /**
-     * ToDo: Refactor for API by Jakob
-     * unnecessary -> only used in old filter method
-     */
-    public static List<Movie> search(String input, List<Movie> movieList) {
-        return movieList.stream()
-                .filter(movie -> isMovieMatchesSearchQuery(movie, input))
-                .collect(Collectors.toList());
-    }
 
-    /**
-     * ToDo: Refactor for API by Jakob
-     */
-    public static List<Movie> filter_old(Genre selectedGenre, List<Movie> movieList, String searchQuery) {
-        if (movieList == null || movieList.isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        List<Movie> filteredList = selectedGenre == null || selectedGenre == Genre.ALL
-                ? movieList
-                : movieList.stream().filter(movie -> movie.getGenres().contains(selectedGenre)).toList();
-
-        if (!searchQuery.isEmpty()) {
-            filteredList = search(searchQuery, filteredList);
-        }
-
-        return filteredList;
-    }
-
-    public static List<Movie> filter(Genre selectedGenre, String searchQuery, int selectedReleaseYear, int selectedRatingFrom) {
+    public static List<Movie> filter(Genre selectedGenre, String searchQuery, int selectedReleaseYear, double selectedRatingFrom) {
         String json = MovieAPI.getMoviesByQueries(API_URL, searchQuery, selectedGenre, selectedReleaseYear, selectedRatingFrom);
-        List<Movie> temp = MovieUtils.parseMovies(json);
-
-
-        return temp;
+        return MovieUtils.parseMovies(json);
     }
 
-    /**
-     * ToDo: Refactor for API by Jakob
-     * only used in search which is only used in old tests
-     */
-    protected static boolean isMovieMatchesSearchQuery(Movie movie, String searchQuery) {
-        return movie.getTitle().toLowerCase().contains(searchQuery.toLowerCase()) ||
-                movie.getDescription().toLowerCase().contains(searchQuery.toLowerCase());
-    }
 
     /**
      * ToDo: Refactor for API by Jakob
