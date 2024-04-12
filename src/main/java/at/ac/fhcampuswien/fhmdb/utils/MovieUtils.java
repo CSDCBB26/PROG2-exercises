@@ -3,54 +3,27 @@ package at.ac.fhcampuswien.fhmdb.utils;
 import at.ac.fhcampuswien.fhmdb.Genre;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static at.ac.fhcampuswien.fhmdb.utils.MovieAPI.API_URL;
 
 public class MovieUtils {
 
 
-    /**
-     * refactor to movie or new class movieUtils
-     */
-    public static List<Movie> search(String input, List<Movie> movieList) {
-        return movieList.stream()
-                .filter(movie -> isMovieMatchesSearchQuery(movie, input))
-                .collect(Collectors.toList());
+    public static List<Movie> filter(Genre selectedGenre, String searchQuery, int selectedReleaseYear, double selectedRatingFrom) {
+        String json = MovieAPI.getMoviesByQueries(API_URL, searchQuery, selectedGenre, selectedReleaseYear, selectedRatingFrom);
+        return MovieUtils.parseMovies(json);
     }
 
-    /**
-     * refactor to movie or new class movieUtils
-     */
-    public static List<Movie> filter(Genre selectedGenre, List<Movie> movieList, String searchQuery) {
-        if (movieList == null || movieList.isEmpty()) {
-            return new ArrayList<>();
-        }
 
-        List<Movie> filteredList = selectedGenre == null || selectedGenre == Genre.ALL
-                ? movieList
-                : movieList.stream().filter(movie -> movie.getGenres().contains(selectedGenre)).toList();
-
-        if (!searchQuery.isEmpty()) {
-            filteredList = search(searchQuery, filteredList);
-        }
-
-        return filteredList;
-    }
-    /**
-     * refactor to movie or new class movieUtils
-     */
-    protected static boolean isMovieMatchesSearchQuery(Movie movie, String searchQuery) {
-        return movie.getTitle().toLowerCase().contains(searchQuery.toLowerCase()) ||
-                movie.getDescription().toLowerCase().contains(searchQuery.toLowerCase());
-    }
-
-    /**
-     * refactor to movie or new class movieUtils
-     */
-    public static List<Movie> sort(String mode, List<Movie> movieList){
-        if(movieList.isEmpty()){
+    public static List<Movie> sort(String mode, List<Movie> movieList) {
+        if (movieList.isEmpty()) {
             return movieList;
         }
 
@@ -61,5 +34,71 @@ public class MovieUtils {
         }
 
         return movieList;
+    }
+
+    public static String getMostPopularActor(List<Movie> movies) {
+        if (!validateMoviesList(movies)) {
+            return "";
+        }
+
+        Map<String, Long> actorNameToOccurrencesMap = movies.stream()
+                .filter(movie -> movie.getMainCast() != null && !movie.getMainCast().isEmpty())
+                .flatMap(movie -> movie.getMainCast().stream())
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        return actorNameToOccurrencesMap.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse("");
+    }
+
+    public static int getLongestMovieTitle(List<Movie> movies) {
+        if (!validateMoviesList(movies)) {
+            return 0;
+        }
+
+        return movies.stream()
+                .filter(movie -> movie.getTitle() != null && !movie.getTitle().isBlank())
+                .mapToInt(title -> title.getTitle().length())
+                .max()
+                .orElse(0);
+    }
+
+    public static long countMoviesFrom(List<Movie> movies, String director) {
+        if (!validateMoviesList(movies) || director == null || director.isBlank()) {
+            return 0;
+        }
+
+        return movies.stream()
+                .filter(movie -> movie.getDirectors() != null && movie.getDirectors().stream()
+                        .anyMatch(d -> d.equalsIgnoreCase(director)))
+                .count();
+    }
+
+    public static List<Movie> getMoviesBetweenYears(List<Movie> movies, int startYear, int endYear) {
+        if (!validateMoviesList(movies)) {
+            return new ArrayList<>();
+        }
+
+        return movies.stream()
+                .filter(movie -> movie.getReleaseYear() >= startYear && movie.getReleaseYear() <= endYear)
+                .toList();
+    }
+
+    protected static boolean validateMoviesList(List<Movie> movies) {
+        return movies != null && !movies.isEmpty();
+    }
+
+    /**
+     * Converts a JSON Response (String) to a list of movie objects
+     *
+     * @param jsonString
+     * @return
+     */
+    public static List<Movie> parseMovies(String jsonString) {
+        Gson gson = new Gson();
+        Type movieListType = new TypeToken<List<Movie>>() {
+        }.getType();
+        return gson.fromJson(jsonString, movieListType);
     }
 }

@@ -2,157 +2,116 @@ package at.ac.fhcampuswien.fhmdb;
 
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.utils.MovieUtils;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class MovieFilterTest {
+public class MovieFilterTest extends BaseTest {
 
-    private List<Movie> movieList;
-    private final List<Movie> emptyList = new ArrayList<>();
-
-    @BeforeEach
-    void setUp() {
-        movieList = new ArrayList<>();
-        movieList.add(new Movie("Superman", "Description of Superman", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)));
-        movieList.add(new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)));
-        movieList.add(new Movie("Peaky Blinders", "Peaky Blinders description", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA)));
-        movieList.add(new Movie("Ironman", "Ironman 1", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)));
-        movieList.add(new Movie("Thor: Love and Thunder", "Thor 3 ", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.FANTASY, Genre.SCIENCE_FICTION)));
-        movieList.add(new Movie("The Dark Knight", "Batman the Dark Knight", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)));
-        movieList.add(new Movie("The Dark Knight Rises", "Batman the Dark Knight Rises", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)));
-        movieList.add(new Movie("The Dark Knight Returns", "Batman the Dark Knight Returns", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.ANIMATION)));
-        movieList.add(new Movie("Spiderman: No Way Home", "Spiderman 3", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)));
-        movieList.add(new Movie("The Avengers", "The Avengers", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)));
-        movieList.add(new Movie("Documentation about the Universe", "Documentation about the Universe", List.of(Genre.DOCUMENTARY)));
+    @Test
+    void filter_for_horror_should_return_no_movie(){
+        List<Movie> actual = MovieUtils.filter(Genre.HORROR,null,0,0);
+        List<Movie> expected = new ArrayList<>();
+        assertEquals(expected, actual);
     }
-    
+
+    @Test
+    void filter_for_action_should_return_6_movies(){
+        List<Movie> actual = MovieUtils.filter(Genre.ACTION,null,0,0);
+        List<Movie> expected = movieListAll.stream().filter(movie->movie.getGenres().contains(Genre.ACTION)).toList();
+        assertEquals(expected.size(), actual.size());
+    }
+
+    @Test
+    void filter_for_action_with_query_super_should_return_no_movie(){
+        List<Movie> actual = MovieUtils.filter(Genre.ACTION,"super",0,0);
+        List<Movie> expected = movieListAll.stream().filter(movie->
+            movie.getGenres().contains(Genre.ACTION) && (
+                    movie.getTitle().toLowerCase().contains("super") ||
+                    movie.getDescription().toLowerCase().contains("super"))
+        ).toList();
+        assertEquals(expected.size(), actual.size());
+    }
+
+    @Test
+    void filter_for_biography_with_query_wolf_should_return_1_movie(){
+        List<Movie> actual = MovieUtils.filter(Genre.BIOGRAPHY,"wolf",0,0);
+        List<Movie> expected = movieListAll.stream().filter(movie->
+                movie.getGenres().contains(Genre.BIOGRAPHY) && (
+                    movie.getTitle().toLowerCase().contains("wolf") ||
+                    movie.getDescription().toLowerCase().contains("wolf"))
+        ).toList();
+         assertEquals(expected.size(), actual.size());
+    }
+
+    @Test
+    void filter_for_biography_with_query_wOlf_should_return_1_movie(){
+        List<Movie> actual = MovieUtils.filter(Genre.BIOGRAPHY,"wOlf",0,0);
+        List<Movie> expected = movieListAll.stream().filter(movie->
+                movie.getGenres().contains(Genre.BIOGRAPHY) && (
+                    movie.getTitle().toLowerCase().contains("wolf") ||
+                    movie.getDescription().toLowerCase().contains("wolf"))
+        ).toList();
+        assertEquals(actual.size(), expected.size());
+    }
+
     /**
-     * Filter for movie genre
+     * The release year of movies in movielistall is always 0 !!!
+     * in movielist there are not all the movies, so filtering those for testing also does not work
+     * therefore I use initializeMovies() for the list
      */
     @Test
-    void filter_for_horror_should_return_no_movie() {
-        List<Movie> result = MovieUtils.filter(Genre.HORROR, movieList, "");
-
-        assertTrue(result.isEmpty());
-    }
-
-    @Test
-    void filter_for_action_having_SuPeR_as_queryString_should_return_movie_superman() {
-        List<Movie> result = MovieUtils.filter(Genre.ACTION, movieList, "SuPeR");
-        List<Movie> expectedMovies = List.of(new Movie("Superman", "Description of Superman", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)));
-
-        assertEquals(expectedMovies, result);
-    }
-
-    @Test
-    void filter_for_action_having_ddd_as_queryString_should_return_no_movie() {
-        List<Movie> result = MovieUtils.filter(Genre.ACTION, movieList, "ddd");
-
-        assertTrue(result.isEmpty());
-    }
-
-    @Test
-    void filter_for_adventure_having_batman_the_beginning_as_queryString_should_return_movie_BatmanBegins() {
-        List<Movie> result = MovieUtils.filter(Genre.ADVENTURE, movieList, "batman the beginning");
-        List<Movie> expectedMovies = List.of(new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)));
-
-        //split to 3 assertions, granualar & better for troubleshooting
-        assertTrue(result.size() == expectedMovies.size()
-                && result.containsAll(expectedMovies)
-                && expectedMovies.containsAll(result));
-    }
-
-    @Test
-    void filter_for_all_genres_having_empty_space_as_queryString_should_return_all_movies() {
-        List<Movie> result = MovieUtils.filter(Genre.ALL, movieList, " ");
-        List<Movie> expectedMovies = movieList;
-
-        assertTrue(result.size() == expectedMovies.size()
-                && result.containsAll(expectedMovies)
-                && expectedMovies.containsAll(result));
-    }
-    // split methods and tests to more test classes for better structure
-    @Test
-    void filter_for_action_having_tHe_DaRk_as_queryString_should_return_a_list_of_3_movies() {
-        List<Movie> result = MovieUtils.filter(Genre.ACTION, movieList, "tHe DaRk");
-        List<Movie> expectedMovies = List.of(
-                new Movie("The Dark Knight", "Batman the Dark Knight", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
-                new Movie("The Dark Knight Returns", "Batman the Dark Knight Returns", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.ANIMATION)),
-                new Movie("The Dark Knight Rises", "Batman the Dark Knight Rises", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER))
-        );
-
-        assertTrue(result.size() == expectedMovies.size()
-                && result.containsAll(expectedMovies)
-                && expectedMovies.containsAll(result));
+    void filter_for_release_1994_should_return_4_movies(){
+        List<Movie> actual = MovieUtils.filter(null,null,1994,0);
+        List<Movie> expected = Movie.initializeMovies().stream().filter(movie -> movie.getReleaseYear() == 1994).toList();
+        assertEquals(expected.size(), actual.size());
     }
 
 
     @Test
-    void filter_for_action_should_return_a_list_of_10_movies() {
-        List<Movie> result = MovieUtils.filter(Genre.ACTION, movieList, "");
-        List<Movie> expectedMovies = List.of(
-                new Movie("Superman", "Description of Superman", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
-                new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)),
-                new Movie("Peaky Blinders", "Peaky Blinders description", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA)),
-                new Movie("Ironman", "Ironman 1", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
-                new Movie("Thor: Love and Thunder", "Thor 3 ", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.FANTASY, Genre.SCIENCE_FICTION)),
-                new Movie("The Dark Knight", "Batman the Dark Knight", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
-                new Movie("The Dark Knight Rises", "Batman the Dark Knight Rises", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
-                new Movie("The Dark Knight Returns", "Batman the Dark Knight Returns", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.ANIMATION)),
-                new Movie("Spiderman: No Way Home", "Spiderman 3", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
-                new Movie("The Avengers", "The Avengers", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION))
-        );
-
-        assertTrue(result.size() == expectedMovies.size()
-                && result.containsAll(expectedMovies)
-                && expectedMovies.containsAll(result));
+    void filter_for_action_query_empire_release_1980_rating_8_should_return_1_movie(){
+        List<Movie> actual = MovieUtils.filter(Genre.ACTION, "empire", 1980, 8);
+        List<Movie> expected = movieList.stream().filter(movie ->
+                movie.getGenres().contains(Genre.ACTION) &&
+                movie.getTitle().toLowerCase().contains("empire") &&
+                movie.getReleaseYear() == 1980 &&
+                movie.getRating() >= 8
+        ).toList();
+        assertEquals(expected.size(), actual.size());
     }
 
     @Test
-    void filter_for_documentary_should_return_Documentary_about_the_Universe_movie() {
-        List<Movie> result = MovieUtils.filter(Genre.DOCUMENTARY, movieList, "");
-        List<Movie> expectedMovies = List.of(new Movie("Documentation about the Universe", "Documentation about the Universe", List.of(Genre.DOCUMENTARY)));
-
-        assertEquals(result, expectedMovies);
+    void filter_for_rating_9_should_return_3_movies(){
+        List<Movie> actual = MovieUtils.filter(null, null, 0, 9);
+        List<Movie> expected = movieList.stream().filter(movie -> movie.getRating() >= 9).toList();
+        assertEquals(expected.size(), actual.size());
     }
 
     @Test
-    void filter_for_adventure_should_return_a_list_containing_8_movies() {
-        List<Movie> result = MovieUtils.filter(Genre.ADVENTURE, movieList, "");
-        List<Movie> expectedMovies = List.of(
-                new Movie("Superman", "Description of Superman", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
-                new Movie("Thor: Love and Thunder", "Thor 3 ", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.FANTASY, Genre.SCIENCE_FICTION)),
-                new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)),
-                new Movie("Ironman", "Ironman 1", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
-                new Movie("The Dark Knight Rises", "Batman the Dark Knight Rises", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
-                new Movie("The Dark Knight Returns", "Batman the Dark Knight Returns", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.ANIMATION)),
-                new Movie("Spiderman: No Way Home", "Spiderman 3", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION)),
-                new Movie("The Avengers", "The Avengers", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.SCIENCE_FICTION))
-        );
-
-        assertTrue(result.size() == expectedMovies.size() && result.containsAll(expectedMovies) && expectedMovies.containsAll(result));
+    void filter_for_crime_rating_7_should_return_9_movies(){
+        List<Movie> actual = MovieUtils.filter(Genre.CRIME, null, 0, 7);
+        List<Movie> expected = Movie.initializeMovies().stream().filter(movie ->
+                movie.getGenres().contains(Genre.CRIME) &&
+                movie.getRating() >= 7
+        ).toList();
+        assertEquals(expected.size(), actual.size());
     }
 
     @Test
-    void filter_for_crime_should_return_5_movies() {
-        List<Movie> result = MovieUtils.filter(Genre.CRIME, movieList, "");
+    void filter_with_no_parameters_should_return_whole_list_of_31_movies(){
+        List<Movie> actual = MovieUtils.filter(null,null,0,0);
+        List<Movie> expected = Movie.initializeMovies();
+        assertEquals(expected.size(), actual.size());
+    }
 
-        List<Movie> expectedMovies = List.of(
-                new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)),
-                new Movie("Peaky Blinders", "Peaky Blinders description", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA)),
-                new Movie("The Dark Knight", "Batman the Dark Knight", List.of(Genre.ACTION, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
-                new Movie("The Dark Knight Rises", "Batman the Dark Knight Rises", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)),
-                new Movie("The Dark Knight Returns", "Batman the Dark Knight Returns", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.ANIMATION))
-        );
-
-        assertTrue(result.size() == expectedMovies.size()
-                && result.containsAll(expectedMovies)
-                && expectedMovies.containsAll(result));
+    @Test
+    void filter_with_query_lord_should_return_2_movies(){
+        List<Movie> actual = MovieUtils.filter(null,"lord",0,0);
+        List<Movie> expected = Movie.initializeMovies().stream().filter(movie ->
+                movie.getTitle().toLowerCase().contains("lord")).toList();
+        assertEquals(expected.size(), actual.size());
     }
 }

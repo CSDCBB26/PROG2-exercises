@@ -3,20 +3,21 @@ package at.ac.fhcampuswien.fhmdb;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.utils.MovieUtils;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.util.converter.NumberStringConverter;
 
 import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class HomeController implements Initializable {
     @FXML
@@ -33,7 +34,12 @@ public class HomeController implements Initializable {
 
     @FXML
     public JFXComboBox<Genre> genreComboBox;
-
+    @FXML
+    public JFXComboBox<Integer> releaseYearComboBox;
+    @FXML
+    public JFXSlider ratingSlider;
+    @FXML
+    public TextField ratingField;
     @FXML
     public JFXButton sortBtn;
 
@@ -43,10 +49,13 @@ public class HomeController implements Initializable {
 
 
     protected void handleFilterAction() {
-        System.out.print("Filter set to genre:   ");
-        System.out.println(genreComboBox.getValue());
+        Genre genre = genreComboBox.getValue();
+        int releaseYear = releaseYearComboBox.getValue() == null ? 0 : releaseYearComboBox.getValue();
+        double ratingFrom = ratingSlider.getValue();
 
-        List<Movie> temp = MovieUtils.filter(genreComboBox.getValue(), allMovies, searchField.getText());
+        System.out.println("genre: " + genreComboBox.getValue() + "\nrelease: " + releaseYear + "\nrating: " + ratingFrom);
+
+        List<Movie> temp = MovieUtils.filter(genre, searchField.getText(), releaseYear, ratingFrom);
         observableMovies.clear();
         observableMovies.addAll(temp);
         movieListView.setItems(observableMovies);
@@ -73,7 +82,54 @@ public class HomeController implements Initializable {
 
     protected void onResetButtonClick(){
         searchField.clear();
-        genreComboBox.setValue(Genre.ALL);
+        genreComboBox.setValue(null);
+        releaseYearComboBox.setValue(null);
+        ratingSlider.setValue(0);
+        ratingField.clear();
+        observableMovies.clear();
+        observableMovies.addAll(allMovies);
+    }
+
+    protected void ratingFieldEnter(KeyEvent keyEvent){
+        if(keyEvent.getCode().equals(KeyCode.ENTER)) {
+            System.out.print("Enter pressed, setting value to:  ");
+            System.out.println(ratingField.getText());
+        if(ratingField.getText().matches("[0-9]*[.0-9]+")) {
+            ratingSlider.setValue(Double.parseDouble(ratingField.getText()));
+            System.out.println("set!!!");
+        }
+        else ratingField.clear();
+
+        handleFilterAction();
+        }
+    }
+
+    private static List<Integer> getAllReleaseYears(List<Movie> allMovies){
+        List<Integer> temp = new ArrayList<>();
+
+        for (Movie movie : allMovies) {
+            if(!temp.contains(movie.getReleaseYear()))
+                temp.add(movie.getReleaseYear());
+        }
+
+        temp.sort(Integer::compare);
+
+        return temp;
+    }
+
+    private static List<Genre> getAllGenres(List<Movie> allMovies){
+        List<Genre> temp = new ArrayList<>();
+
+        for (Movie movie : allMovies) {
+            for(Genre genre : movie.getGenres()){
+                if(!temp.contains(genre))
+                    temp.add(genre);
+            }
+        }
+
+        temp.sort(Comparator.comparing(Genre::name));
+
+        return temp;
     }
 
     @Override
@@ -85,11 +141,37 @@ public class HomeController implements Initializable {
         // use custom cell factory to display data
         movieListView.setCellFactory(movieListView -> new MovieCell());
 
-        genreComboBox.getItems().addAll(Genre.class.getEnumConstants());
-        genreComboBox.setValue(Genre.ALL);
+        genreComboBox.getItems().addAll(getAllGenres(allMovies));
+        genreComboBox.setPromptText("Filter by Genre");
+
+
+        releaseYearComboBox.setPromptText("Filter by Release Year");
+        releaseYearComboBox.getItems().addAll(getAllReleaseYears(allMovies));
+        
+        ratingSlider.setValue(0);
+        ratingSlider.setMax(10);
+        ratingSlider.setBlockIncrement(1);
+        ratingSlider.setShowTickLabels(true);
+        ratingSlider.setShowTickMarks(true);
+        ratingSlider.setMajorTickUnit(5);
+
+        Tooltip t = new Tooltip("Rating");
+        Tooltip.install(ratingSlider,t);
+
+
         // items will be filtered directly after selecting a value from combobox
         genreComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)
                 -> handleFilterAction());
+        releaseYearComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)
+                -> handleFilterAction());
+
+        ratingField.setOnKeyPressed(this::ratingFieldEnter);
+
+        ratingSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            double temp = newValue.doubleValue();
+            temp = Math.round(temp*10)/10.;
+            ratingField.setText(String.valueOf(temp));
+        });
 
         searchBtn.setOnAction(actionEvent -> handleFilterAction());
         searchField.setOnKeyPressed(this::onEnterKeyPressed);
