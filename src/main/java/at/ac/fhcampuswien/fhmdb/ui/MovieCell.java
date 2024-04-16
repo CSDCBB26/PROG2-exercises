@@ -15,7 +15,9 @@ import javafx.scene.text.Font;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MovieCell extends ListCell<Movie> {
     private final Label title = new Label();
@@ -34,6 +36,9 @@ public class MovieCell extends ListCell<Movie> {
     private final HBox sideBySide = new HBox();
     private final ImageView imageView = new ImageView();
     private final HBox imageContainer = new HBox(imageView); // Wrap imageView in an HBox
+
+    private Map<String, Image> movieTitleToImage = new HashMap<>();
+    private final Image RATING_IMG = new Image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXt2Yq6rXpS5eQUE_5bmX-xPezK4ui4ibNF-AAO4sUTA&s");
 
     public MovieCell() {
         imageView.setFitWidth(500);  // Set the width of the image
@@ -62,7 +67,15 @@ public class MovieCell extends ListCell<Movie> {
             return;
         } else {
             String imageUrl = movie.getImgUrl();
-            Image image = new Image(imageUrl);
+
+            Image image;
+            if (movieTitleToImage.containsKey(movie.getTitle())) {
+                image = movieTitleToImage.get(movie.getTitle());
+            } else {
+                image = new Image(imageUrl);
+                movieTitleToImage.put(movie.getTitle(), image);
+            }
+
             imageView.setImage(image);
         }
 
@@ -86,8 +99,7 @@ public class MovieCell extends ListCell<Movie> {
                         : "No description available"
         );
 
-        Image ratingImg = new Image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXt2Yq6rXpS5eQUE_5bmX-xPezK4ui4ibNF-AAO4sUTA&s");
-        ratingStar.setImage(ratingImg);
+        ratingStar.setImage(RATING_IMG);
 
 
         rating.setText(
