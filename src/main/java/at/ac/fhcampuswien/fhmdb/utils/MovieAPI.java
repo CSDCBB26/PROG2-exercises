@@ -5,6 +5,7 @@ import okhttp3.*;
 public class MovieAPI {
     public static final String API_URL = "https://prog2.fh-campuswien.ac.at";
 
+    //Todo Exception handling, forward
     public static String getAllMovies(String api_url) {
         OkHttpClient client = new OkHttpClient();
 
@@ -24,6 +25,11 @@ public class MovieAPI {
         return "";
     }
 
+    //Todo Exception handling, forward (own class movie exception class)
+
+    /**
+     *  retrofit library - https://square.github.io/retrofit/ and https://swagger.io/tools/swagger-codegen/
+     */
     public static String getMoviesByQueries(String api_url, String query, Genre genre, int releaseYear, double ratingFrom) {
         OkHttpClient client = new OkHttpClient();
 
