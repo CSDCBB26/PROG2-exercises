@@ -1,5 +1,6 @@
-package at.ac.fhcampuswien.fhmdb;
+package at.ac.fhcampuswien.fhmdb.movie;
 
+import at.ac.fhcampuswien.fhmdb.BaseTest;
 import at.ac.fhcampuswien.fhmdb.utils.MovieUtils;
 import org.junit.jupiter.api.Test;
 

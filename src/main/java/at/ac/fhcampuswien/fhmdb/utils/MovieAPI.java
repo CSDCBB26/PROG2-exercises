@@ -1,67 +1,67 @@
 package at.ac.fhcampuswien.fhmdb.utils;
+
 import at.ac.fhcampuswien.fhmdb.Genre;
+import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import okhttp3.*;
 
 public class MovieAPI {
-    public static final String API_URL = "https://prog2.fh-campuswien.ac.at";
+    public static final String API_URL = "https://prog3.fh-campuswien.ac.at";
 
-    public static String getAllMovies(String api_url) {
+    public static String getAllMovies(String api_url) throws MovieAPIException {
         OkHttpClient client = new OkHttpClient();
+        Request request;
 
-        Request request = new Request.Builder()
-                .url(api_url + "/movies")
-                .header("User-Agent", "http.agent")
-                .build();
-
+        try {
+            request = new Request.Builder().url(api_url + "/movies").header("User-Agent", "http.agent").build();
+        } catch (IllegalArgumentException e) {
+            throw new MovieAPIException("URL is not valid");
+        }
 
         try (Response response = client.newCall(request).execute()) {
-            if (response.body() != null) {
+            if (response.isSuccessful() && response.body() != null) {
                 return response.body().string();
+            } else {
+                throw new MovieAPIException("Failed to fetch movies: " + response.code());
             }
         } catch (Exception e) {
-            return "Error: " + e.getMessage();
+            throw new MovieAPIException(e.getMessage());
         }
-        return "";
     }
 
-    public static String getMoviesByQueries(String api_url, String query, Genre genre, int releaseYear, double ratingFrom) {
+    public static String getMoviesByQueries(String api_url, String query, Genre genre, int releaseYear, double ratingFrom) throws MovieAPIException {
         OkHttpClient client = new OkHttpClient();
 
         HttpUrl httpUrl = HttpUrl.parse(api_url + "/movies");
-        HttpUrl.Builder urlBuilder;
 
-        if (httpUrl != null) {
-            urlBuilder = httpUrl.newBuilder();
-            if (query != null) {
-                urlBuilder.addQueryParameter("query", query);
-            }
-            if (genre != null) {
-                urlBuilder.addQueryParameter("genre", genre.name());
-            }
-            if (releaseYear > 0) {
-                urlBuilder.addQueryParameter("releaseYear", String.valueOf(releaseYear));
-            }
-            if (ratingFrom > 0) {
-                urlBuilder.addQueryParameter("ratingFrom", String.valueOf(ratingFrom));
-            }
-        } else {
-            throw new IllegalArgumentException("URL is not valid");
+        if (httpUrl == null) {
+            throw new MovieAPIException("URL is not valid");
+        }
+
+        HttpUrl.Builder urlBuilder = httpUrl.newBuilder();
+        if (query != null) {
+            urlBuilder.addQueryParameter("query", query);
+        }
+        if (genre != null) {
+            urlBuilder.addQueryParameter("genre", genre.name());
+        }
+        if (releaseYear > 0) {
+            urlBuilder.addQueryParameter("releaseYear", String.valueOf(releaseYear));
+        }
+        if (ratingFrom > 0) {
+            urlBuilder.addQueryParameter("ratingFrom", String.valueOf(ratingFrom));
         }
 
         String url = urlBuilder.build().toString();
-
-        Request request = new Request.Builder()
-                .url(url)
-                .header("User-Agent", "http.agent")
-                .build();
+        Request request = new Request.Builder().url(url).header("User-Agent", "http.agent").build();
 
         try (Response response = client.newCall(request).execute()) {
-            if (response.body() != null) {
+            if (response.isSuccessful() && response.body() != null) {
                 return response.body().string();
+            } else {
+                throw new MovieAPIException("Failed to fetch movies: " + response.code());
             }
         } catch (Exception e) {
-            return "Error: " + e.getMessage();
+            throw new MovieAPIException("Error: " + e.getMessage(), e);
         }
-        return "";
     }
 }
