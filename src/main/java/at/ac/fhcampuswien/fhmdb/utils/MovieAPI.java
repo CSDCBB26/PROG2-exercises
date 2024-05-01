@@ -7,7 +7,8 @@ import okhttp3.*;
 public class MovieAPI {
     public static final String API_URL = "https://prog3.fh-campuswien.ac.at";
 
-    public static String getAllMovies(String api_url) throws MovieAPIException {
+
+    public static String getAllMovies(String api_url) {
         OkHttpClient client = new OkHttpClient();
         Request request;
 
@@ -28,7 +29,11 @@ public class MovieAPI {
         }
     }
 
-    public static String getMoviesByQueries(String api_url, String query, Genre genre, int releaseYear, double ratingFrom) throws MovieAPIException {
+    /**
+     *  retrofit library - https://square.github.io/retrofit/ and https://swagger.io/tools/swagger-codegen/
+     */
+    public static String getMoviesByQueries(String api_url, String query, Genre genre, int releaseYear, double ratingFrom) {
+
         OkHttpClient client = new OkHttpClient();
 
         HttpUrl httpUrl = HttpUrl.parse(api_url + "/movies");
