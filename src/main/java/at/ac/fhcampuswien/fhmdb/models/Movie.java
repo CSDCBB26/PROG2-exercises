@@ -161,12 +161,11 @@ public class Movie {
 
     public static List<Movie> initializeMovies() {
         List<Movie> movieList = new ArrayList<>();
-        try{
+        try {
             movieList = MovieUtils.parseMovies(MovieAPI.getAllMovies(MovieAPI.API_URL));
         } catch (MovieAPIException e) {
             System.out.println("Error while initilaizing Movie List" + e.getMessage());
         }
-
         return movieList;
     }
 

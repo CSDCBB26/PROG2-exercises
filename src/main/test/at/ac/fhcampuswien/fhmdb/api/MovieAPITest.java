@@ -141,5 +141,19 @@ public class MovieAPITest extends BaseTest {
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
+    @Test
+    void API_call_with_no_API_URL_should_throw_Exception() {
+        MovieAPIException argumentException = assertThrows(
+                MovieAPIException.class,
+                () -> MovieAPI.getAllMovies("")
+        );
+
+        String expectedMessage = "URL is not valid";
+        String actualMessage = argumentException.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+
 
 }

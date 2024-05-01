@@ -8,7 +8,7 @@ public class MovieAPI {
     public static final String API_URL = "https://prog3.fh-campuswien.ac.at";
 
 
-    public static String getAllMovies(String api_url) {
+    public static String getAllMovies(String api_url) throws MovieAPIException {
         OkHttpClient client = new OkHttpClient();
         Request request;
 
@@ -32,7 +32,7 @@ public class MovieAPI {
     /**
      *  retrofit library - https://square.github.io/retrofit/ and https://swagger.io/tools/swagger-codegen/
      */
-    public static String getMoviesByQueries(String api_url, String query, Genre genre, int releaseYear, double ratingFrom) {
+    public static String getMoviesByQueries(String api_url, String query, Genre genre, int releaseYear, double ratingFrom) throws MovieAPIException {
 
         OkHttpClient client = new OkHttpClient();
 
