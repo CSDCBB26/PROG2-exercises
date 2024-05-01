@@ -16,7 +16,7 @@ public abstract class BaseTest {
     protected List<Movie> movieListAll;
 
     @BeforeEach
-    protected void setUp() {
+    public void setUp() {
         movieMap = new HashMap<>();
         movieList = new ArrayList<>();
         movieListAll = new ArrayList<>();

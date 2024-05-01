@@ -1,9 +1,11 @@
 package at.ac.fhcampuswien.fhmdb.models;
 
 import at.ac.fhcampuswien.fhmdb.Genre;
+import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import at.ac.fhcampuswien.fhmdb.utils.MovieAPI;
 import at.ac.fhcampuswien.fhmdb.utils.MovieUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Movie {
@@ -157,9 +159,14 @@ public class Movie {
     public List<String> getMainCast() {return mainCast;}
     public double getRating() {return rating;}
 
-    public static List<Movie> initializeMovies(){
-        String json = MovieAPI.getAllMovies(MovieAPI.API_URL);
-        return MovieUtils.parseMovies(json);
+    public static List<Movie> initializeMovies() {
+        List<Movie> movieList = new ArrayList<>();
+        try {
+            movieList = MovieUtils.parseMovies(MovieAPI.getAllMovies(MovieAPI.API_URL));
+        } catch (MovieAPIException e) {
+            System.out.println("Error while initilaizing Movie List" + e.getMessage());
+        }
+        return movieList;
     }
 
 }

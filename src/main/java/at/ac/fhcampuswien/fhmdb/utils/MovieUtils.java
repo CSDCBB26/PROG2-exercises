@@ -1,6 +1,7 @@
 package at.ac.fhcampuswien.fhmdb.utils;
 
 import at.ac.fhcampuswien.fhmdb.Genre;
+import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 
 import com.google.gson.Gson;
@@ -16,9 +17,17 @@ import static at.ac.fhcampuswien.fhmdb.utils.MovieAPI.API_URL;
 public class MovieUtils {
 
 
-    public static List<Movie> filter(Genre selectedGenre, String searchQuery, int selectedReleaseYear, double selectedRatingFrom) {
-        String json = MovieAPI.getMoviesByQueries(API_URL, searchQuery, selectedGenre, selectedReleaseYear, selectedRatingFrom);
-        return MovieUtils.parseMovies(json);
+    public static List<Movie> filter(Genre selectedGenre, String searchQuery, int selectedReleaseYear, double selectedRatingFrom)  {
+        List<Movie> movieList = new ArrayList<>();
+
+        try {
+            String json = MovieAPI.getMoviesByQueries(API_URL, searchQuery, selectedGenre, selectedReleaseYear, selectedRatingFrom);
+            movieList = MovieUtils.parseMovies(json);
+        } catch (MovieAPIException e) {
+            System.out.println("Error while filtering the movies " + e.getMessage());
+        }
+
+        return movieList;
     }
 
 
