@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Movie {
+    private String appID;
     private String title;
     private String description;
     private List<Genre> genres;
@@ -20,13 +21,15 @@ public class Movie {
     private List<String> mainCast;
     private double rating;
 
-    public Movie(String title, String description, List<Genre> genres) {
+    public Movie(String appID, String title, String description, List<Genre> genres) {
+        this.appID = appID;
         this.title = title;
         this.genres = genres;
         this.description = description;
     }
 
-    public Movie(String title, String description, List<Genre> genres, int releaseYear, String imgUrl, int lengthInMinutes, List<String> directors, List<String> writers, List<String> mainCast, int rating) {
+    public Movie(String appID, String title, String description, List<Genre> genres, int releaseYear, String imgUrl, int lengthInMinutes, List<String> directors, List<String> writers, List<String> mainCast, int rating) {
+        this.appID = appID;
         this.title = title;
         this.description = description;
         this.genres = genres;
@@ -40,6 +43,7 @@ public class Movie {
     }
 
     private Movie(Builder builder) {
+        this.appID = builder.appID;
         this.title = builder.title;
         this.description = builder.description;
         this.genres = builder.genres;
@@ -53,6 +57,7 @@ public class Movie {
     }
 
     public static class Builder {
+        private String appID;
         private String title;
         private String description;
         private List<Genre> genres;
@@ -114,6 +119,11 @@ public class Movie {
             return this;
         }
 
+        public Builder setAppID(String appID) {
+            this.appID = appID;
+            return this;
+        }
+
         public Movie build() {
             return new Movie(this);
         }
@@ -126,13 +136,14 @@ public class Movie {
 
     /**
      * Idea for simple equals method from stackoverflow
+     *
      * @param obj
      * @return equals
      */
     @Override
     public boolean equals(Object obj) {
         boolean res = false;
-        if(obj instanceof Movie){
+        if (obj instanceof Movie) {
             Movie other = (Movie) obj;
             res = this.title.equals(other.title)
                     && this.description.equals(other.description)
@@ -148,16 +159,44 @@ public class Movie {
     public String getDescription() {
         return description;
     }
-    public List<Genre> getGenres(){
+
+    public List<Genre> getGenres() {
         return genres;
-    };
-    public String getImgUrl() {return imgUrl;}
-    public int getReleaseYear() {return releaseYear;}
-    public int getLengthInMinutes() {return lengthInMinutes;}
-    public List<String> getDirectors() {return directors;}
-    public List<String> getWriters() {return writers;}
-    public List<String> getMainCast() {return mainCast;}
-    public double getRating() {return rating;}
+    }
+
+    ;
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public int getReleaseYear() {
+        return releaseYear;
+    }
+
+    public int getLengthInMinutes() {
+        return lengthInMinutes;
+    }
+
+    public List<String> getDirectors() {
+        return directors;
+    }
+
+    public List<String> getWriters() {
+        return writers;
+    }
+
+    public List<String> getMainCast() {
+        return mainCast;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public String getAppID() {
+        return appID;
+    }
 
     public static List<Movie> initializeMovies() {
         List<Movie> movieList = new ArrayList<>();
