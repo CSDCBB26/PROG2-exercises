@@ -16,7 +16,7 @@ public class MovieEntity {
     private String description;
 
     @DatabaseField
-    private String genres; // Stored as a comma-separated string
+    private String genres;
 
     @DatabaseField
     private int year;
