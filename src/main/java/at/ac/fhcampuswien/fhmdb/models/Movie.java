@@ -198,12 +198,12 @@ public class Movie {
         return appID;
     }
 
-    public static List<Movie> initializeMovies() {
+    public static List<Movie> initializeMovies() throws MovieAPIException{
         List<Movie> movieList = new ArrayList<>();
         try {
             movieList = MovieUtils.parseMovies(MovieAPI.getAllMovies(MovieAPI.API_URL));
         } catch (MovieAPIException e) {
-            System.out.println("Error while initilaizing Movie List" + e.getMessage());
+            throw new MovieAPIException("Error while initializing Movie List: " + e.getMessage(), e);
         }
         return movieList;
     }

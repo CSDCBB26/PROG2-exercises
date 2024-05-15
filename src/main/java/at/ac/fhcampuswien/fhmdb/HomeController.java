@@ -1,19 +1,19 @@
 package at.ac.fhcampuswien.fhmdb;
 
+import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.utils.MovieUtils;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import com.jfoenix.controls.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 import javafx.util.converter.NumberStringConverter;
 
 import java.net.URL;
@@ -43,10 +43,28 @@ public class HomeController implements Initializable {
     @FXML
     public JFXButton sortBtn;
 
-    public List<Movie> allMovies = Movie.initializeMovies();
+    @FXML
+    private VBox nav;
 
+    @FXML
+    public JFXButton watchlistBtn;
+
+    @FXML
+    public JFXButton homeBtn;
+
+    @FXML
+    public JFXButton aboutBtn;
+
+    public List<Movie> allMovies;
     private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
 
+    {
+        try {
+            allMovies = Movie.initializeMovies();
+        } catch (MovieAPIException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     protected void handleFilterAction() {
         Genre genre = genreComboBox.getValue();
@@ -62,7 +80,7 @@ public class HomeController implements Initializable {
     }
 
     protected void onEnterKeyPressed(KeyEvent keyEvent) {
-        if(keyEvent.getCode().equals(KeyCode.ENTER)) {
+        if (keyEvent.getCode().equals(KeyCode.ENTER)) {
             System.out.print("Enter pressed, searching for:  ");
             System.out.println(searchField.getText());
 
@@ -71,7 +89,7 @@ public class HomeController implements Initializable {
     }
 
     protected void onSortButtonClick() {
-        if(sortBtn.getText().equals("Sort (asc)")) {
+        if (sortBtn.getText().equals("Sort (asc)")) {
             MovieUtils.sort("ascending", observableMovies);
             sortBtn.setText("Sort (desc)");
         } else {
@@ -80,7 +98,7 @@ public class HomeController implements Initializable {
         }
     }
 
-    protected void onResetButtonClick(){
+    protected void onResetButtonClick() {
         searchField.clear();
         genreComboBox.setValue(null);
         releaseYearComboBox.setValue(null);
@@ -90,26 +108,24 @@ public class HomeController implements Initializable {
         observableMovies.addAll(allMovies);
     }
 
-    protected void ratingFieldEnter(KeyEvent keyEvent){
-        if(keyEvent.getCode().equals(KeyCode.ENTER)) {
+    protected void ratingFieldEnter(KeyEvent keyEvent) {
+        if (keyEvent.getCode().equals(KeyCode.ENTER)) {
             System.out.print("Enter pressed, setting value to:  ");
             System.out.println(ratingField.getText());
-        if(ratingField.getText().matches("[0-9]*[.0-9]+")) {
-            ratingSlider.setValue(Double.parseDouble(ratingField.getText()));
-            System.out.println("set!!!");
-        }
-        else ratingField.clear();
+            if (ratingField.getText().matches("[0-9]*[.0-9]+")) {
+                ratingSlider.setValue(Double.parseDouble(ratingField.getText()));
+                System.out.println("set!!!");
+            } else ratingField.clear();
 
-        handleFilterAction();
+            handleFilterAction();
         }
     }
 
-    private static List<Integer> getAllReleaseYears(List<Movie> allMovies){
+    private static List<Integer> getAllReleaseYears(List<Movie> allMovies) {
         List<Integer> temp = new ArrayList<>();
 
         for (Movie movie : allMovies) {
-            if(!temp.contains(movie.getReleaseYear()))
-                temp.add(movie.getReleaseYear());
+            if (!temp.contains(movie.getReleaseYear())) temp.add(movie.getReleaseYear());
         }
 
         temp.sort(Integer::compare);
@@ -117,13 +133,12 @@ public class HomeController implements Initializable {
         return temp;
     }
 
-    private static List<Genre> getAllGenres(List<Movie> allMovies){
+    private static List<Genre> getAllGenres(List<Movie> allMovies) {
         List<Genre> temp = new ArrayList<>();
 
         for (Movie movie : allMovies) {
-            for(Genre genre : movie.getGenres()){
-                if(!temp.contains(genre))
-                    temp.add(genre);
+            for (Genre genre : movie.getGenres()) {
+                if (!temp.contains(genre)) temp.add(genre);
             }
         }
 
@@ -134,49 +149,66 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        observableMovies.addAll(allMovies);
-
-        // set data of observable list to list view
-        movieListView.setItems(observableMovies);
-        // use custom cell factory to display data
-        movieListView.setCellFactory(movieListView -> new MovieCell());
-
-        genreComboBox.getItems().addAll(getAllGenres(allMovies));
-        genreComboBox.setPromptText("Filter by Genre");
+        try {
+            allMovies = Movie.initializeMovies();
+            observableMovies.addAll(allMovies);
 
 
-        releaseYearComboBox.setPromptText("Filter by Release Year");
-        releaseYearComboBox.getItems().addAll(getAllReleaseYears(allMovies));
-        
-        ratingSlider.setValue(0);
-        ratingSlider.setMax(10);
-        ratingSlider.setBlockIncrement(1);
-        ratingSlider.setShowTickLabels(true);
-        ratingSlider.setShowTickMarks(true);
-        ratingSlider.setMajorTickUnit(5);
+            // set data of observable list to list view
+            movieListView.setItems(observableMovies);
+            // use custom cell factory to display data
+            movieListView.setCellFactory(movieListView -> new MovieCell());
 
-        Tooltip t = new Tooltip("Rating");
-        Tooltip.install(ratingSlider,t);
+            genreComboBox.getItems().addAll(getAllGenres(allMovies));
+            genreComboBox.setPromptText("Filter by Genre");
 
 
-        // items will be filtered directly after selecting a value from combobox
-        genreComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)
-                -> handleFilterAction());
-        releaseYearComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)
-                -> handleFilterAction());
+            releaseYearComboBox.setPromptText("Filter by Release Year");
+            releaseYearComboBox.getItems().addAll(getAllReleaseYears(allMovies));
 
-        ratingField.setOnKeyPressed(this::ratingFieldEnter);
+            ratingSlider.setValue(0);
+            ratingSlider.setMax(10);
+            ratingSlider.setBlockIncrement(1);
+            ratingSlider.setShowTickLabels(true);
+            ratingSlider.setShowTickMarks(true);
+            ratingSlider.setMajorTickUnit(5);
 
-        ratingSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            double temp = newValue.doubleValue();
-            temp = Math.round(temp*10)/10.;
-            ratingField.setText(String.valueOf(temp));
-        });
+            Tooltip t = new Tooltip("Rating");
+            Tooltip.install(ratingSlider, t);
 
-        searchBtn.setOnAction(actionEvent -> handleFilterAction());
-        searchField.setOnKeyPressed(this::onEnterKeyPressed);
-        sortBtn.setOnAction(actionEvent -> onSortButtonClick());
-        resetBtn.setOnAction(actionEvent -> onResetButtonClick());
 
+            // items will be filtered directly after selecting a value from combobox
+            genreComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> handleFilterAction());
+            releaseYearComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> handleFilterAction());
+
+            ratingField.setOnKeyPressed(this::ratingFieldEnter);
+
+            ratingSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+                double temp = newValue.doubleValue();
+                temp = Math.round(temp * 10) / 10.;
+                ratingField.setText(String.valueOf(temp));
+            });
+
+            searchBtn.setOnAction(actionEvent -> handleFilterAction());
+            searchField.setOnKeyPressed(this::onEnterKeyPressed);
+            sortBtn.setOnAction(actionEvent -> onSortButtonClick());
+            resetBtn.setOnAction(actionEvent -> onResetButtonClick());
+        } catch (MovieAPIException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("An error occurred while initializing the movie list: " + e.getMessage());
+
+            alert.showAndWait();
+        }
+    }
+
+    public void watchlist(ActionEvent actionEvent) {
+    }
+
+    public void home(ActionEvent actionEvent) {
+    }
+
+    public void add(ActionEvent actionEvent) {
     }
 }

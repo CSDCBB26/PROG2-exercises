@@ -64,3 +64,10 @@
     -fx-font-style: italic;
     -fx-text-fill: white;
 }
+
+.nav-button {
+    -fx-border-width: 0;
+    -fx-background-color: #f5c518;
+    -fx-pref-width: 100%;
+    -fx-text-fill: #000000;
+}

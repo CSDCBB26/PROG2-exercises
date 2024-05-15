@@ -4,6 +4,7 @@ import at.ac.fhcampuswien.fhmdb.Genre;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.Background;
@@ -40,6 +41,14 @@ public class MovieCell extends ListCell<Movie> {
     private Map<String, Image> movieTitleToImage = new HashMap<>();
     private final Image RATING_IMG = new Image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXt2Yq6rXpS5eQUE_5bmX-xPezK4ui4ibNF-AAO4sUTA&s");
 
+    private final Button showDetailsButton = new Button("Show Details");
+    private final Button addToWatchlistButton = new Button("Add to Watchlist");
+    private final Button removeFromWatchlistButton = new Button("Remove from Watchlist");
+
+    private final VBox leftVBox = new VBox(title, genre, detail);
+    private final VBox rightVBox = new VBox(showDetailsButton, addToWatchlistButton);
+    private final HBox layoutDetail = new HBox(leftVBox, rightVBox);
+
     public MovieCell() {
         imageView.setFitWidth(500);  // Set the width of the image
         imageView.setFitHeight(500); // Set the height of the image
@@ -52,6 +61,19 @@ public class MovieCell extends ListCell<Movie> {
         ratingBox.setAlignment(Pos.BOTTOM_RIGHT);
         sideBySide.getChildren().add(layout);
         sideBySide.getChildren().add(imageContainer);
+
+        // Handle button click events
+        showDetailsButton.setOnAction(event -> {
+            // Show details
+        });
+
+        addToWatchlistButton.setOnAction(event -> {
+            // Remove/Add to watchlist
+        });
+
+        removeFromWatchlistButton.setOnAction(event -> {
+            // Remove/Add to watchlist
+        });
 
     }
 
@@ -161,5 +183,14 @@ public class MovieCell extends ListCell<Movie> {
         layout.spacingProperty().set(10);
         layout.alignmentProperty().set(javafx.geometry.Pos.TOP_LEFT);
         setGraphic(sideBySide);
+
+        // Update layout
+        layout.getChildren().clear();
+        if (empty || movie == null) {
+            layout.getChildren().addAll(new Label("No Movie Available"));
+        } else {
+            layout.getChildren().addAll(leftVBox, rightVBox);
+        }
+        setGraphic(layout);
     }
 }
