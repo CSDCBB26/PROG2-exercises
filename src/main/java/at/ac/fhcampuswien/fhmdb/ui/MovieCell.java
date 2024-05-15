@@ -1,15 +1,15 @@
 package at.ac.fhcampuswien.fhmdb.ui;
 
 import at.ac.fhcampuswien.fhmdb.Genre;
+import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
+import at.ac.fhcampuswien.fhmdb.utils.ClickEventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
@@ -18,7 +18,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 
 import java.util.HashMap;
@@ -48,15 +47,25 @@ public class MovieCell extends ListCell<Movie> {
 
     private final Button showDetailsButton = new Button("Show Details");
     private final Button addToWatchlistButton = new Button("Add to Watchlist");
-    private final Button removeFromWatchlistButton = new Button("Remove from Watchlist");
-
+    private final HBox buttonBox = new HBox();
     private final VBox leftVBox = new VBox(title, genre, detail);
-    private final VBox rightVBox = new VBox(showDetailsButton, addToWatchlistButton);
     private final GridPane detailsGrid = new GridPane();
 
     // Add a boolean flag to track whether the details are currently shown
     private boolean detailsShown = false;
 
+    public MovieCell(ClickEventHandler addToWatchlistClicked) {
+        super();
+        addToWatchlistButton.setOnMouseClicked(mouseEvent -> {
+            try {
+                addToWatchlistClicked.onClick(getItem());
+            } catch (DatabaseException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+    }
+//
 
     public MovieCell() {
         imageView.setFitWidth(500);  // Set the width of the image
@@ -70,6 +79,13 @@ public class MovieCell extends ListCell<Movie> {
         ratingBox.setAlignment(Pos.BOTTOM_RIGHT);
         sideBySide.getChildren().add(layout);
         sideBySide.getChildren().add(imageContainer);
+
+        buttonBox.getChildren().addAll(showDetailsButton, addToWatchlistButton);
+        buttonBox.setSpacing(10);
+        buttonBox.setAlignment(Pos.CENTER_RIGHT);
+
+        // Add the buttonBox to the layout
+        layout.getChildren().add(buttonBox);
 
         // Configure the GridPane
         detailsGrid.setHgap(10); // Horizontal gap between columns
@@ -188,7 +204,7 @@ public class MovieCell extends ListCell<Movie> {
         genre.getStyleClass().add("text-white-cursive");
         layout.setBackground(new Background(new BackgroundFill(Color.web("#454545"), null, null)));
 
-        // layout
+        // layout‚
         title.getFont();
         title.fontProperty().set(Font.font(20));
 
@@ -207,7 +223,7 @@ public class MovieCell extends ListCell<Movie> {
 
         // Update layout
         layout.getChildren().clear();
-        layout.getChildren().addAll(leftVBox, rightVBox);
+        layout.getChildren().addAll(leftVBox, buttonBox);
         setGraphic(layout);
     }
 }

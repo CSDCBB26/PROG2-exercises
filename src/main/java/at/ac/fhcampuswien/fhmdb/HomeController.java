@@ -209,6 +209,7 @@ public class HomeController implements Initializable {
     public void home(ActionEvent actionEvent) {
     }
 
-    public void add(ActionEvent actionEvent) {
+    public void about(ActionEvent actionEvent) {
     }
+
 }
