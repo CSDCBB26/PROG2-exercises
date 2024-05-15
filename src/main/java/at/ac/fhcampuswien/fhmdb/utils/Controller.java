@@ -15,13 +15,4 @@ public class Controller {
         }
     };
 
-    private final ClickEventHandler onRemoveFromWatchlistClicked = (clickedItem) -> {
-        WatchlistRepository watchlistRepository = new WatchlistRepository();
-
-        try {
-            watchlistRepository.removeFromWatchlist((String) clickedItem);
-        } catch (DatabaseException e) {
-            e.printStackTrace();
-        }
-    };
 }
