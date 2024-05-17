@@ -1,8 +1,15 @@
 package at.ac.fhcampuswien.fhmdb;
 
+import at.ac.fhcampuswien.fhmdb.database.MovieEntity;
+import at.ac.fhcampuswien.fhmdb.database.WatchlistMovieEntity;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
+import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,12 +22,36 @@ public abstract class BaseTest {
 
     protected List<Movie> movieListAll;
 
-    @BeforeEach
-    public void setUp() {
-        movieMap = new HashMap<>();
-        movieList = new ArrayList<>();
-        movieListAll = new ArrayList<>();
+    protected ConnectionSource connectionSource;
 
+    @BeforeEach
+    public void setUp() throws SQLException {
+        setUpDatabase();
+        setUpMovieMap();
+        setUpMovieList();
+    }
+
+    @AfterEach
+    public void tearDown() throws SQLException {
+        TableUtils.dropTable(connectionSource, MovieEntity.class, true);
+        TableUtils.dropTable(connectionSource, WatchlistMovieEntity.class, true);
+
+        try {
+            connectionSource.close();
+        } catch (Exception e) {
+            // ignore
+        }
+    }
+
+    protected void setUpDatabase() throws SQLException {
+        // in memory database, not persistent
+        connectionSource = new JdbcConnectionSource("jdbc:h2:mem:fhmdb");
+        TableUtils.createTableIfNotExists(connectionSource, MovieEntity.class);
+        TableUtils.createTableIfNotExists(connectionSource, WatchlistMovieEntity.class);
+    }
+
+    protected void setUpMovieMap() {
+        movieMap = new HashMap<>();
         movieMap.put("The Godfather", new Movie.Builder()
                 .setTitle("The Godfather")
                 .setDescription("The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.")
@@ -163,7 +194,9 @@ public abstract class BaseTest {
                 .setMainCast(List.of("Morgan Freeman", "Brad Pitt", "Kevin Spacey"))
                 .setRating(8.6)
                 .build());
+    }
 
+    protected void setUpMovieList() {
         movieList = new ArrayList<>(movieMap.values());
 
         movieListAll = List.of(

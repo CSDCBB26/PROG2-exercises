@@ -26,6 +26,12 @@ public class Movie {
     private List<String> mainCast;
     private double rating;
 
+    public Movie(String title, String description, List<Genre> genres) {
+        this.title = title;
+        this.genres = genres;
+        this.description = description;
+    }
+
     public Movie(String appID, String title, String description, List<Genre> genres) {
         this.appID = appID;
         this.title = title;

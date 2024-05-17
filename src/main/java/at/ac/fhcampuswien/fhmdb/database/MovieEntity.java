@@ -14,7 +14,7 @@ public class MovieEntity {
     @DatabaseField(generatedId = true)
     private long id;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField
     private String apiId;
 
     @DatabaseField(canBeNull = false)

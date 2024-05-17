@@ -14,6 +14,10 @@ public class MovieRepository {
         this.dao = DatabaseManager.getDatabaseInstance().getMovieDao();
     }
 
+    public MovieRepository(Dao<MovieEntity, Long> dao) {
+        this.dao = dao;
+    }
+
     public List<MovieEntity> getAllMovies() throws DatabaseException {
         try {
             return dao.queryForAll();
