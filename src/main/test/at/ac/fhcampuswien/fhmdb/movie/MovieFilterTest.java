@@ -2,6 +2,7 @@ package at.ac.fhcampuswien.fhmdb.movie;
 
 import at.ac.fhcampuswien.fhmdb.BaseTest;
 import at.ac.fhcampuswien.fhmdb.Genre;
+import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.utils.MovieUtils;
 import org.junit.jupiter.api.Test;
@@ -66,7 +67,7 @@ public class MovieFilterTest extends BaseTest {
      * therefore I use initializeMovies() for the list
      */
     @Test
-    void filter_for_release_1994_should_return_4_movies(){
+    void filter_for_release_1994_should_return_4_movies() throws MovieAPIException {
         List<Movie> actual = MovieUtils.filter(null,null,1994,0);
         List<Movie> expected = Movie.initializeMovies().stream().filter(movie -> movie.getReleaseYear() == 1994).toList();
         assertEquals(expected.size(), actual.size());
@@ -93,7 +94,7 @@ public class MovieFilterTest extends BaseTest {
     }
 
     @Test
-    void filter_for_crime_rating_7_should_return_9_movies(){
+    void filter_for_crime_rating_7_should_return_9_movies() throws MovieAPIException {
         List<Movie> actual = MovieUtils.filter(Genre.CRIME, null, 0, 7);
         List<Movie> expected = Movie.initializeMovies().stream().filter(movie ->
                 movie.getGenres().contains(Genre.CRIME) &&
@@ -103,14 +104,14 @@ public class MovieFilterTest extends BaseTest {
     }
 
     @Test
-    void filter_with_no_parameters_should_return_whole_list_of_31_movies(){
+    void filter_with_no_parameters_should_return_whole_list_of_31_movies() throws MovieAPIException {
         List<Movie> actual = MovieUtils.filter(null,null,0,0);
         List<Movie> expected = Movie.initializeMovies();
         assertEquals(expected.size(), actual.size());
     }
 
     @Test
-    void filter_with_query_lord_should_return_2_movies(){
+    void filter_with_query_lord_should_return_2_movies() throws MovieAPIException {
         List<Movie> actual = MovieUtils.filter(null,"lord",0,0);
         List<Movie> expected = Movie.initializeMovies().stream().filter(movie ->
                 movie.getTitle().toLowerCase().contains("lord")).toList();
