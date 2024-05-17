@@ -47,6 +47,7 @@ public class MovieCell extends ListCell<Movie> {
 
     private final Button showDetailsButton = new Button("Show Details");
     private final Button addToWatchlistButton = new Button("Add to Watchlist");
+
     private final HBox buttonBox = new HBox();
     private final VBox leftVBox = new VBox(title, genre, detail);
     private final GridPane detailsGrid = new GridPane();
@@ -79,6 +80,9 @@ public class MovieCell extends ListCell<Movie> {
         ratingBox.setAlignment(Pos.BOTTOM_RIGHT);
         sideBySide.getChildren().add(layout);
         sideBySide.getChildren().add(imageContainer);
+
+        showDetailsButton.getStyleClass().add("background-yellow");
+        addToWatchlistButton.getStyleClass().add("background-yellow");
 
         buttonBox.getChildren().addAll(showDetailsButton, addToWatchlistButton);
         buttonBox.setSpacing(10);

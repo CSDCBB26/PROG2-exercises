@@ -47,6 +47,9 @@ public class HomeController implements Initializable {
     private VBox nav;
 
     @FXML
+    private ToggleButton navToggleButton;
+
+    @FXML
     public JFXButton watchlistBtn;
 
     @FXML
@@ -54,6 +57,7 @@ public class HomeController implements Initializable {
 
     @FXML
     public JFXButton aboutBtn;
+
 
     public List<Movie> allMovies;
     private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
@@ -153,6 +157,13 @@ public class HomeController implements Initializable {
             allMovies = Movie.initializeMovies();
             observableMovies.addAll(allMovies);
 
+            navToggleButton.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+                if (isSelected) {
+                    nav.setVisible(true);
+                } else {
+                    nav.setVisible(false);
+                }
+            });
 
             // set data of observable list to list view
             movieListView.setItems(observableMovies);
