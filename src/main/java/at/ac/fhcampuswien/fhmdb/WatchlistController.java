@@ -72,9 +72,14 @@ public class WatchlistController implements Initializable {
             }
         });
 
+        homeBtn.setOnAction(actionEvent -> SceneSwitcher.switchScene(actionEvent, "home-view.fxml"));
+        watchlistBtn.setOnAction(actionEvent -> SceneSwitcher.switchScene(actionEvent, "watchlist-view.fxml"));
+
         // set data of observable list to list view
         movieListView.setItems(observableMovies);
         // use custom cell factory to display data
         movieListView.setCellFactory(movieListView -> new MovieCell());
     }
+
+
 }

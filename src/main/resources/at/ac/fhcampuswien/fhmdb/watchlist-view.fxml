@@ -12,7 +12,7 @@
 
 <?import javafx.scene.layout.StackPane?>
 <StackPane prefHeight="331.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/15.0.1"
-           xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampuswien.fhmdb.HomeController">
+           xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampuswien.fhmdb.WatchlistController">
     <children>
         <!-- Center Content -->
         <VBox prefHeight="331.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/15.0.1"
@@ -43,10 +43,10 @@
         <VBox alignment="TOP_LEFT" spacing="5" fx:id="nav" prefHeight="200.0" maxWidth="150.0"
               style="-fx-background-color: black;"
               stylesheets="@styles.css" visible="false" VBox.vgrow="ALWAYS" StackPane.alignment="CENTER_LEFT">
-            <JFXButton fx:id="homeBtn" onAction="#home" text="Home" styleClass="nav-button" stylesheets="@styles.css"/>
-            <JFXButton fx:id="watchlistBtn" onAction="#watchlist" text="Watchlist" styleClass="nav-button"
+            <JFXButton fx:id="homeBtn"  text="Home" styleClass="nav-button" stylesheets="@styles.css"/>
+            <JFXButton fx:id="watchlistBtn" text="Watchlist" styleClass="nav-button"
                        stylesheets="@styles.css"/>
-            <JFXButton fx:id="aboutBtn" onAction="#about" text="About" styleClass="nav-button"
+            <JFXButton fx:id="aboutBtn" text="About" styleClass="nav-button"
                        stylesheets="@styles.css"/>
         </VBox>
     </children>

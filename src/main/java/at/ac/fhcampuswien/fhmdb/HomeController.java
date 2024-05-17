@@ -209,6 +209,9 @@ public class HomeController implements Initializable {
             searchField.setOnKeyPressed(this::onEnterKeyPressed);
             sortBtn.setOnAction(actionEvent -> onSortButtonClick());
             resetBtn.setOnAction(actionEvent -> onResetButtonClick());
+            homeBtn.setOnAction(actionEvent -> SceneSwitcher.switchScene(actionEvent, "home-view.fxml"));
+            watchlistBtn.setOnAction(actionEvent -> SceneSwitcher.switchScene(actionEvent, "watchlist-view.fxml"));
+
         } catch (MovieAPIException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error Dialog");
@@ -217,41 +220,6 @@ public class HomeController implements Initializable {
 
             alert.showAndWait();
         }
-    }
-
-    public void watchlist(ActionEvent actionEvent) {
-        try {
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-            FXMLLoader fxmlLoader = new FXMLLoader(FhmdbApplication.class.getResource("watchlist-view.fxml"));
-
-            Scene watchlistScene = new Scene(fxmlLoader.load(), 890, 620);
-
-            stage.setScene(watchlistScene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void home(ActionEvent actionEvent) {
-        try {
-            // Get the current stage
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-            // Load the FXML file for the home view
-            Parent homeRoot = FXMLLoader.load(getClass().getResource("home-view.fxml"));
-
-            // Create a new scene with the loaded root
-            Scene homeScene = new Scene(homeRoot);
-
-            // Set the new scene on the current stage
-            stage.setScene(homeScene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void about(ActionEvent actionEvent) {
     }
 
 }

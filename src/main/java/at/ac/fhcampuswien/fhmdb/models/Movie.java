@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Movie {
+    private String databaseId;
+
     private String id; // same as appID but there is not appID in the movie provided by the API, there is only id, so
                        // we need to define id as instance variable in order to correctly parse the movies
     private String appID;
@@ -71,6 +73,7 @@ public class Movie {
     }
 
     public static class Builder {
+        private long databaseId;
         private String id;
         private String appID;
         private String title;
@@ -141,6 +144,11 @@ public class Movie {
 
         public Builder setId(String id) {
             this.id = id;
+            return this;
+        }
+
+        public Builder setDatabaseid(long databaseid) {
+            this.databaseId = databaseid;
             return this;
         }
 
