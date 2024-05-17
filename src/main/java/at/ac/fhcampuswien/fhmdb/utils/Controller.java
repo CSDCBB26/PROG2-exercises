@@ -1,17 +1,20 @@
 package at.ac.fhcampuswien.fhmdb.utils;
 
-import at.ac.fhcampuswien.fhmdb.WatchlistController;
 import at.ac.fhcampuswien.fhmdb.database.WatchlistMovieEntity;
 import at.ac.fhcampuswien.fhmdb.database.WatchlistRepository;
 import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
-import javafx.stage.Stage;
 
 public class Controller {
     private final WatchlistRepository watchlistRepository = new WatchlistRepository();
 
     public final ClickEventHandler<Movie> onAddToWatchlistClicked = (clickedItem) -> {
         try {
+            if (watchlistRepository.getFromWatchlist(clickedItem.getDatabaseId()) != null) {
+                System.out.println("Movie already in the watchlist");
+                return;
+            }
+
             watchlistRepository.addToWatchlist(new WatchlistMovieEntity(clickedItem.getDatabaseId(), clickedItem.getAppID()));
         } catch (DatabaseException e) {
             e.printStackTrace();
