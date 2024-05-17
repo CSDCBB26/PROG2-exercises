@@ -1,6 +1,9 @@
 package at.ac.fhcampuswien.fhmdb.models;
 
 import at.ac.fhcampuswien.fhmdb.Genre;
+import at.ac.fhcampuswien.fhmdb.database.MovieEntity;
+import at.ac.fhcampuswien.fhmdb.database.MovieRepository;
+import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import at.ac.fhcampuswien.fhmdb.utils.MovieAPI;
 import at.ac.fhcampuswien.fhmdb.utils.MovieUtils;
@@ -9,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Movie {
+    private String id; // same as appID but there is not appID in the movie provided by the API, there is only id, so
+                       // we need to define id as instance variable in order to correctly parse the movies
     private String appID;
     private String title;
     private String description;
@@ -57,6 +62,7 @@ public class Movie {
     }
 
     public static class Builder {
+        private String id;
         private String appID;
         private String title;
         private String description;
@@ -124,6 +130,11 @@ public class Movie {
             return this;
         }
 
+        public Builder setId(String id) {
+            this.id = id;
+            return this;
+        }
+
         public Movie build() {
             return new Movie(this);
         }
@@ -150,6 +161,14 @@ public class Movie {
                     && this.genres.equals(other.genres);
         }
         return res;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -198,13 +217,23 @@ public class Movie {
         return appID;
     }
 
-    public static List<Movie> initializeMovies() throws MovieAPIException{
+    public static List<Movie> initializeMovies() throws MovieAPIException {
+        MovieRepository movieRepository = new MovieRepository();
         List<Movie> movieList = new ArrayList<>();
+
         try {
-            movieList = MovieUtils.parseMovies(MovieAPI.getAllMovies(MovieAPI.API_URL));
-        } catch (MovieAPIException e) {
-            throw new MovieAPIException("Error while initializing Movie List: " + e.getMessage(), e);
+            movieList = MovieEntity.toMovies(movieRepository.getAllMovies());
+
+            // use the API only if no movies set in the database
+            if (movieList.isEmpty()) {
+                movieList = MovieUtils.parseMovies(MovieAPI.getAllMovies(MovieAPI.API_URL));
+                movieRepository.addAllMovies(MovieEntity.fromMovies(movieList));
+            }
+
+        } catch (DatabaseException e) {
+            System.out.println("Error while adding movies to database " + e.getMessage());
         }
+
         return movieList;
     }
 
