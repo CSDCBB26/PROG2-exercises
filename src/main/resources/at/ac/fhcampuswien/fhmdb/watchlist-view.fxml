@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
-<?import com.jfoenix.controls.JFXSlider?>
-<?import com.jfoenix.controls.JFXTextField?>
 
 <?import javafx.scene.control.ToggleButton?>
 
@@ -40,34 +35,6 @@
                 </children>
                 <ToggleButton fx:id="navToggleButton" layoutX="500" layoutY="10" text="Toggle Nav"
                               styleClass="background-yellow" stylesheets="@styles.css"/>
-            </HBox>
-            <HBox spacing="1" styleClass="background-black" stylesheets="@styles.css">
-                <children>
-                    <JFXButton fx:id="sortBtn" styleClass="background-yellow" stylesheets="@styles.css"
-                               text="Sort (asc)"/>
-                    <TextField fx:id="searchField" prefHeight="25.0" prefWidth="170.0" promptText="Search FHMDb"/>
-                    <JFXComboBox fx:id="genreComboBox" focusColor="#f5c518" styleClass="filter-combo-box"
-                                 stylesheets="@styles.css"/>
-                    <JFXComboBox fx:id="releaseYearComboBox" focusColor="#f5c518" styleClass="filter-combo-box"
-                                 stylesheets="@styles.css"/>
-                    <VBox spacing="5.0" styleClass="background-black" stylesheets="@styles.css">
-                        <children>
-                            <JFXTextField fx:id="ratingField" prefHeight="25.0" prefWidth="25.0"
-                                          styleClass="number-field" promptText="Enter Rating"
-                                          stylesheets="@styles.css"/>
-                            <JFXSlider fx:id="ratingSlider" styleClass="filter-slider" stylesheets="@styles.css"/>
-                        </children>
-                    </VBox>
-                    <JFXButton fx:id="searchBtn" styleClass="background-yellow" stylesheets="@styles.css"
-                               text="Filter"/>
-                    <JFXButton fx:id="resetBtn" styleClass="background-yellow" stylesheets="@styles.css" text="Reset"/>
-                </children>
-                <VBox.margin>
-                    <Insets/>
-                </VBox.margin>
-                <padding>
-                    <Insets bottom="20.0" left="10.0" top="20.0"/>
-                </padding>
             </HBox>
             <JFXListView fx:id="movieListView" styleClass="background-black" style="-fx-background-color: black;"
                          stylesheets="@styles.css" VBox.vgrow="ALWAYS"/>

@@ -9,13 +9,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
-import javafx.util.converter.NumberStringConverter;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -215,9 +220,35 @@ public class HomeController implements Initializable {
     }
 
     public void watchlist(ActionEvent actionEvent) {
+        try {
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+            FXMLLoader fxmlLoader = new FXMLLoader(FhmdbApplication.class.getResource("watchlist-view.fxml"));
+
+            Scene watchlistScene = new Scene(fxmlLoader.load(), 890, 620);
+
+            stage.setScene(watchlistScene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void home(ActionEvent actionEvent) {
+        try {
+            // Get the current stage
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+            // Load the FXML file for the home view
+            Parent homeRoot = FXMLLoader.load(getClass().getResource("home-view.fxml"));
+
+            // Create a new scene with the loaded root
+            Scene homeScene = new Scene(homeRoot);
+
+            // Set the new scene on the current stage
+            stage.setScene(homeScene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void about(ActionEvent actionEvent) {

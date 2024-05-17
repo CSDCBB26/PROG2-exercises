@@ -3,10 +3,13 @@ package at.ac.fhcampuswien.fhmdb.models;
 import at.ac.fhcampuswien.fhmdb.Genre;
 import at.ac.fhcampuswien.fhmdb.database.MovieEntity;
 import at.ac.fhcampuswien.fhmdb.database.MovieRepository;
+import at.ac.fhcampuswien.fhmdb.database.WatchlistMovieEntity;
+import at.ac.fhcampuswien.fhmdb.database.WatchlistRepository;
 import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import at.ac.fhcampuswien.fhmdb.utils.MovieAPI;
 import at.ac.fhcampuswien.fhmdb.utils.MovieUtils;
+import org.h2.store.Data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -237,10 +240,46 @@ public class Movie {
             }
 
         } catch (DatabaseException e) {
-            System.out.println("Error while adding movies to database " + e.getMessage());
+            System.out.println("Error while initializing the movies movies using the database " + e.getMessage());
         }
 
         return movieList;
+    }
+
+    public static List<Movie> initializeWatchListMovies() {
+        WatchlistRepository watchlistRepository = new WatchlistRepository();
+        MovieRepository movieRepository = new MovieRepository();
+        List<WatchlistMovieEntity> watchlistMovieEntities = new ArrayList<>();
+        List<Movie> watchListMovies = new ArrayList<>();
+
+        try {
+            watchlistMovieEntities = watchlistRepository.getWatchlist();
+
+            for (WatchlistMovieEntity watchlistMovieEntity : watchlistMovieEntities) {
+                MovieEntity movieEntity = movieRepository.getMovie(watchlistMovieEntity.getId());
+                if (movieEntity != null) {
+                    Movie movie = new Movie.Builder()
+                            .setId(movieEntity.getApiId())
+                            .setAppID(movieEntity.getApiId())
+                            .setTitle(movieEntity.getTitle())
+                            .setDescription(movieEntity.getDescription())
+                            .setGenres(Genre.stringToGenres(movieEntity.getGenres()))
+                            .setDirectors(List.of(movieEntity.getDirectors().split(",")))
+                            .setReleaseYear(movieEntity.getReleaseYear())
+                            .setimgUrl(movieEntity.getImgUrl())
+                            .setLengthInMinutes(movieEntity.getLengthInMinutes())
+                            .setRating(movieEntity.getRating())
+                            .build();
+
+                    watchListMovies.add(movie);
+                }
+            }
+
+        } catch (DatabaseException e) {
+            System.out.println("Error while initializing the watchlist movies movies using the database " + e.getMessage());
+        }
+
+        return watchListMovies;
     }
 
 }
