@@ -13,11 +13,23 @@ public class WatchlistRepository {
         this.dao = DatabaseManager.getDatabaseInstance().getWatchlistMovieDao();
     }
 
+    public WatchlistRepository(Dao<WatchlistMovieEntity, Long> dao) {
+        this.dao = dao;
+    }
+
     public List<WatchlistMovieEntity> getWatchlist() throws DatabaseException {
         try {
             return dao.queryForAll();
         } catch (SQLException e) {
             throw new DatabaseException("Failed to retrieve the watchlist", e);
+        }
+    }
+
+    public WatchlistMovieEntity getFromWatchlist(long id) throws DatabaseException {
+        try {
+            return dao.queryForId(id);
+        } catch (SQLException e) {
+            throw new DatabaseException("Failed to retrieve the movie from watchlist with id " + id, e);
         }
     }
 

@@ -42,6 +42,16 @@ public class MovieRepositoryTest extends BaseTest {
 
         List<MovieEntity> retrievedMovies = movieRepository.getAllMovies();
         assertEquals(movieMap.size(), retrievedMovies.size());
+
+        List<String> originalApiIds = movieEntities.stream()
+                .map(MovieEntity::getApiId)
+                .toList();
+
+        List<String> retrievedApiIds = retrievedMovies.stream()
+                .map(MovieEntity::getApiId)
+                .toList();
+
+        assertTrue(originalApiIds.containsAll(retrievedApiIds) && retrievedApiIds.containsAll(originalApiIds));
     }
 
     @Test
