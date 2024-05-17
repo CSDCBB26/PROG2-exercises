@@ -9,13 +9,12 @@ import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import at.ac.fhcampuswien.fhmdb.utils.MovieAPI;
 import at.ac.fhcampuswien.fhmdb.utils.MovieUtils;
-import org.h2.store.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Movie {
-    private String databaseId;
+    private long databaseId;
 
     private String id; // same as appID but there is not appID in the movie provided by the API, there is only id, so
                        // we need to define id as instance variable in order to correctly parse the movies
@@ -59,6 +58,7 @@ public class Movie {
     }
 
     private Movie(Builder builder) {
+        this.databaseId = builder.databaseId;
         this.appID = builder.appID;
         this.title = builder.title;
         this.description = builder.description;
@@ -147,7 +147,7 @@ public class Movie {
             return this;
         }
 
-        public Builder setDatabaseid(long databaseid) {
+        public Builder setDatabaseId(long databaseid) {
             this.databaseId = databaseid;
             return this;
         }
@@ -232,6 +232,10 @@ public class Movie {
 
     public String getAppID() {
         return appID;
+    }
+
+    public long getDatabaseId() {
+        return databaseId;
     }
 
     public static List<Movie> initializeMovies() throws MovieAPIException {

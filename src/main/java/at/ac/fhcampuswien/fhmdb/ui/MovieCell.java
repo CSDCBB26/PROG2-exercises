@@ -47,7 +47,8 @@ public class MovieCell extends ListCell<Movie> {
     private final Image RATING_IMG = new Image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXt2Yq6rXpS5eQUE_5bmX-xPezK4ui4ibNF-AAO4sUTA&s");
 
     private final Button showDetailsButton = new Button("Show Details");
-    private final Button watchlistBtn = new Button("Add to Watchlist");
+    private final Button watchlistBtn = new Button("Watchlist");
+    private final Button removeWatchlistBtn = new Button("Remove");
     private Controller controller;
 
     private final HBox buttonBox = new HBox();
@@ -57,22 +58,21 @@ public class MovieCell extends ListCell<Movie> {
     // Add a boolean flag to track whether the details are currently shown
     private boolean detailsShown = false;
 
-    public MovieCell(Controller controller) {
+    public MovieCell(ClickEventHandler<Movie> watchlistButtonClicked, boolean isWatchlistView) {
         super();
-        this.controller = controller;
 
         watchlistBtn.setOnMouseClicked(mouseEvent -> {
             try {
-                controller.onAddToWatchlistClicked.onClick(getItem());
+                watchlistButtonClicked.onClick(getItem());
             } catch (DatabaseException e) {
                 throw new RuntimeException(e);
             }
         });
 
-    }
+        if (isWatchlistView) {
+            watchlistBtn.setText("Remove");
+        }
 
-
-    public MovieCell(ClickEventHandler<Movie> addToWatchlistClicked) {
         imageView.setFitWidth(500);  // Set the width of the image
         imageView.setFitHeight(500); // Set the height of the image
         ratingStar.setFitWidth(15);  // Set the width of the image
@@ -222,7 +222,7 @@ public class MovieCell extends ListCell<Movie> {
 
         detail.setPrefWidth(500);
 
-//        sideBySide.setPrefWidth(this.getScene().getWidth());
+        // sideBySide.setPrefWidth(this.getScene().getWidth());
 
         detail.setWrapText(true);
         layout.setPadding(new Insets(10));

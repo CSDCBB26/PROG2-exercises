@@ -2,25 +2,19 @@ package at.ac.fhcampuswien.fhmdb;
 
 import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
+import at.ac.fhcampuswien.fhmdb.utils.Controller;
 import at.ac.fhcampuswien.fhmdb.utils.MovieUtils;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import com.jfoenix.controls.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -63,6 +57,7 @@ public class HomeController implements Initializable {
     @FXML
     public JFXButton aboutBtn;
 
+    private  Controller controller = new Controller();
 
     public List<Movie> allMovies;
     private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
@@ -173,8 +168,7 @@ public class HomeController implements Initializable {
             // set data of observable list to list view
             movieListView.setItems(observableMovies);
             // use custom cell factory to display data
-            movieListView.setCellFactory(movieListView -> new MovieCell());
-
+            movieListView.setCellFactory(movieListView -> new MovieCell(controller.onAddToWatchlistClicked, false));
             genreComboBox.getItems().addAll(getAllGenres(allMovies));
             genreComboBox.setPromptText("Filter by Genre");
 
@@ -209,8 +203,8 @@ public class HomeController implements Initializable {
             searchField.setOnKeyPressed(this::onEnterKeyPressed);
             sortBtn.setOnAction(actionEvent -> onSortButtonClick());
             resetBtn.setOnAction(actionEvent -> onResetButtonClick());
-            homeBtn.setOnAction(actionEvent -> SceneSwitcher.switchScene(actionEvent, "home-view.fxml"));
-            watchlistBtn.setOnAction(actionEvent -> SceneSwitcher.switchScene(actionEvent, "watchlist-view.fxml"));
+            homeBtn.setOnAction(actionEvent -> Scene.switchScene(actionEvent, "home-view.fxml"));
+            watchlistBtn.setOnAction(actionEvent -> Scene.switchScene(actionEvent, "watchlist-view.fxml"));
 
         } catch (MovieAPIException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

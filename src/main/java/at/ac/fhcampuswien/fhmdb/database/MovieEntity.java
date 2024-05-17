@@ -169,6 +169,7 @@ public class MovieEntity {
     public static List<Movie> toMovies(List<MovieEntity> movieEntities) {
         return movieEntities.stream()
                 .map(entity -> new Movie.Builder()
+                        .setDatabaseId(entity.getId())
                         .setId(entity.getApiId())
                         .setAppID(entity.getApiId())
                         .setTitle(entity.getTitle())
