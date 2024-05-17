@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 @DatabaseTable(tableName = "movies")
 public class MovieEntity {
 
+    // TODO change to use apiId as primary key instead
     @DatabaseField(generatedId = true)
     private long id;
 
