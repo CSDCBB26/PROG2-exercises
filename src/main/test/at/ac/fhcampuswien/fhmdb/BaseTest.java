@@ -53,6 +53,7 @@ public abstract class BaseTest {
     protected void setUpMovieMap() {
         movieMap = new HashMap<>();
         movieMap.put("The Godfather", new Movie.Builder()
+                .setAppID("11122aaa")
                 .setTitle("The Godfather")
                 .setDescription("The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.")
                 .setGenres(List.of(Genre.DRAMA))
@@ -66,6 +67,7 @@ public abstract class BaseTest {
                 .build());
 
         movieMap.put("The Shawshank Redemption", new Movie.Builder()
+                .setAppID("11122bbb")
                 .setTitle("The Shawshank Redemption")
                 .setDescription("Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.")
                 .setGenres(List.of(Genre.DRAMA))
@@ -79,6 +81,7 @@ public abstract class BaseTest {
                 .build());
 
         movieMap.put("The Dark Knight", new Movie.Builder()
+                .setAppID("11122ccc")
                 .setTitle("The Dark Knight")
                 .setDescription("When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, the caped crusader must come to terms with one of the greatest psychological tests of his ability to fight injustice.")
                 .setGenres(List.of(Genre.DRAMA, Genre.ACTION, Genre.CRIME))
@@ -92,6 +95,7 @@ public abstract class BaseTest {
                 .build());
 
         movieMap.put("Schindler's List", new Movie.Builder()
+                .setAppID("11122ddd")
                 .setTitle("Schindler's List")
                 .setDescription("In German-occupied Poland during World War II, Oskar Schindler gradually becomes concerned for his Jewish workforce after witnessing their persecution by the Nazi Germans.")
                 .setGenres(List.of(Genre.BIOGRAPHY, Genre.DRAMA, Genre.HISTORY))
@@ -105,6 +109,7 @@ public abstract class BaseTest {
                 .build());
 
         movieMap.put("Pulp Fiction", new Movie.Builder()
+                .setAppID("11122eee")
                 .setTitle("Pulp Fiction")
                 .setDescription("The lives of two mob hit men, a boxer, a gangster's wife, and a pair of diner bandits intertwine in four tales of violence and redemption.")
                 .setGenres(List.of(Genre.CRIME, Genre.DRAMA))
@@ -118,6 +123,7 @@ public abstract class BaseTest {
                 .build());
 
         movieMap.put("Once Upon a Time in Hollywood", new Movie.Builder()
+                .setAppID("11122fff")
                 .setTitle("Once Upon a Time in Hollywood")
                 .setDescription("A faded television actor and his stunt double strive to achieve fame and success in the film industry during the final years of Hollywood's Golden Age in 1969 Los Angeles.")
                 .setGenres(List.of(Genre.COMEDY, Genre.DRAMA))
@@ -131,6 +137,7 @@ public abstract class BaseTest {
                 .build());
 
         movieMap.put("The Lord of the Rings: The Return of the King", new Movie.Builder()
+                .setAppID("11122ggg")
                 .setTitle("The Lord of the Rings: The Return of the King")
                 .setDescription("Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.")
                 .setGenres(List.of(Genre.ADVENTURE, Genre.DRAMA, Genre.FANTASY))
@@ -144,6 +151,7 @@ public abstract class BaseTest {
                 .build());
 
         movieMap.put("Star Wars: Episode V - The Empire Strikes Back", new Movie.Builder()
+                .setAppID("11122hhh")
                 .setTitle("Star Wars: Episode V - The Empire Strikes Back")
                 .setDescription("After the rebels are brutally overpowered by the Empire on the ice planet Hoth, Luke Skywalker begins Jedi training with Yoda, while his friends are pursued by Darth Vader and a bounty hunter named Boba Fett all over the galaxy.")
                 .setGenres(List.of(Genre.ACTION, Genre.ADVENTURE, Genre.FANTASY, Genre.SCIENCE_FICTION))
@@ -157,6 +165,7 @@ public abstract class BaseTest {
                 .build());
 
         movieMap.put("The Good, the Bad and the Ugly", new Movie.Builder()
+                .setAppID("11122iii")
                 .setTitle("The Good, the Bad and the Ugly")
                 .setDescription("A bounty hunting scam joins two men in an uneasy alliance against a third in a race to find a fortune in gold buried in a remote cemetery.")
                 .setGenres(List.of(Genre.WESTERN))
@@ -170,6 +179,7 @@ public abstract class BaseTest {
                 .build());
 
         movieMap.put("12 Angry Men", new Movie.Builder()
+                .setAppID("11122jjj")
                 .setTitle("12 Angry Men")
                 .setDescription("A jury holdout attempts to prevent a miscarriage of justice by forcing his colleagues to reconsider the evidence.")
                 .setGenres(List.of(Genre.DRAMA))
@@ -183,6 +193,7 @@ public abstract class BaseTest {
                 .build());
 
         movieMap.put("Seven", new Movie.Builder()
+                .setAppID("11122kkk")
                 .setTitle("Seven")
                 .setDescription("Two detectives, a rookie and a veteran, hunt a serial killer who uses the seven deadly sins as his modus operandi.")
                 .setGenres(List.of(Genre.DRAMA, Genre.CRIME, Genre.MYSTERY, Genre.THRILLER))

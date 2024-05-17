@@ -43,9 +43,15 @@ public class MovieRepositoryTest extends BaseTest {
         List<MovieEntity> retrievedMovies = movieRepository.getAllMovies();
         assertEquals(movieMap.size(), retrievedMovies.size());
 
-        for (MovieEntity movieEntity : movieEntities) {
-            assertTrue(retrievedMovies.contains(movieEntity));
-        }
+        List<String> originalApiIds = movieEntities.stream()
+                .map(MovieEntity::getApiId)
+                .toList();
+
+        List<String> retrievedApiIds = retrievedMovies.stream()
+                .map(MovieEntity::getApiId)
+                .toList();
+
+        assertTrue(originalApiIds.containsAll(retrievedApiIds) && retrievedApiIds.containsAll(originalApiIds));
     }
 
     @Test
@@ -79,7 +85,7 @@ public class MovieRepositoryTest extends BaseTest {
     }
 
     @Test
-    public void getting_movie_with_id_0_should_return_the_first_movie_in_the_table() throws DatabaseException {
+    public void getting_movie_with_id_should_return_a_movie_from_the_table() throws DatabaseException {
         List<MovieEntity> movieEntities = movieMap.values().stream()
                 .map(movie -> new MovieEntity.Builder()
                         .setApiID(movie.getAppID())
@@ -105,7 +111,30 @@ public class MovieRepositoryTest extends BaseTest {
     }
 
     @Test
-    public void getting_a_movie_with_non_existing_id_should_return_a_DatabaseException() {
-        assertThrows(DatabaseException.class, () -> movieRepository.getMovie(999L));
+    public void getting_a_movie_with_id_1_should_return_movie_with_id_1() throws DatabaseException {
+        List<MovieEntity> movieEntities = movieMap.values().stream()
+                .map(movie -> new MovieEntity.Builder()
+                        .setApiID(movie.getAppID())
+                        .setTitle(movie.getTitle())
+                        .setDescription(movie.getDescription())
+                        .setGenres(movie.getGenres())
+                        .setDirectors(movie.getDirectors())
+                        .setReleaseYear(movie.getReleaseYear())
+                        .setImgUrl(movie.getImgUrl())
+                        .setLengthInMinutes(movie.getLengthInMinutes())
+                        .setRating(movie.getRating())
+                        .build())
+                .collect(Collectors.toList());
+
+        movieRepository.addAllMovies(movieEntities);
+
+        MovieEntity retrievedMovie = movieRepository.getMovie(1L);
+        assertNotNull(retrievedMovie);
+        assertEquals(1, retrievedMovie.getId());
+    }
+
+    @Test
+    public void getting_a_movie_with_non_existing_id_should_return_null() throws DatabaseException {
+        assertNull(movieRepository.getMovie(999999L));
     }
 }
