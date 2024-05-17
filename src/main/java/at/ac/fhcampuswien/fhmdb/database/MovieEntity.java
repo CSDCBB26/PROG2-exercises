@@ -152,7 +152,7 @@ public class MovieEntity {
     public static List<MovieEntity> fromMovies(List<Movie> movies) {
         return movies.stream()
                 .map(movie -> new MovieEntity.Builder()
-                        .setApiID(movie.getAppID())
+                        .setApiID(movie.getId())
                         .setTitle(movie.getTitle())
                         .setDescription(movie.getDescription())
                         .setGenres(movie.getGenres())
@@ -169,6 +169,7 @@ public class MovieEntity {
     public static List<Movie> toMovies(List<MovieEntity> movieEntities) {
         return movieEntities.stream()
                 .map(entity -> new Movie.Builder()
+                        .setId(entity.getApiId())
                         .setAppID(entity.getApiId())
                         .setTitle(entity.getTitle())
                         .setDescription(entity.getDescription())
