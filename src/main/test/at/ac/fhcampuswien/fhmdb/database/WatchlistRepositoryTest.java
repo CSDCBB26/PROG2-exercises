@@ -23,8 +23,8 @@ public class WatchlistRepositoryTest extends BaseTest {
 
     @Test
     public void after_adding_movies_to_watchlist_should_be_able_to_retrieve_them() throws DatabaseException {
-        WatchlistMovieEntity movie1 = new WatchlistMovieEntity(1, "api1");
-        WatchlistMovieEntity movie2 = new WatchlistMovieEntity(2, "api2");
+        WatchlistMovieEntity movie1 = new WatchlistMovieEntity("api1");
+        WatchlistMovieEntity movie2 = new WatchlistMovieEntity("api2");
 
         watchlistRepository.addToWatchlist(movie1);
         watchlistRepository.addToWatchlist(movie2);
@@ -37,8 +37,8 @@ public class WatchlistRepositoryTest extends BaseTest {
 
     @Test
     public void removing_all_movies_from_watchlist_should_delete_all_records_from_watchlist_table() throws DatabaseException {
-        WatchlistMovieEntity movie1 = new WatchlistMovieEntity(1, "api1");
-        WatchlistMovieEntity movie2 = new WatchlistMovieEntity(2, "api2");
+        WatchlistMovieEntity movie1 = new WatchlistMovieEntity("api1");
+        WatchlistMovieEntity movie2 = new WatchlistMovieEntity("api2");
 
         watchlistRepository.addToWatchlist(movie1);
         watchlistRepository.addToWatchlist(movie2);
@@ -58,8 +58,8 @@ public class WatchlistRepositoryTest extends BaseTest {
 
     @Test
     public void getting_movie_from_watchlist_with_id_should_return_a_movie_from_watchlist_table() throws DatabaseException {
-        WatchlistMovieEntity movie1 = new WatchlistMovieEntity(1, "api1");
-        WatchlistMovieEntity movie2 = new WatchlistMovieEntity(2, "api2");
+        WatchlistMovieEntity movie1 = new WatchlistMovieEntity("api1");
+        WatchlistMovieEntity movie2 = new WatchlistMovieEntity("api2");
 
         watchlistRepository.addToWatchlist(movie1);
         watchlistRepository.addToWatchlist(movie2);
@@ -68,12 +68,12 @@ public class WatchlistRepositoryTest extends BaseTest {
         WatchlistMovieEntity retrievedMovie = retrievedWatchlist.get(0);
 
         assertNotNull(retrievedMovie);
-        assertEquals(movie1.getId(), retrievedMovie.getId());
+        assertEquals(movie1.getApiId(), retrievedMovie.getApiId());
         assertEquals(movie1.getApiId(), retrievedMovie.getApiId());
     }
 
     @Test
     public void getting_movie_from_watchlist_with_non_existing_id_should_return_null() throws DatabaseException {
-        assertNull(watchlistRepository.getFromWatchlist(99999L));
+        assertNull(watchlistRepository.getFromWatchlist("99999L"));
     }
 }

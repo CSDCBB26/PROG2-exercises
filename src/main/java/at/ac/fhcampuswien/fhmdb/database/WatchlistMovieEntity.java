@@ -9,26 +9,14 @@ import java.util.Objects;
 public class WatchlistMovieEntity {
 
     @DatabaseField(id = true)
-    private long id;
-
-    @DatabaseField(canBeNull = false)
     private String apiId;
 
     // DO NOT REMOVE - ORMLite requires a no-arg constructor
     public WatchlistMovieEntity() {
     }
 
-    public WatchlistMovieEntity(long id, String apiId) {
-        this.id = id;
+    public WatchlistMovieEntity(String apiId) {
         this.apiId = apiId;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getApiId() {
@@ -48,11 +36,11 @@ public class WatchlistMovieEntity {
             return false;
         }
         WatchlistMovieEntity that = (WatchlistMovieEntity) o;
-        return id == that.id && Objects.equals(apiId, that.apiId);
+        return Objects.equals(apiId, that.apiId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, apiId);
+        return Objects.hash(apiId);
     }
 }

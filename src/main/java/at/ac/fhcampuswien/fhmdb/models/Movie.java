@@ -14,11 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Movie {
-    private long databaseId;
 
     private String id; // same as appID but there is not appID in the movie provided by the API, there is only id, so
                        // we need to define id as instance variable in order to correctly parse the movies
-    private String appID;
+    private String apiID;
     private String title;
     private String description;
     private List<Genre> genres;
@@ -37,14 +36,14 @@ public class Movie {
     }
 
     public Movie(String appID, String title, String description, List<Genre> genres) {
-        this.appID = appID;
+        this.apiID = appID;
         this.title = title;
         this.genres = genres;
         this.description = description;
     }
 
     public Movie(String appID, String title, String description, List<Genre> genres, int releaseYear, String imgUrl, int lengthInMinutes, List<String> directors, List<String> writers, List<String> mainCast, int rating) {
-        this.appID = appID;
+        this.apiID = appID;
         this.title = title;
         this.description = description;
         this.genres = genres;
@@ -58,8 +57,7 @@ public class Movie {
     }
 
     private Movie(Builder builder) {
-        this.databaseId = builder.databaseId;
-        this.appID = builder.appID;
+        this.apiID = builder.appID;
         this.title = builder.title;
         this.description = builder.description;
         this.genres = builder.genres;
@@ -73,7 +71,6 @@ public class Movie {
     }
 
     public static class Builder {
-        private long databaseId;
         private String id;
         private String appID;
         private String title;
@@ -144,11 +141,6 @@ public class Movie {
 
         public Builder setId(String id) {
             this.id = id;
-            return this;
-        }
-
-        public Builder setDatabaseId(long databaseid) {
-            this.databaseId = databaseid;
             return this;
         }
 
@@ -230,12 +222,8 @@ public class Movie {
         return rating;
     }
 
-    public String getAppID() {
-        return appID;
-    }
-
-    public long getDatabaseId() {
-        return databaseId;
+    public String getApiID() {
+        return apiID;
     }
 
     public static List<Movie> initializeMovies() throws MovieAPIException {
@@ -268,7 +256,7 @@ public class Movie {
             watchlistMovieEntities = watchlistRepository.getWatchlist();
 
             for (WatchlistMovieEntity watchlistMovieEntity : watchlistMovieEntities) {
-                MovieEntity movieEntity = movieRepository.getMovie(watchlistMovieEntity.getId());
+                MovieEntity movieEntity = movieRepository.getMovie(watchlistMovieEntity.getApiId());
                 if (movieEntity != null) {
                     Movie movie = new Movie.Builder()
                             .setId(movieEntity.getApiId())

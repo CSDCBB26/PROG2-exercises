@@ -25,13 +25,20 @@ public class WatchlistRepository {
         }
     }
 
-    public WatchlistMovieEntity getFromWatchlist(long id) throws DatabaseException {
+    public WatchlistMovieEntity getFromWatchlist(String apiID) throws DatabaseException {
         try {
-            return dao.queryForId(id);
+            // Use the queryForEq method to search for apiId
+            List<WatchlistMovieEntity> result = dao.queryForEq("apiId", apiID);
+            if (result != null && !result.isEmpty()) {
+                return result.get(0);
+            } else {
+                return null;
+            }
         } catch (SQLException e) {
-            throw new DatabaseException("Failed to retrieve the movie from watchlist with id " + id, e);
+            throw new DatabaseException("Failed to retrieve the movie from watchlist with apiId " + apiID, e);
         }
     }
+
 
     public int addToWatchlist(WatchlistMovieEntity movie) throws DatabaseException {
         try {

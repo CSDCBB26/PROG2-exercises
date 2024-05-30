@@ -26,7 +26,7 @@ public class MovieRepositoryTest extends BaseTest {
     public void after_adding_movies_in_the_database_should_be_able_to_retrieve_them() throws DatabaseException {
         List<MovieEntity> movieEntities = movieMap.values().stream()
                 .map(movie -> new MovieEntity.Builder()
-                        .setApiID(movie.getAppID())
+                        .setApiID(movie.getApiID())
                         .setTitle(movie.getTitle())
                         .setDescription(movie.getDescription())
                         .setGenres(movie.getGenres())
@@ -58,7 +58,7 @@ public class MovieRepositoryTest extends BaseTest {
     public void removing_all_movies_from_the_database_should_delete_all_records_from_movie_table() throws DatabaseException {
         List<MovieEntity> movieEntities = movieMap.values().stream()
                 .map(movie -> new MovieEntity.Builder()
-                        .setApiID(movie.getAppID())
+                        .setApiID(movie.getApiID())
                         .setTitle(movie.getTitle())
                         .setDescription(movie.getDescription())
                         .setGenres(movie.getGenres())
@@ -88,7 +88,7 @@ public class MovieRepositoryTest extends BaseTest {
     public void getting_movie_with_id_should_return_a_movie_from_the_table() throws DatabaseException {
         List<MovieEntity> movieEntities = movieMap.values().stream()
                 .map(movie -> new MovieEntity.Builder()
-                        .setApiID(movie.getAppID())
+                        .setApiID(movie.getApiID())
                         .setTitle(movie.getTitle())
                         .setDescription(movie.getDescription())
                         .setGenres(movie.getGenres())
@@ -103,18 +103,18 @@ public class MovieRepositoryTest extends BaseTest {
         movieRepository.addAllMovies(movieEntities);
 
         MovieEntity movieEntity = movieEntities.get(0);
-        MovieEntity retrievedMovie = movieRepository.getMovie(movieEntity.getId());
+        MovieEntity retrievedMovie = movieRepository.getMovie(movieEntity.getApiId());
 
         assertNotNull(retrievedMovie);
-        assertEquals(movieEntity.getId(), retrievedMovie.getId());
+        assertEquals(movieEntity.getApiId(), retrievedMovie.getApiId());
         assertEquals(movieEntity.getTitle(), retrievedMovie.getTitle());
     }
 
     @Test
-    public void getting_a_movie_with_id_1_should_return_movie_with_id_1() throws DatabaseException {
+    public void getting_a_movie_with_id_11122aaa_should_return_movie_with_same_id() throws DatabaseException {
         List<MovieEntity> movieEntities = movieMap.values().stream()
                 .map(movie -> new MovieEntity.Builder()
-                        .setApiID(movie.getAppID())
+                        .setApiID(movie.getApiID())
                         .setTitle(movie.getTitle())
                         .setDescription(movie.getDescription())
                         .setGenres(movie.getGenres())
@@ -128,13 +128,13 @@ public class MovieRepositoryTest extends BaseTest {
 
         movieRepository.addAllMovies(movieEntities);
 
-        MovieEntity retrievedMovie = movieRepository.getMovie(1L);
+        MovieEntity retrievedMovie = movieRepository.getMovie("11122aaa");
         assertNotNull(retrievedMovie);
-        assertEquals(1, retrievedMovie.getId());
+        assertEquals("11122aaa", retrievedMovie.getApiId());
     }
 
     @Test
     public void getting_a_movie_with_non_existing_id_should_return_null() throws DatabaseException {
-        assertNull(movieRepository.getMovie(999999L));
+        assertNull(movieRepository.getMovie("999999L"));
     }
 }

@@ -12,7 +12,7 @@ public class Controller {
 
     public final ClickEventHandler<Movie> onAddToWatchlistClicked = (clickedItem) -> {
         try {
-            if (watchlistRepository.getFromWatchlist(clickedItem.getDatabaseId()) != null) {
+            if (watchlistRepository.getFromWatchlist(clickedItem.getApiID()) != null) {
                 Platform.runLater(() -> {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Watchlist Information");
@@ -24,7 +24,7 @@ public class Controller {
                 return;
             }
 
-            watchlistRepository.addToWatchlist(new WatchlistMovieEntity(clickedItem.getDatabaseId(), clickedItem.getAppID()));
+            watchlistRepository.addToWatchlist(new WatchlistMovieEntity(clickedItem.getApiID()));
         } catch (DatabaseException e) {
             e.printStackTrace();
         }
@@ -32,7 +32,7 @@ public class Controller {
 
     public final ClickEventHandler<Movie> onRemoveFromWatchlistClicked = (clickedItem) -> {
         try {
-            watchlistRepository.removeFromWatchlist(clickedItem.getAppID());
+            watchlistRepository.removeFromWatchlist(clickedItem.getApiID());
             // WatchlistController.updateWatchListMovies();
         } catch (DatabaseException e) {
             e.printStackTrace();
