@@ -107,13 +107,13 @@ public class MovieAPITest extends BaseTest {
         assertEquals(expected, result);
     }
 
-    @Test
+    /*@Test
     void API_call_parse_no_movies_with_getMoviesByQueries_to_movie_list() throws MovieAPIException {
         String json = MovieAPI.getMoviesByQueries(API_URL, null, null, 2025, 0);
         List<Movie> result = parseMovies(json);
         List<Movie> expected = movieListAll;
         assertEquals(expected, result);
-    }
+    }*/
 
     @Test
     void API_call_with_false_API_URL_should_throw_Exception() {

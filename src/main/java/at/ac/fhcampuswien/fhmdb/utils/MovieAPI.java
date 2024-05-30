@@ -5,7 +5,7 @@ import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import okhttp3.*;
 
 public class MovieAPI {
-    public static final String API_URL = "https://prog3.fh-campuswien.ac.at";
+    public static final String API_URL = "https://prog2.fh-campuswien.ac.at";
 
 
     public static String getAllMovies(String api_url) throws MovieAPIException {

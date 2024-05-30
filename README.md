@@ -1,9 +1,9 @@
-## PROG 2 - Exercise 2 - FHMDB 
+# PROG 2 - Exercise 3 
 
-### Start the application
+## Start the application
 Start the application by either running the `main` method in the `FhmdbApplication` class or by running `mvn clean javafx:run` in Maven.
 
-Note: If you run the application with `mvn clean javafx:run` you may face a incompatible version error (`java.lang.module.InvalidModuleDescriptorException: Unsupported major.minor version XXX`). If so, check the version of your system Java installation (Environment Variables). 
+Note: If you run the application with `mvn clean javafx:run` you may face an incompatible version error (`java.lang.module.InvalidModuleDescriptorException: Unsupported major.minor version XXX`). If so, check the version of your system Java installation (Environment Variables). 
 Maven uses the default system Java installation. If you have multiple Java installations, you can set the Java version for Maven by adding the following to your 
 `pom.xml`:
 ```xml
@@ -23,3 +23,13 @@ Maven uses the default system Java installation. If you have multiple Java insta
     </plugins>
 </build>
 ```
+
+##  ToDos for exercise 3
+Andi: 
+- [] UI Layer
+- [] Business Layer
+- [] Exception Handling in UI & Business
+
+Sergiu:
+- [] Data Layer
+- [] Exception Handling in DB
