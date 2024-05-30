@@ -34,13 +34,19 @@ public class MovieRepository {
         }
     }
 
-    public MovieEntity getMovie(Long id) throws DatabaseException {
+    public MovieEntity getMovie(String apiId) throws DatabaseException {
         try {
-            return dao.queryForId(id);
+            List<MovieEntity> result = dao.queryForEq("apiId", apiId);
+            if (result != null && !result.isEmpty()) {
+                return result.get(0);
+            } else {
+                return null;
+            }
         } catch (SQLException e) {
-            throw new DatabaseException("Failed to retrieve movie with ID: " + id, e);
+            throw new DatabaseException("Failed to retrieve movie with apiId: " + apiId, e);
         }
     }
+
 
     public int addAllMovies(List<MovieEntity> movies) throws DatabaseException {
         int count = 0;

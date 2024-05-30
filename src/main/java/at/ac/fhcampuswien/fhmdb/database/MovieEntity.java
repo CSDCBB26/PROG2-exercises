@@ -11,11 +11,7 @@ import java.util.stream.Collectors;
 @DatabaseTable(tableName = "movies")
 public class MovieEntity {
 
-    // TODO change to use apiId as primary key instead
-    @DatabaseField(generatedId = true)
-    private long id;
-
-    @DatabaseField
+    @DatabaseField(id = true)
     private String apiId;
 
     @DatabaseField(canBeNull = false)
@@ -56,14 +52,6 @@ public class MovieEntity {
         this.imgUrl = builder.imgUrl;
         this.lengthInMinutes = builder.lengthInMinutes;
         this.rating = builder.rating;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getApiId() {
@@ -170,7 +158,6 @@ public class MovieEntity {
     public static List<Movie> toMovies(List<MovieEntity> movieEntities) {
         return movieEntities.stream()
                 .map(entity -> new Movie.Builder()
-                        .setDatabaseId(entity.getId())
                         .setId(entity.getApiId())
                         .setAppID(entity.getApiId())
                         .setTitle(entity.getTitle())
