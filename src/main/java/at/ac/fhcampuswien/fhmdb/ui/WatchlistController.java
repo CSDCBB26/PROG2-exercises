@@ -1,11 +1,12 @@
-package at.ac.fhcampuswien.fhmdb;
+package at.ac.fhcampuswien.fhmdb.ui;
 
+import at.ac.fhcampuswien.fhmdb.Scene;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
-import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import at.ac.fhcampuswien.fhmdb.utils.Controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class WatchlistController implements Initializable {
-    private  Controller controller = new Controller();
+    private Controller controller = new Controller();
 
     @FXML
     public JFXListView<Movie> movieListView;
@@ -38,7 +39,7 @@ public class WatchlistController implements Initializable {
     public JFXButton aboutBtn;
 
     public List<Movie> allMovies;
-    private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
+    public static ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
 
 
     public void updateWatchListMovies() {
@@ -62,6 +63,18 @@ public class WatchlistController implements Initializable {
                 nav.setVisible(false);
             }
         });
+
+
+        // Add a listener to the observableMovies list
+        observableMovies.addListener((ListChangeListener.Change<? extends Movie> change) -> {
+            while (change.next()) {
+                if (change.wasRemoved()) {
+                    // Update the movieListView with the new list of movies
+                    movieListView.setItems(observableMovies);
+                }
+            }
+        });
+
 
         homeBtn.setOnAction(actionEvent -> Scene.switchScene(actionEvent, "home-view.fxml"));
         watchlistBtn.setOnAction(actionEvent -> Scene.switchScene(actionEvent, "watchlist-view.fxml"));

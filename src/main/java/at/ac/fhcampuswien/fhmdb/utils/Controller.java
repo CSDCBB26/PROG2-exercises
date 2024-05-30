@@ -3,6 +3,7 @@ package at.ac.fhcampuswien.fhmdb.utils;
 import at.ac.fhcampuswien.fhmdb.database.WatchlistMovieEntity;
 import at.ac.fhcampuswien.fhmdb.database.WatchlistRepository;
 import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
+import at.ac.fhcampuswien.fhmdb.ui.WatchlistController;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -33,7 +34,10 @@ public class Controller {
     public final ClickEventHandler<Movie> onRemoveFromWatchlistClicked = (clickedItem) -> {
         try {
             watchlistRepository.removeFromWatchlist(clickedItem.getAppID());
-            // WatchlistController.updateWatchListMovies();
+            // Remove the movie from the observableMovies list
+            Platform.runLater(() -> {
+                WatchlistController.observableMovies.remove(clickedItem);
+            });
         } catch (DatabaseException e) {
             e.printStackTrace();
         }

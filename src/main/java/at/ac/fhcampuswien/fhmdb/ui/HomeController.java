@@ -1,10 +1,11 @@
-package at.ac.fhcampuswien.fhmdb;
+package at.ac.fhcampuswien.fhmdb.ui;
 
+import at.ac.fhcampuswien.fhmdb.Genre;
+import at.ac.fhcampuswien.fhmdb.Scene;
 import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.utils.Controller;
 import at.ac.fhcampuswien.fhmdb.utils.MovieUtils;
-import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import com.jfoenix.controls.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
