@@ -1,9 +1,8 @@
-package at.ac.fhcampuswien.fhmdb.ui;
+package at.ac.fhcampuswien.fhmdb;
 
-import at.ac.fhcampuswien.fhmdb.Genre;
-import at.ac.fhcampuswien.fhmdb.Scene;
 import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
+import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import at.ac.fhcampuswien.fhmdb.utils.Controller;
 import at.ac.fhcampuswien.fhmdb.utils.MovieUtils;
 import com.jfoenix.controls.*;
