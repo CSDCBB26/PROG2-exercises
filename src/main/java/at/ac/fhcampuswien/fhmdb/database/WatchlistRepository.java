@@ -31,7 +31,6 @@ public class WatchlistRepository implements Observable {
 
     public WatchlistMovieEntity getFromWatchlist(String apiID) throws DatabaseException {
         try {
-            // Use the queryForEq method to search for apiId
             List<WatchlistMovieEntity> result = dao.queryForEq("apiId", apiID);
             if (result != null && !result.isEmpty()) {
                 return result.get(0);
@@ -46,9 +45,12 @@ public class WatchlistRepository implements Observable {
 
     public int addToWatchlist(WatchlistMovieEntity movie) throws DatabaseException {
         try {
-            int numLinesChanged = dao.createOrUpdate(movie).getNumLinesChanged();
-            // Notify observers that a movie has been added to the watchlist
-            notifyObservers("A movie has been added to the watchlist");
+            Dao.CreateOrUpdateStatus status = dao.createOrUpdate(movie);
+            int numLinesChanged = status.getNumLinesChanged();
+
+            if (status.isCreated()) {
+                notifyObservers("The movie has been added to the watchlist.");
+            }
 
             return numLinesChanged;
         } catch (SQLException e) {
@@ -65,7 +67,7 @@ public class WatchlistRepository implements Observable {
             }
 
             // Notify observers that a movie has been removed from the watchlist
-            notifyObservers("A movie has been removed from the watchlist");
+            notifyObservers("The movie has been removed from the watchlist.");
 
             return count;
         } catch (SQLException e) {

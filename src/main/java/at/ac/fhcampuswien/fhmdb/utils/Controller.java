@@ -4,7 +4,6 @@ import at.ac.fhcampuswien.fhmdb.WatchlistController;
 import at.ac.fhcampuswien.fhmdb.database.WatchlistMovieEntity;
 import at.ac.fhcampuswien.fhmdb.database.WatchlistRepository;
 import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
-import at.ac.fhcampuswien.fhmdb.WatchlistController;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -23,7 +22,6 @@ public class Controller implements Observer {
                 update("The movie is already in the watchlist!");
             } else {
                 watchlistRepository.addToWatchlist(new WatchlistMovieEntity(clickedItem.getApiID()));
-                update("A new movie has been added to the watchlist!");
             }
         } catch (DatabaseException e) {
             Platform.runLater(() -> {
@@ -43,7 +41,6 @@ public class Controller implements Observer {
             Platform.runLater(() -> {
                 WatchlistController.observableMovies.remove(clickedItem);
             });
-            update("Movie has been removed from the watchlist");
         } catch (DatabaseException e) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
