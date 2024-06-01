@@ -6,10 +6,10 @@ import okhttp3.*;
 
 public class MovieAPI {
     public static final String API_URL = "https://prog2.fh-campuswien.ac.at";
+    private static final OkHttpClient client = new OkHttpClient();
 
 
     public static String getAllMovies(String api_url) throws MovieAPIException {
-        OkHttpClient client = new OkHttpClient();
         Request request;
 
         try {
@@ -34,14 +34,7 @@ public class MovieAPI {
      */
     public static String getMoviesByQueries(String api_url, String query, Genre genre, int releaseYear, double ratingFrom) throws MovieAPIException {
 
-        OkHttpClient client = new OkHttpClient();
-
-        Request request = new MovieAPIRequestBuilder(api_url + "/movies")
-                .query(query)
-                .genre(genre != null ? genre.name() : null)
-                .releaseYear(releaseYear > 0 ? String.valueOf(releaseYear) : null)
-                .ratingFrom(ratingFrom > 0 ? String.valueOf(ratingFrom) : null)
-                .buildRequest();
+        Request request = new MovieAPIRequestBuilder(api_url + "/movies").query(query).genre(genre != null ? genre.name() : null).releaseYear(releaseYear > 0 ? String.valueOf(releaseYear) : null).ratingFrom(ratingFrom > 0 ? String.valueOf(ratingFrom) : null).buildRequest();
 
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful() && response.body() != null) {
