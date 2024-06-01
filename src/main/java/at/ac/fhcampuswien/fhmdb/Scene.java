@@ -13,16 +13,9 @@ import java.util.Objects;
 public class Scene {
     public static void switchScene(ActionEvent actionEvent, String fxmlPath) {
         try {
-            // Get the current stage
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-            // Load the FXML file for the view
             Parent root = FXMLLoader.load(Objects.requireNonNull(Scene.class.getResource(fxmlPath)));
-
-            // Create a new scene with the loaded root
             javafx.scene.Scene scene = new javafx.scene.Scene(root);
-
-            // Set the new scene on the current stage
             stage.setScene(scene);
         } catch (IOException | NullPointerException e) {
             // Create an alert window

@@ -57,7 +57,9 @@ public class HomeController implements Initializable {
     @FXML
     public JFXButton aboutBtn;
 
-    private  Controller controller = new Controller();
+    ControllerFactory controllerFactory = new ControllerFactory();
+    private Controller controller = (Controller) controllerFactory.call(Controller.class);
+
 
     public List<Movie> allMovies;
     private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes

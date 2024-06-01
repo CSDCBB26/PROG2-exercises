@@ -19,7 +19,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class WatchlistController implements Initializable {
-    private Controller controller = new Controller();
+    ControllerFactory controllerFactory = new ControllerFactory();
+    private Controller controller = (Controller) controllerFactory.call(Controller.class);
 
     @FXML
     public JFXListView<Movie> movieListView;
