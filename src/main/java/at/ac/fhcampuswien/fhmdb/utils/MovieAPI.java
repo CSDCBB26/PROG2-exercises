@@ -34,7 +34,12 @@ public class MovieAPI {
      */
     public static String getMoviesByQueries(String api_url, String query, Genre genre, int releaseYear, double ratingFrom) throws MovieAPIException {
 
-        Request request = new MovieAPIRequestBuilder(api_url + "/movies").query(query).genre(genre != null ? genre.name() : null).releaseYear(releaseYear > 0 ? String.valueOf(releaseYear) : null).ratingFrom(ratingFrom > 0 ? String.valueOf(ratingFrom) : null).buildRequest();
+        Request request = new MovieAPIRequestBuilder(api_url + "/movies")
+                .query(query)
+                .genre(genre != null ? genre.name() : null)
+                .releaseYear(releaseYear > 0 ? String.valueOf(releaseYear) : null)
+                .ratingFrom(ratingFrom > 0 ? String.valueOf(ratingFrom) : null)
+                .buildRequest();
 
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful() && response.body() != null) {
