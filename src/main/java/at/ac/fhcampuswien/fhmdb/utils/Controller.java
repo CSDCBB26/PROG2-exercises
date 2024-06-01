@@ -10,7 +10,12 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
 public class Controller implements Observer {
-    private final WatchlistRepository watchlistRepository = new WatchlistRepository();
+    private WatchlistRepository watchlistRepository;
+
+    public Controller() {
+        this.watchlistRepository = new WatchlistRepository();
+        this.watchlistRepository.addObserver(this);
+    }
 
     public final ClickEventHandler<Movie> onAddToWatchlistClicked = (clickedItem) -> {
         try {

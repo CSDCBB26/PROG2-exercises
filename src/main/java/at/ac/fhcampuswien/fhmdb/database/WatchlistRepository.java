@@ -4,6 +4,7 @@ import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.utils.Observable;
 import at.ac.fhcampuswien.fhmdb.utils.Observer;
 import com.j256.ormlite.dao.Dao;
+
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ArrayList;
@@ -45,7 +46,11 @@ public class WatchlistRepository implements Observable {
 
     public int addToWatchlist(WatchlistMovieEntity movie) throws DatabaseException {
         try {
-            return dao.createOrUpdate(movie).getNumLinesChanged();
+            int numLinesChanged = dao.createOrUpdate(movie).getNumLinesChanged();
+            // Notify observers that a movie has been added to the watchlist
+            notifyObservers("A movie has been added to the watchlist");
+
+            return numLinesChanged;
         } catch (SQLException e) {
             throw new DatabaseException("Failed to add the movie to the watchlist", e);
         }
@@ -58,27 +63,31 @@ public class WatchlistRepository implements Observable {
             for (WatchlistMovieEntity result : results) {
                 count += dao.delete(result);
             }
+
+            // Notify observers that a movie has been removed from the watchlist
+            notifyObservers("A movie has been removed from the watchlist");
+
             return count;
         } catch (SQLException e) {
             throw new DatabaseException("Failed to remove the movie from the watchlist", e);
         }
     }
 
-
     @Override
-    public void addObserver(Observer observer) {
-        observers.add(observer);
+    public void addObserver(Object observer) {
+        observers.add((Observer) observer);
     }
 
     @Override
-    public void removeObserver(Observer observer) {
-        observers.remove(observer);
+    public void removeObserver(Object observer) {
+        observers.remove((Observer) observer);
     }
 
     @Override
-    public void notifyObservers(String message) {
+    public void notifyObservers(Object message) {
         for (Observer observer : observers) {
-            observer.update(message);
+            observer.update((String) message);
         }
     }
+
 }
