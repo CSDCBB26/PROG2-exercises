@@ -1,12 +1,15 @@
 package at.ac.fhcampuswien.fhmdb.database;
 
 import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
+import at.ac.fhcampuswien.fhmdb.utils.Observable;
+import at.ac.fhcampuswien.fhmdb.utils.Observer;
 import com.j256.ormlite.dao.Dao;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.ArrayList;
 
-public class WatchlistRepository {
-
+public class WatchlistRepository implements Observable {
+    private List<Observer> observers = new ArrayList<>();
     private Dao<WatchlistMovieEntity, Long> dao;
 
     public WatchlistRepository() {
@@ -58,6 +61,24 @@ public class WatchlistRepository {
             return count;
         } catch (SQLException e) {
             throw new DatabaseException("Failed to remove the movie from the watchlist", e);
+        }
+    }
+
+
+    @Override
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers(String message) {
+        for (Observer observer : observers) {
+            observer.update(message);
         }
     }
 }
