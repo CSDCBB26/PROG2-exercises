@@ -247,7 +247,7 @@ public class Movie {
     }
 
     public static List<Movie> initializeWatchListMovies() {
-        WatchlistRepository watchlistRepository = new WatchlistRepository();
+        WatchlistRepository watchlistRepository = WatchlistRepository.getWatchlistRepository();
         MovieRepository movieRepository = MovieRepository.getMovieRepository();
         List<WatchlistMovieEntity> watchlistMovieEntities = new ArrayList<>();
         List<Movie> watchListMovies = new ArrayList<>();

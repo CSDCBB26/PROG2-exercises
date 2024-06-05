@@ -13,11 +13,13 @@ public class WatchlistRepository implements Observable {
     private List<Observer> observers = new ArrayList<>();
     private Dao<WatchlistMovieEntity, Long> dao;
 
-    public WatchlistRepository() {
+    private static WatchlistRepository watchlistRepository;
+
+    private WatchlistRepository() {
         this.dao = DatabaseManager.getDatabaseInstance().getWatchlistMovieDao();
     }
 
-    public WatchlistRepository(Dao<WatchlistMovieEntity, Long> dao) {
+    private WatchlistRepository(Dao<WatchlistMovieEntity, Long> dao) {
         this.dao = dao;
     }
 
@@ -90,6 +92,22 @@ public class WatchlistRepository implements Observable {
         for (Observer observer : observers) {
             observer.update((String) message);
         }
+    }
+
+    public static WatchlistRepository getWatchlistRepository() {
+        if (watchlistRepository == null) {
+            watchlistRepository = new WatchlistRepository();
+        }
+
+        return watchlistRepository;
+    }
+
+    public static WatchlistRepository getWatchlistRepository(Dao<WatchlistMovieEntity, Long> dao) {
+        if (watchlistRepository == null) {
+            watchlistRepository = new WatchlistRepository(dao);
+        }
+
+        return watchlistRepository;
     }
 
 }

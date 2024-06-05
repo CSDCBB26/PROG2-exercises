@@ -12,7 +12,7 @@ public class Controller implements Observer {
     private WatchlistRepository watchlistRepository;
 
     public Controller() {
-        this.watchlistRepository = new WatchlistRepository();
+        this.watchlistRepository = WatchlistRepository.getWatchlistRepository();
         this.watchlistRepository.addObserver(this);
     }
 
