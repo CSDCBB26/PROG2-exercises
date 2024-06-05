@@ -2,6 +2,9 @@ package at.ac.fhcampuswien.fhmdb;
 
 import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
+import at.ac.fhcampuswien.fhmdb.sortState.AscendingSortState;
+import at.ac.fhcampuswien.fhmdb.sortState.DescendingSortState;
+import at.ac.fhcampuswien.fhmdb.sortState.MovieSorter;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import at.ac.fhcampuswien.fhmdb.utils.Controller;
 import at.ac.fhcampuswien.fhmdb.utils.MovieUtils;
@@ -60,6 +63,7 @@ public class HomeController implements Initializable {
     ControllerFactory controllerFactory = new ControllerFactory();
     private Controller controller = (Controller) controllerFactory.call(Controller.class);
 
+    private MovieSorter movieSorter;
 
     public List<Movie> allMovies;
     private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
@@ -67,6 +71,7 @@ public class HomeController implements Initializable {
     {
         try {
             allMovies = Movie.initializeMovies();
+            movieSorter = new MovieSorter(allMovies); // initial state unsorted
         } catch (MovieAPIException e) {
             throw new RuntimeException(e);
         }
@@ -82,6 +87,12 @@ public class HomeController implements Initializable {
         List<Movie> temp = MovieUtils.filter(genre, searchField.getText(), releaseYear, ratingFrom);
         observableMovies.clear();
         observableMovies.addAll(temp);
+
+        // Update movieSorter with filtered movies
+        // and also Apply current sort state to filtered movies
+        movieSorter = new MovieSorter(temp);
+        movieSorter.sort();
+
         movieListView.setItems(observableMovies);
     }
 
@@ -96,12 +107,15 @@ public class HomeController implements Initializable {
 
     protected void onSortButtonClick() {
         if (sortBtn.getText().equals("Sort (asc)")) {
-            MovieUtils.sort("ascending", observableMovies);
+            movieSorter.setState(new AscendingSortState());
             sortBtn.setText("Sort (desc)");
         } else {
-            MovieUtils.sort("descending", observableMovies);
+            movieSorter.setState(new DescendingSortState());
             sortBtn.setText("Sort (asc)");
         }
+
+        movieSorter.sort();
+        observableMovies.setAll(movieSorter.getMovies());
     }
 
     protected void onResetButtonClick() {
@@ -112,6 +126,8 @@ public class HomeController implements Initializable {
         ratingField.clear();
         observableMovies.clear();
         observableMovies.addAll(allMovies);
+        movieSorter = new MovieSorter(allMovies); // Reset movieSorter
+        sortBtn.setText("Sort (asc)");
     }
 
     protected void ratingFieldEnter(KeyEvent keyEvent) {

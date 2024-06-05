@@ -102,8 +102,6 @@ public class MovieRepository {
         }
     }
 
-
-
     public int addAllMovies(List<MovieEntity> movies) throws DatabaseException {
         int count = 0;
         for (MovieEntity movie : movies) {
