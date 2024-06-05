@@ -21,5 +21,7 @@ module at.ac.fhcampuswien.fhmdb {
     opens at.ac.fhcampuswien.fhmdb.utils to javafx.fxml;
     exports at.ac.fhcampuswien.fhmdb.ui;
     opens at.ac.fhcampuswien.fhmdb.ui to javafx.fxml;
+    exports at.ac.fhcampuswien.fhmdb.api;
+    opens at.ac.fhcampuswien.fhmdb.api to javafx.fxml;
 
 }

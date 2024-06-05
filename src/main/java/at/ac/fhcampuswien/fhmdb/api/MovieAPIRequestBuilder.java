@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.fhmdb.utils;
+package at.ac.fhcampuswien.fhmdb.api;
 
 import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import okhttp3.HttpUrl;

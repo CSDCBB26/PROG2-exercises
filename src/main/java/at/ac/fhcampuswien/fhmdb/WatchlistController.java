@@ -65,11 +65,9 @@ public class WatchlistController implements Initializable {
         });
 
 
-        // Add a listener to the observableMovies list
         observableMovies.addListener((ListChangeListener.Change<? extends Movie> change) -> {
             while (change.next()) {
                 if (change.wasRemoved()) {
-                    // Update the movieListView with the new list of movies
                     movieListView.setItems(observableMovies);
                 }
             }

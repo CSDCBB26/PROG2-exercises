@@ -37,7 +37,6 @@ public class Controller implements Observer {
     public final ClickEventHandler<Movie> onRemoveFromWatchlistClicked = (clickedItem) -> {
         try {
             watchlistRepository.removeFromWatchlist(clickedItem.getApiID());
-            // Remove the movie from the observableMovies list
             Platform.runLater(() -> {
                 WatchlistController.observableMovies.remove(clickedItem);
             });
