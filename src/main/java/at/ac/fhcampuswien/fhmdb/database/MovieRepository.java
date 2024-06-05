@@ -59,18 +59,19 @@ public class MovieRepository {
             Where<MovieEntity, Long> where = queryBuilder.where();
             boolean hasCondition = false;
 
-            if (genre != null) {
-                where.like("genres", "%" + genre.name() + "%");
-                hasCondition = true;
-            }
-
             if (searchQuery != null && !searchQuery.isEmpty()) {
-                if (hasCondition) {
-                    where.and();
-                }
                 where.like("title", "%" + searchQuery + "%")
                         .or()
                         .like("description", "%" + searchQuery + "%");
+                hasCondition = true;
+            }
+
+            if (genre != null) {
+                if (hasCondition) {
+                    where.and();
+                }
+
+                where.like("genres", "%" + genre.name() + "%");
                 hasCondition = true;
             }
 
