@@ -15,6 +15,7 @@ import java.lang.reflect.Type;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static at.ac.fhcampuswien.fhmdb.api.MovieAPI.API_URL;
 
@@ -40,17 +41,33 @@ public class MovieUtils {
     }
 
     public static List<Movie> filterMoviesDatabase(Genre selectedGenre, String searchQuery, int selectedReleaseYear, double selectedRatingFrom) {
-        List<Movie> movieList = new ArrayList<>();
         MovieRepository movieRepository = MovieRepository.getMovieRepository();
 
-        try {
-            List<MovieEntity> filteredMovies = movieRepository.filterMovies(selectedGenre, searchQuery, selectedReleaseYear, selectedRatingFrom);
-            movieList = MovieEntity.toMovies(filteredMovies);
-        } catch (DatabaseException e) {
-            System.out.println("Error while filtering the movies " + e.getMessage());
+        List<MovieEntity> allMovies = movieRepository.getAllMovies();
+        List<Movie> filteredMovies = MovieEntity.toMovies(allMovies);
+
+        Stream<Movie> movieStream = filteredMovies.stream();
+        if (selectedGenre != null) {
+            movieStream = movieStream.filter(movie -> movie.getGenres().contains(selectedGenre));
         }
 
-        return movieList;
+        if (searchQuery != null && !searchQuery.isEmpty()) {
+            String lowerCaseSearchQuery = searchQuery.toLowerCase();
+            movieStream = movieStream.filter(movie ->
+                    movie.getTitle().toLowerCase().contains(lowerCaseSearchQuery) ||
+                            movie.getDescription().toLowerCase().contains(lowerCaseSearchQuery)
+            );
+        }
+
+        if (selectedReleaseYear > 0) {
+            movieStream = movieStream.filter(movie -> movie.getReleaseYear() == selectedReleaseYear);
+        }
+
+        if (selectedRatingFrom > 0) {
+            movieStream = movieStream.filter(movie -> movie.getRating() >= selectedRatingFrom);
+        }
+
+        return movieStream.collect(Collectors.toList());
     }
 
     public static List<Movie> sort(String mode, List<Movie> movieList) {

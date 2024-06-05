@@ -53,56 +53,6 @@ public class MovieRepository {
         }
     }
 
-    public List<MovieEntity> filterMovies(Genre genre, String searchQuery, int releaseYear, double ratingFrom) throws DatabaseException {
-        try {
-            QueryBuilder<MovieEntity, Long> queryBuilder = dao.queryBuilder();
-            Where<MovieEntity, Long> where = queryBuilder.where();
-            boolean hasCondition = false;
-
-            if (searchQuery != null && !searchQuery.isEmpty()) {
-                where.like("title", "%" + searchQuery + "%")
-                        .or()
-                        .like("description", "%" + searchQuery + "%");
-                hasCondition = true;
-            }
-
-            if (genre != null) {
-                if (hasCondition) {
-                    where.and();
-                }
-
-                where.like("genres", "%" + genre.name() + "%");
-                hasCondition = true;
-            }
-
-            if (releaseYear > 0) {
-                if (hasCondition) {
-                    where.and();
-                }
-                where.eq("releaseYear", releaseYear);
-                hasCondition = true;
-            }
-
-            if (ratingFrom > 0) {
-                if (hasCondition) {
-                    where.and();
-                }
-                where.ge("rating", ratingFrom);
-                hasCondition = true;
-            }
-
-            if (!hasCondition) {
-                // If no conditions were added, return all movies
-                return dao.queryForAll();
-            }
-
-            queryBuilder.setWhere(where);
-            return queryBuilder.query();
-        } catch (SQLException e) {
-            throw new DatabaseException("Failed to filter movies", e);
-        }
-    }
-
     public int addAllMovies(List<MovieEntity> movies) throws DatabaseException {
         int count = 0;
         for (MovieEntity movie : movies) {
