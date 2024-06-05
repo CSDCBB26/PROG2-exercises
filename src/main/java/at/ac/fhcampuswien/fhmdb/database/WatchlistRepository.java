@@ -72,19 +72,19 @@ public class WatchlistRepository implements Observable {
     }
 
     @Override
-    public void addObserver(Object observer) {
-        observers.add((Observer) observer);
+    public void addObserver(Observer observer) {
+        observers.add(observer);
     }
 
     @Override
-    public void removeObserver(Object observer) {
-        observers.remove((Observer) observer);
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
     }
 
     @Override
-    public void notifyObservers(Object message) {
+    public void notifyObservers(String message) {
         for (Observer observer : observers) {
-            observer.update((String) message);
+            observer.update(message);
         }
     }
 

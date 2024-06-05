@@ -1,8 +1,6 @@
 package at.ac.fhcampuswien.fhmdb;
 
-import at.ac.fhcampuswien.fhmdb.utils.Controller;
 import javafx.util.Callback;
-
 import java.lang.reflect.InvocationTargetException;
 
 public class ControllerFactory implements Callback<Class<?>, Object> {
