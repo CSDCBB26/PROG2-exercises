@@ -9,11 +9,19 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
 public class Controller implements Observer {
+    private static Controller instance;
     private WatchlistRepository watchlistRepository;
 
-    public Controller() {
+    private Controller() {
         this.watchlistRepository = WatchlistRepository.getWatchlistRepository();
         this.watchlistRepository.addObserver(this);
+    }
+
+    public static Controller getInstance() {
+        if (instance == null) {
+            instance = new Controller();
+        }
+        return instance;
     }
 
     public final ClickEventHandler<Movie> onAddToWatchlistClicked = (clickedItem) -> {

@@ -9,7 +9,6 @@ public class ControllerFactory implements Callback<Class<?>, Object> {
 
     private static HomeController homeControllerInstance;
     private static WatchlistController watchlistControllerInstance;
-    private static Controller controllerInstance;
 
     @Override
     public Object call(Class<?> aClass) {
@@ -24,11 +23,6 @@ public class ControllerFactory implements Callback<Class<?>, Object> {
                     watchlistControllerInstance = (WatchlistController) aClass.getDeclaredConstructor().newInstance();
                 }
                 return watchlistControllerInstance;
-            } else if (aClass == Controller.class) {
-                if (controllerInstance == null) {
-                    controllerInstance = (Controller) aClass.getDeclaredConstructor().newInstance();
-                }
-                return controllerInstance;
             }
         } catch (InstantiationException e) {
             System.err.println("Failed to instantiate the controller: " + e.getMessage());

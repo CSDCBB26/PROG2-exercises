@@ -60,8 +60,7 @@ public class HomeController implements Initializable {
     @FXML
     public JFXButton aboutBtn;
 
-    ControllerFactory controllerFactory = new ControllerFactory();
-    private Controller controller = (Controller) controllerFactory.call(Controller.class);
+    private Controller controller = Controller.getInstance();
 
     private MovieSorter movieSorter;
 
