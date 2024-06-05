@@ -1,7 +1,10 @@
 package at.ac.fhcampuswien.fhmdb.database;
 
+import at.ac.fhcampuswien.fhmdb.Genre;
 import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -49,6 +52,56 @@ public class MovieRepository {
             throw new DatabaseException("Failed to retrieve movie with apiId: " + apiId, e);
         }
     }
+
+    public List<MovieEntity> filterMovies(Genre genre, String searchQuery, int releaseYear, double ratingFrom) throws DatabaseException {
+        try {
+            QueryBuilder<MovieEntity, Long> queryBuilder = dao.queryBuilder();
+            Where<MovieEntity, Long> where = queryBuilder.where();
+            boolean hasCondition = false;
+
+            if (genre != null) {
+                where.like("genres", "%" + genre.name() + "%");
+                hasCondition = true;
+            }
+
+            if (searchQuery != null && !searchQuery.isEmpty()) {
+                if (hasCondition) {
+                    where.and();
+                }
+                where.like("title", "%" + searchQuery + "%")
+                        .or()
+                        .like("description", "%" + searchQuery + "%");
+                hasCondition = true;
+            }
+
+            if (releaseYear > 0) {
+                if (hasCondition) {
+                    where.and();
+                }
+                where.eq("releaseYear", releaseYear);
+                hasCondition = true;
+            }
+
+            if (ratingFrom > 0) {
+                if (hasCondition) {
+                    where.and();
+                }
+                where.ge("rating", ratingFrom);
+                hasCondition = true;
+            }
+
+            if (!hasCondition) {
+                // If no conditions were added, return all movies
+                return dao.queryForAll();
+            }
+
+            queryBuilder.setWhere(where);
+            return queryBuilder.query();
+        } catch (SQLException e) {
+            throw new DatabaseException("Failed to filter movies", e);
+        }
+    }
+
 
 
     public int addAllMovies(List<MovieEntity> movies) throws DatabaseException {

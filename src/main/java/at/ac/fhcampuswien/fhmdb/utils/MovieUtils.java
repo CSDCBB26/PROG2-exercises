@@ -1,6 +1,9 @@
 package at.ac.fhcampuswien.fhmdb.utils;
 
 import at.ac.fhcampuswien.fhmdb.Genre;
+import at.ac.fhcampuswien.fhmdb.database.MovieEntity;
+import at.ac.fhcampuswien.fhmdb.database.MovieRepository;
+import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 
@@ -21,8 +24,13 @@ public class MovieUtils {
         List<Movie> movieList = new ArrayList<>();
 
         try {
-            String json = MovieAPI.getMoviesByQueries(API_URL, searchQuery, selectedGenre, selectedReleaseYear, selectedRatingFrom);
-            movieList = MovieUtils.parseMovies(json);
+            movieList = filterMoviesDatabase(selectedGenre, searchQuery, selectedReleaseYear, selectedRatingFrom);
+
+            if (movieList.isEmpty()) {
+                String json = MovieAPI.getMoviesByQueries(API_URL, searchQuery, selectedGenre, selectedReleaseYear, selectedRatingFrom);
+                movieList = MovieUtils.parseMovies(json);
+            }
+
         } catch (MovieAPIException e) {
             System.out.println("Error while filtering the movies " + e.getMessage());
         }
@@ -30,6 +38,19 @@ public class MovieUtils {
         return movieList;
     }
 
+    public static List<Movie> filterMoviesDatabase(Genre selectedGenre, String searchQuery, int selectedReleaseYear, double selectedRatingFrom) {
+        List<Movie> movieList = new ArrayList<>();
+        MovieRepository movieRepository = MovieRepository.getMovieRepository();
+
+        try {
+            List<MovieEntity> filteredMovies = movieRepository.filterMovies(selectedGenre, searchQuery, selectedReleaseYear, selectedRatingFrom);
+            movieList = MovieEntity.toMovies(filteredMovies);
+        } catch (DatabaseException e) {
+            System.out.println("Error while filtering the movies " + e.getMessage());
+        }
+
+        return movieList;
+    }
 
     public static List<Movie> sort(String mode, List<Movie> movieList) {
         if (movieList.isEmpty()) {
