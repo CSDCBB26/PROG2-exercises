@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class WatchlistController implements Initializable {
-    private Controller controller = new Controller();
+    private Controller controller = Controller.getInstance();
 
     @FXML
     public JFXListView<Movie> movieListView;
@@ -40,7 +40,6 @@ public class WatchlistController implements Initializable {
 
     public List<Movie> allMovies;
     public static ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
-
 
     public void updateWatchListMovies() {
         observableMovies.clear();
@@ -65,11 +64,9 @@ public class WatchlistController implements Initializable {
         });
 
 
-        // Add a listener to the observableMovies list
         observableMovies.addListener((ListChangeListener.Change<? extends Movie> change) -> {
             while (change.next()) {
                 if (change.wasRemoved()) {
-                    // Update the movieListView with the new list of movies
                     movieListView.setItems(observableMovies);
                 }
             }

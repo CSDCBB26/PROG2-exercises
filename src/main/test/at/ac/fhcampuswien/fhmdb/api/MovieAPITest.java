@@ -4,13 +4,11 @@ import at.ac.fhcampuswien.fhmdb.BaseTest;
 import at.ac.fhcampuswien.fhmdb.Genre;
 import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
-import at.ac.fhcampuswien.fhmdb.utils.MovieAPI;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static at.ac.fhcampuswien.fhmdb.utils.MovieAPI.API_URL;
+import static at.ac.fhcampuswien.fhmdb.api.MovieAPI.API_URL;
 import static at.ac.fhcampuswien.fhmdb.utils.MovieUtils.parseMovies;
 import static org.junit.jupiter.api.Assertions.*;
 

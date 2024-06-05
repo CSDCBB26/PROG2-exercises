@@ -1,19 +1,21 @@
 package at.ac.fhcampuswien.fhmdb.database;
 
 import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
+import at.ac.fhcampuswien.fhmdb.utils.Observable;
+import at.ac.fhcampuswien.fhmdb.utils.Observer;
 import com.j256.ormlite.dao.Dao;
+
 import java.sql.SQLException;
 import java.util.List;
+import java.util.ArrayList;
 
-public class WatchlistRepository {
-
+public class WatchlistRepository implements Observable {
+    private List<Observer> observers = new ArrayList<>();
     private Dao<WatchlistMovieEntity, Long> dao;
 
-    public WatchlistRepository() {
-        this.dao = DatabaseManager.getDatabaseInstance().getWatchlistMovieDao();
-    }
+    private static WatchlistRepository watchlistRepository;
 
-    public WatchlistRepository(Dao<WatchlistMovieEntity, Long> dao) {
+    private WatchlistRepository(Dao<WatchlistMovieEntity, Long> dao) {
         this.dao = dao;
     }
 
@@ -27,7 +29,6 @@ public class WatchlistRepository {
 
     public WatchlistMovieEntity getFromWatchlist(String apiID) throws DatabaseException {
         try {
-            // Use the queryForEq method to search for apiId
             List<WatchlistMovieEntity> result = dao.queryForEq("apiId", apiID);
             if (result != null && !result.isEmpty()) {
                 return result.get(0);
@@ -39,10 +40,16 @@ public class WatchlistRepository {
         }
     }
 
-
     public int addToWatchlist(WatchlistMovieEntity movie) throws DatabaseException {
         try {
-            return dao.createOrUpdate(movie).getNumLinesChanged();
+            Dao.CreateOrUpdateStatus status = dao.createOrUpdate(movie);
+            int numLinesChanged = status.getNumLinesChanged();
+
+            if (status.isCreated()) {
+                notifyObservers("The movie has been added to the watchlist.");
+            }
+
+            return numLinesChanged;
         } catch (SQLException e) {
             throw new DatabaseException("Failed to add the movie to the watchlist", e);
         }
@@ -55,9 +62,56 @@ public class WatchlistRepository {
             for (WatchlistMovieEntity result : results) {
                 count += dao.delete(result);
             }
+
+            notifyObservers("The movie has been removed from the watchlist.");
+
             return count;
         } catch (SQLException e) {
             throw new DatabaseException("Failed to remove the movie from the watchlist", e);
         }
     }
+
+    @Override
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers(String message) {
+        for (Observer observer : observers) {
+            observer.update(message);
+        }
+    }
+
+    public static WatchlistRepository getWatchlistRepository() {
+        initializeWatchlistRepository(null);
+        return watchlistRepository;
+    }
+
+    public static WatchlistRepository getWatchlistRepository(Dao<WatchlistMovieEntity, Long> dao) {
+        initializeWatchlistRepository(dao);
+        return watchlistRepository;
+    }
+
+    protected static void initializeWatchlistRepository(Dao<WatchlistMovieEntity, Long> dao) {
+        if (watchlistRepository != null) {
+            return;
+        }
+
+        if (dao == null) {
+            dao = getDefaultWatchlistDao();
+        }
+
+        watchlistRepository = new WatchlistRepository(dao);
+    }
+
+    protected static Dao<WatchlistMovieEntity, Long> getDefaultWatchlistDao() {
+        return DatabaseManager.getDatabaseInstance().getWatchlistMovieDao();
+    }
+
 }

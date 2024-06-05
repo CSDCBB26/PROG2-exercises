@@ -1,29 +1,35 @@
 package at.ac.fhcampuswien.fhmdb.database;
 
+import at.ac.fhcampuswien.fhmdb.Genre;
 import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MovieRepository {
 
     private final Dao<MovieEntity, Long> dao;
 
-    public MovieRepository() {
-        this.dao = DatabaseManager.getDatabaseInstance().getMovieDao();
-    }
+    private static MovieRepository movieRepository;
 
-    public MovieRepository(Dao<MovieEntity, Long> dao) {
+    private MovieRepository(Dao<MovieEntity, Long> dao) {
         this.dao = dao;
     }
 
-    public List<MovieEntity> getAllMovies() throws DatabaseException {
+    public List<MovieEntity> getAllMovies() {
+        List<MovieEntity> movieEntities = new ArrayList<>();
+
         try {
             return dao.queryForAll();
         } catch (SQLException e) {
-            throw new DatabaseException("Failed to retrieve all movies", e);
+            System.out.println("Failed to retrieve all movies " + e.getMessage());
         }
+
+        return movieEntities;
     }
 
     public int removeAll() throws DatabaseException {
@@ -47,7 +53,6 @@ public class MovieRepository {
         }
     }
 
-
     public int addAllMovies(List<MovieEntity> movies) throws DatabaseException {
         int count = 0;
         for (MovieEntity movie : movies) {
@@ -58,5 +63,31 @@ public class MovieRepository {
             }
         }
         return count;
+    }
+
+    public static MovieRepository getMovieRepository() {
+        initializeMovieRepository(null);
+        return movieRepository;
+    }
+
+    public static MovieRepository getMovieRepository(Dao<MovieEntity, Long> dao) {
+        initializeMovieRepository(dao);
+        return movieRepository;
+    }
+
+    protected static void initializeMovieRepository(Dao<MovieEntity, Long> dao) {
+        if (movieRepository != null) {
+            return;
+        }
+
+        if (dao == null) {
+            dao = getDefaultMovieDao();
+        }
+
+        movieRepository = new MovieRepository(dao);
+    }
+
+    protected static Dao<MovieEntity, Long> getDefaultMovieDao() {
+        return DatabaseManager.getDatabaseInstance().getMovieDao();
     }
 }

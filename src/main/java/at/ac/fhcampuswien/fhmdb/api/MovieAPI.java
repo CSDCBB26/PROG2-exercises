@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.fhmdb.utils;
+package at.ac.fhcampuswien.fhmdb.api;
 
 import at.ac.fhcampuswien.fhmdb.Genre;
 import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
@@ -6,14 +6,14 @@ import okhttp3.*;
 
 public class MovieAPI {
     public static final String API_URL = "https://prog2.fh-campuswien.ac.at";
+    private static final OkHttpClient client = new OkHttpClient();
 
 
     public static String getAllMovies(String api_url) throws MovieAPIException {
-        OkHttpClient client = new OkHttpClient();
         Request request;
 
         try {
-            request = new Request.Builder().url(api_url + "/movies").header("User-Agent", "http.agent").build();
+            request = new MovieAPIRequestBuilder(api_url + "/movies").buildRequest();
         } catch (IllegalArgumentException e) {
             throw new MovieAPIException("URL is not valid");
         }
@@ -30,34 +30,16 @@ public class MovieAPI {
     }
 
     /**
-     *  retrofit library - https://square.github.io/retrofit/ and https://swagger.io/tools/swagger-codegen/
+     * retrofit library - https://square.github.io/retrofit/ and https://swagger.io/tools/swagger-codegen/
      */
     public static String getMoviesByQueries(String api_url, String query, Genre genre, int releaseYear, double ratingFrom) throws MovieAPIException {
 
-        OkHttpClient client = new OkHttpClient();
-
-        HttpUrl httpUrl = HttpUrl.parse(api_url + "/movies");
-
-        if (httpUrl == null) {
-            throw new MovieAPIException("URL is not valid");
-        }
-
-        HttpUrl.Builder urlBuilder = httpUrl.newBuilder();
-        if (query != null) {
-            urlBuilder.addQueryParameter("query", query);
-        }
-        if (genre != null) {
-            urlBuilder.addQueryParameter("genre", genre.name());
-        }
-        if (releaseYear > 0) {
-            urlBuilder.addQueryParameter("releaseYear", String.valueOf(releaseYear));
-        }
-        if (ratingFrom > 0) {
-            urlBuilder.addQueryParameter("ratingFrom", String.valueOf(ratingFrom));
-        }
-
-        String url = urlBuilder.build().toString();
-        Request request = new Request.Builder().url(url).header("User-Agent", "http.agent").build();
+        Request request = new MovieAPIRequestBuilder(api_url + "/movies")
+                .query(query)
+                .genre(genre != null ? genre.name() : null)
+                .releaseYear(releaseYear > 0 ? String.valueOf(releaseYear) : null)
+                .ratingFrom(ratingFrom > 0 ? String.valueOf(ratingFrom) : null)
+                .buildRequest();
 
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful() && response.body() != null) {

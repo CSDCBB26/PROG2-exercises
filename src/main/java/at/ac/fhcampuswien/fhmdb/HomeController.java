@@ -2,6 +2,10 @@ package at.ac.fhcampuswien.fhmdb;
 
 import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
+import at.ac.fhcampuswien.fhmdb.sortState.AscendingSortState;
+import at.ac.fhcampuswien.fhmdb.sortState.DescendingSortState;
+import at.ac.fhcampuswien.fhmdb.sortState.MovieSorter;
+import at.ac.fhcampuswien.fhmdb.sortState.SortState;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import at.ac.fhcampuswien.fhmdb.utils.Controller;
 import at.ac.fhcampuswien.fhmdb.utils.MovieUtils;
@@ -57,7 +61,9 @@ public class HomeController implements Initializable {
     @FXML
     public JFXButton aboutBtn;
 
-    private  Controller controller = new Controller();
+    private Controller controller = Controller.getInstance();
+
+    private MovieSorter movieSorter;
 
     public List<Movie> allMovies;
     private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
@@ -65,6 +71,7 @@ public class HomeController implements Initializable {
     {
         try {
             allMovies = Movie.initializeMovies();
+            movieSorter = new MovieSorter(allMovies); // initial state unsorted
         } catch (MovieAPIException e) {
             throw new RuntimeException(e);
         }
@@ -80,6 +87,12 @@ public class HomeController implements Initializable {
         List<Movie> temp = MovieUtils.filter(genre, searchField.getText(), releaseYear, ratingFrom);
         observableMovies.clear();
         observableMovies.addAll(temp);
+
+        // Update movieSorter with filtered movies
+        // and also Apply current sort state to filtered movies
+        movieSorter = new MovieSorter(temp);
+        movieSorter.sort();
+
         movieListView.setItems(observableMovies);
     }
 
@@ -93,13 +106,27 @@ public class HomeController implements Initializable {
     }
 
     protected void onSortButtonClick() {
-        if (sortBtn.getText().equals("Sort (asc)")) {
-            MovieUtils.sort("ascending", observableMovies);
-            sortBtn.setText("Sort (desc)");
+        SortState sortState;
+        String buttonText;
+
+        if (isAscendingSort()) {
+            sortState = new AscendingSortState();
+            buttonText = "Sort (desc)";
         } else {
-            MovieUtils.sort("descending", observableMovies);
-            sortBtn.setText("Sort (asc)");
+            sortState = new DescendingSortState();
+            buttonText = "Sort (asc)";
         }
+
+        sortBtn.setText(buttonText);
+
+        movieSorter.setState(sortState);
+        movieSorter.sort();
+
+        observableMovies.setAll(movieSorter.getMovies());
+    }
+
+    protected boolean isAscendingSort() {
+        return sortBtn != null && sortBtn.getText().toLowerCase().contains("asc");
     }
 
     protected void onResetButtonClick() {
@@ -110,6 +137,8 @@ public class HomeController implements Initializable {
         ratingField.clear();
         observableMovies.clear();
         observableMovies.addAll(allMovies);
+        movieSorter = new MovieSorter(allMovies); // Reset movieSorter
+        sortBtn.setText("Sort (asc)");
     }
 
     protected void ratingFieldEnter(KeyEvent keyEvent) {

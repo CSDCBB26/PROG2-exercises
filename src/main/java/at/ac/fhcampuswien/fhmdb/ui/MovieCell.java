@@ -4,7 +4,6 @@ import at.ac.fhcampuswien.fhmdb.Genre;
 import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.utils.ClickEventHandler;
-import at.ac.fhcampuswien.fhmdb.utils.Controller;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
@@ -49,7 +48,6 @@ public class MovieCell extends ListCell<Movie> {
     private final Button showDetailsButton = new Button("Show Details");
     private final Button watchlistBtn = new Button("Watchlist");
     private final Button removeWatchlistBtn = new Button("Remove");
-    private Controller controller;
 
     private final HBox buttonBox = new HBox();
     private final VBox leftVBox = new VBox(title, genre, detail);

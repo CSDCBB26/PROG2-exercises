@@ -1,6 +1,10 @@
 package at.ac.fhcampuswien.fhmdb.utils;
 
 import at.ac.fhcampuswien.fhmdb.Genre;
+import at.ac.fhcampuswien.fhmdb.database.MovieEntity;
+import at.ac.fhcampuswien.fhmdb.database.MovieRepository;
+import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
+import at.ac.fhcampuswien.fhmdb.api.MovieAPI;
 import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 
@@ -11,8 +15,9 @@ import java.lang.reflect.Type;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import static at.ac.fhcampuswien.fhmdb.utils.MovieAPI.API_URL;
+import static at.ac.fhcampuswien.fhmdb.api.MovieAPI.API_URL;
 
 public class MovieUtils {
 
@@ -21,8 +26,13 @@ public class MovieUtils {
         List<Movie> movieList = new ArrayList<>();
 
         try {
-            String json = MovieAPI.getMoviesByQueries(API_URL, searchQuery, selectedGenre, selectedReleaseYear, selectedRatingFrom);
-            movieList = MovieUtils.parseMovies(json);
+            movieList = filterMoviesDatabase(selectedGenre, searchQuery, selectedReleaseYear, selectedRatingFrom);
+
+            if (movieList.isEmpty()) {
+                String json = MovieAPI.getMoviesByQueries(API_URL, searchQuery, selectedGenre, selectedReleaseYear, selectedRatingFrom);
+                movieList = MovieUtils.parseMovies(json);
+            }
+
         } catch (MovieAPIException e) {
             System.out.println("Error while filtering the movies " + e.getMessage());
         }
@@ -30,19 +40,34 @@ public class MovieUtils {
         return movieList;
     }
 
+    public static List<Movie> filterMoviesDatabase(Genre selectedGenre, String searchQuery, int selectedReleaseYear, double selectedRatingFrom) {
+        MovieRepository movieRepository = MovieRepository.getMovieRepository();
 
-    public static List<Movie> sort(String mode, List<Movie> movieList) {
-        if (movieList.isEmpty()) {
-            return movieList;
+        List<MovieEntity> allMovies = movieRepository.getAllMovies();
+        List<Movie> filteredMovies = MovieEntity.toMovies(allMovies);
+
+        Stream<Movie> movieStream = filteredMovies.stream();
+        if (selectedGenre != null) {
+            movieStream = movieStream.filter(movie -> movie.getGenres().contains(selectedGenre));
         }
 
-        if ("descending".equals(mode)) {
-            movieList.sort(Comparator.comparing(Movie::getTitle).reversed());
-        } else {
-            movieList.sort(Comparator.comparing(Movie::getTitle));
+        if (searchQuery != null && !searchQuery.isEmpty()) {
+            String lowerCaseSearchQuery = searchQuery.toLowerCase();
+            movieStream = movieStream.filter(movie ->
+                    movie.getTitle().toLowerCase().contains(lowerCaseSearchQuery) ||
+                            movie.getDescription().toLowerCase().contains(lowerCaseSearchQuery)
+            );
         }
 
-        return movieList;
+        if (selectedReleaseYear > 0) {
+            movieStream = movieStream.filter(movie -> movie.getReleaseYear() == selectedReleaseYear);
+        }
+
+        if (selectedRatingFrom > 0) {
+            movieStream = movieStream.filter(movie -> movie.getRating() >= selectedRatingFrom);
+        }
+
+        return movieStream.collect(Collectors.toList());
     }
 
     public static String getMostPopularActor(List<Movie> movies) {

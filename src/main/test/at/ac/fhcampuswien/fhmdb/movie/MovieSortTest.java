@@ -2,7 +2,9 @@ package at.ac.fhcampuswien.fhmdb.movie;
 
 import at.ac.fhcampuswien.fhmdb.Genre;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
-import at.ac.fhcampuswien.fhmdb.utils.MovieUtils;
+import at.ac.fhcampuswien.fhmdb.sortState.AscendingSortState;
+import at.ac.fhcampuswien.fhmdb.sortState.DescendingSortState;
+import at.ac.fhcampuswien.fhmdb.sortState.MovieSorter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +17,8 @@ class MovieSortTest {
 
     private List<Movie> movieList;
     private final List<Movie> emptyList = new ArrayList<>();
+
+    private MovieSorter movieSorter;
 
     @BeforeEach
     void setUp() {
@@ -38,26 +42,31 @@ class MovieSortTest {
      */
     @Test
     void sort_empty_movielist_ascending(){
-        List<Movie> result = MovieUtils.sort("ascending", emptyList);
+        movieSorter = new MovieSorter(emptyList);
+        movieSorter.setState(new AscendingSortState());
+        movieSorter.sort();
 
         List<Movie> asc_movieList = new ArrayList<>();
 
-        assertEquals(asc_movieList, result);
+        assertEquals(asc_movieList, emptyList);
     }
 
     @Test
     void sort_empty_movielist_descending(){
-        List<Movie> result = MovieUtils.sort("descending", emptyList);
+        movieSorter = new MovieSorter(emptyList);
+        movieSorter.setState(new DescendingSortState());
+        movieSorter.sort();
 
         List<Movie> asc_movieList = new ArrayList<>();
 
-        assertEquals(asc_movieList, result);
+        assertEquals(asc_movieList, emptyList);
     }
 
     @Test
     void sort_the_movielist_ascending(){
-        List<Movie> temp = movieList;
-        List<Movie> result = MovieUtils.sort("ascending", temp);
+        movieSorter = new MovieSorter(movieList);
+        movieSorter.setState(new AscendingSortState());
+        movieSorter.sort();
 
         List<Movie> asc_movieList = new ArrayList<>();
         asc_movieList.add(new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)));
@@ -72,13 +81,14 @@ class MovieSortTest {
         asc_movieList.add(new Movie("The Dark Knight Rises", "Batman the Dark Knight Rises", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER)));
         asc_movieList.add(new Movie("Thor: Love and Thunder", "Thor 3 ", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.FANTASY, Genre.SCIENCE_FICTION)));
 
-        assertEquals(asc_movieList, result);
+        assertEquals(asc_movieList, movieList);
     }
 
     @Test
     void sort_the_movielist_descending(){
-        List<Movie> temp = movieList;
-        List<Movie> result = MovieUtils.sort("descending", temp);
+        movieSorter = new MovieSorter(movieList);
+        movieSorter.setState(new DescendingSortState());
+        movieSorter.sort();
 
         List<Movie> desc_movieList = new ArrayList<>();
         desc_movieList.add(new Movie("Thor: Love and Thunder", "Thor 3 ", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.FANTASY, Genre.SCIENCE_FICTION)));
@@ -93,6 +103,6 @@ class MovieSortTest {
         desc_movieList.add(new Movie("Documentation about the Universe", "Documentation about the Universe", List.of(Genre.DOCUMENTARY)));
         desc_movieList.add(new Movie("Batman Begins", "Batman the beginning", List.of(Genre.ACTION, Genre.ADVENTURE, Genre.CRIME, Genre.DRAMA, Genre.THRILLER, Genre.SCIENCE_FICTION)));
 
-        assertEquals(desc_movieList, result);
+        assertEquals(desc_movieList, movieList);
     }
 }
