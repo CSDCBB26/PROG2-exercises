@@ -9,6 +9,6 @@ import java.util.List;
 public class DescendingSortState implements SortState {
     @Override
     public void sort(List<Movie> movies) {
-        Collections.sort(movies, Comparator.comparing(Movie::getTitle).reversed());
+        movies.sort(Comparator.comparing(Movie::getTitle).reversed());
     }
 }
