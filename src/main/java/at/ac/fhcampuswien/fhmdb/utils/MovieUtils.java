@@ -70,20 +70,6 @@ public class MovieUtils {
         return movieStream.collect(Collectors.toList());
     }
 
-    public static List<Movie> sort(String mode, List<Movie> movieList) {
-        if (movieList.isEmpty()) {
-            return movieList;
-        }
-
-        if ("descending".equals(mode)) {
-            movieList.sort(Comparator.comparing(Movie::getTitle).reversed());
-        } else {
-            movieList.sort(Comparator.comparing(Movie::getTitle));
-        }
-
-        return movieList;
-    }
-
     public static String getMostPopularActor(List<Movie> movies) {
         if (!validateMoviesList(movies)) {
             return "";
