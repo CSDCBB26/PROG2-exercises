@@ -4,6 +4,7 @@ import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MovieRepository {
@@ -12,20 +13,20 @@ public class MovieRepository {
 
     private static MovieRepository movieRepository;
 
-    private MovieRepository() {
-        this.dao = DatabaseManager.getDatabaseInstance().getMovieDao();
-    }
-
     private MovieRepository(Dao<MovieEntity, Long> dao) {
         this.dao = dao;
     }
 
-    public List<MovieEntity> getAllMovies() throws DatabaseException {
+    public List<MovieEntity> getAllMovies() {
+        List<MovieEntity> movieEntities = new ArrayList<>();
+
         try {
             return dao.queryForAll();
         } catch (SQLException e) {
-            throw new DatabaseException("Failed to retrieve all movies", e);
+            System.out.println("Failed to retrieve all movies " + e.getMessage());
         }
+
+        return movieEntities;
     }
 
     public int removeAll() throws DatabaseException {
@@ -63,18 +64,28 @@ public class MovieRepository {
     }
 
     public static MovieRepository getMovieRepository() {
-        if (movieRepository == null) {
-            movieRepository = new MovieRepository();
-        }
-
+        initializeMovieRepository(null);
         return movieRepository;
     }
 
     public static MovieRepository getMovieRepository(Dao<MovieEntity, Long> dao) {
-        if (movieRepository == null) {
-            movieRepository = new MovieRepository(dao);
+        initializeMovieRepository(dao);
+        return movieRepository;
+    }
+
+    protected static void initializeMovieRepository(Dao<MovieEntity, Long> dao) {
+        if (movieRepository != null) {
+            return;
         }
 
-        return movieRepository;
+        if (dao == null) {
+            dao = getDefaultMovieDao();
+        }
+
+        movieRepository = new MovieRepository(dao);
+    }
+
+    protected static Dao<MovieEntity, Long> getDefaultMovieDao() {
+        return DatabaseManager.getDatabaseInstance().getMovieDao();
     }
 }
