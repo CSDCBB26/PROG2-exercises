@@ -66,7 +66,6 @@ public class WatchlistRepository implements Observable {
                 count += dao.delete(result);
             }
 
-            // Notify observers that a movie has been removed from the watchlist
             notifyObservers("The movie has been removed from the watchlist.");
 
             return count;
