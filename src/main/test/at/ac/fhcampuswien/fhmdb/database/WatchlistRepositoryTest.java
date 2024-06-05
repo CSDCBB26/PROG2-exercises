@@ -18,7 +18,7 @@ public class WatchlistRepositoryTest extends BaseTest {
     @BeforeEach
     public void setUp() throws SQLException {
         super.setUp();
-        watchlistRepository = new WatchlistRepository(DaoManager.createDao(connectionSource, WatchlistMovieEntity.class));
+        watchlistRepository = WatchlistRepository.getWatchlistRepository(DaoManager.createDao(connectionSource, WatchlistMovieEntity.class));
     }
 
     @Test

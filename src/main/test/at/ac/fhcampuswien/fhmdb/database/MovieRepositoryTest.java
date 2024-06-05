@@ -19,7 +19,7 @@ public class MovieRepositoryTest extends BaseTest {
     @BeforeEach
     public void setUp() throws SQLException {
         super.setUp();
-        movieRepository = new MovieRepository(DaoManager.createDao(connectionSource, MovieEntity.class));
+        movieRepository = MovieRepository.getMovieRepository(DaoManager.createDao(connectionSource, MovieEntity.class));
     }
 
     @Test

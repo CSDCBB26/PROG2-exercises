@@ -227,7 +227,7 @@ public class Movie {
     }
 
     public static List<Movie> initializeMovies() throws MovieAPIException {
-        MovieRepository movieRepository = new MovieRepository();
+        MovieRepository movieRepository = MovieRepository.getMovieRepository();
         List<Movie> movieList = new ArrayList<>();
 
         try {
@@ -247,8 +247,8 @@ public class Movie {
     }
 
     public static List<Movie> initializeWatchListMovies() {
-        WatchlistRepository watchlistRepository = new WatchlistRepository();
-        MovieRepository movieRepository = new MovieRepository();
+        WatchlistRepository watchlistRepository = WatchlistRepository.getWatchlistRepository();
+        MovieRepository movieRepository = MovieRepository.getMovieRepository();
         List<WatchlistMovieEntity> watchlistMovieEntities = new ArrayList<>();
         List<Movie> watchListMovies = new ArrayList<>();
 

@@ -13,11 +13,9 @@ public class WatchlistRepository implements Observable {
     private List<Observer> observers = new ArrayList<>();
     private Dao<WatchlistMovieEntity, Long> dao;
 
-    public WatchlistRepository() {
-        this.dao = DatabaseManager.getDatabaseInstance().getWatchlistMovieDao();
-    }
+    private static WatchlistRepository watchlistRepository;
 
-    public WatchlistRepository(Dao<WatchlistMovieEntity, Long> dao) {
+    private WatchlistRepository(Dao<WatchlistMovieEntity, Long> dao) {
         this.dao = dao;
     }
 
@@ -41,7 +39,6 @@ public class WatchlistRepository implements Observable {
             throw new DatabaseException("Failed to retrieve the movie from watchlist with apiId " + apiID, e);
         }
     }
-
 
     public int addToWatchlist(WatchlistMovieEntity movie) throws DatabaseException {
         try {
@@ -89,6 +86,32 @@ public class WatchlistRepository implements Observable {
         for (Observer observer : observers) {
             observer.update((String) message);
         }
+    }
+
+    public static WatchlistRepository getWatchlistRepository() {
+        initializeWatchlistRepository(null);
+        return watchlistRepository;
+    }
+
+    public static WatchlistRepository getWatchlistRepository(Dao<WatchlistMovieEntity, Long> dao) {
+        initializeWatchlistRepository(dao);
+        return watchlistRepository;
+    }
+
+    protected static void initializeWatchlistRepository(Dao<WatchlistMovieEntity, Long> dao) {
+        if (watchlistRepository != null) {
+            return;
+        }
+
+        if (dao == null) {
+            dao = getDefaultWatchlistDao();
+        }
+
+        watchlistRepository = new WatchlistRepository(dao);
+    }
+
+    protected static Dao<WatchlistMovieEntity, Long> getDefaultWatchlistDao() {
+        return DatabaseManager.getDatabaseInstance().getWatchlistMovieDao();
     }
 
 }
