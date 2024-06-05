@@ -5,6 +5,7 @@ import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.sortState.AscendingSortState;
 import at.ac.fhcampuswien.fhmdb.sortState.DescendingSortState;
 import at.ac.fhcampuswien.fhmdb.sortState.MovieSorter;
+import at.ac.fhcampuswien.fhmdb.sortState.SortState;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import at.ac.fhcampuswien.fhmdb.utils.Controller;
 import at.ac.fhcampuswien.fhmdb.utils.MovieUtils;
@@ -105,16 +106,27 @@ public class HomeController implements Initializable {
     }
 
     protected void onSortButtonClick() {
-        if (sortBtn.getText().equals("Sort (asc)")) {
-            movieSorter.setState(new AscendingSortState());
-            sortBtn.setText("Sort (desc)");
+        SortState sortState;
+        String buttonText;
+
+        if (isAscendingSort()) {
+            sortState = new AscendingSortState();
+            buttonText = "Sort (desc)";
         } else {
-            movieSorter.setState(new DescendingSortState());
-            sortBtn.setText("Sort (asc)");
+            sortState = new DescendingSortState();
+            buttonText = "Sort (asc)";
         }
 
+        sortBtn.setText(buttonText);
+
+        movieSorter.setState(sortState);
         movieSorter.sort();
+
         observableMovies.setAll(movieSorter.getMovies());
+    }
+
+    protected boolean isAscendingSort() {
+        return sortBtn != null && sortBtn.getText().toLowerCase().contains("asc");
     }
 
     protected void onResetButtonClick() {
