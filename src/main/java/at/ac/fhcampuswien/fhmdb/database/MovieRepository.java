@@ -10,11 +10,13 @@ public class MovieRepository {
 
     private final Dao<MovieEntity, Long> dao;
 
-    public MovieRepository() {
+    private static MovieRepository movieRepository;
+
+    private MovieRepository() {
         this.dao = DatabaseManager.getDatabaseInstance().getMovieDao();
     }
 
-    public MovieRepository(Dao<MovieEntity, Long> dao) {
+    private MovieRepository(Dao<MovieEntity, Long> dao) {
         this.dao = dao;
     }
 
@@ -58,5 +60,21 @@ public class MovieRepository {
             }
         }
         return count;
+    }
+
+    public static MovieRepository getMovieRepository() {
+        if (movieRepository == null) {
+            movieRepository = new MovieRepository();
+        }
+
+        return movieRepository;
+    }
+
+    public static MovieRepository getMovieRepository(Dao<MovieEntity, Long> dao) {
+        if (movieRepository == null) {
+            movieRepository = new MovieRepository(dao);
+        }
+
+        return movieRepository;
     }
 }
